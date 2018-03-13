@@ -21,5 +21,5 @@ public class DungeonUser extends DungeonBaseModel {
     private GameSession mGameSession;
 
     @DynamoDBAttribute(attributeName = "Heroes")
-    private List<Hero> mHeros;
+    private List<Hero> mHeroes;
 }

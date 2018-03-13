@@ -29,7 +29,7 @@ public class DungeonRealmsSpeechlet implements SpeechletV2 {
         Session session = requestEnvelope.getSession();
         // Find user
         DungeonUser user = SaveLoad.LoadUser(session.getUser().getUserId());
-        List<Hero> heroes = user.getHeros();
+        List<Hero> heroes = user.getHeroes();
 
         GameSession gameSession = user.getGameSession();
         if (heroes != null && heroes.size() == 0) {

@@ -5,6 +5,11 @@ import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.Session;
 import com.amazonaws.util.StringUtils;
 import com.dungeonrealms.app.GameConstants;
+import com.dungeonrealms.app.game.CreateHero;
+import com.dungeonrealms.app.model.DungeonUser;
+import com.dungeonrealms.app.model.GameSession;
+import com.dungeonrealms.app.model.GameState;
+import com.dungeonrealms.app.model.Hero;
 import com.dungeonrealms.app.speech.*;
 
 import java.util.HashMap;
@@ -24,9 +29,18 @@ public class CreateStateResolver extends DungeonRealmsResolver {
         if (heroNameSlot != null) {
             String heroName = heroNameSlot.getValue();
             if (!StringUtils.isNullOrEmpty(heroName)) {
-                //CharProfile.setHeroName(heroName);
-                session.getAttributes().put(GameConstants.NAME, heroName);
+                DungeonUser user = (DungeonUser) session.getAttribute(GameConstants.USER);
+
+                Hero hero = CreateHero.create(heroName);
+                user.getHeroes().add(hero);
+
+                GameSession gameSession = user.getGameSession();
+                gameSession.setGameState(GameState.DUNGEON);
+
+                //session.setAttribute(GameConstants.USER, user);
+                //session.setAttribute(GameConstants.GAME_SESSION, gameSession);
                 String speechText = String.format(Responses.HELLO_NEW_HERO, heroName);
+
                 return getPromptedAskResponse(CardTitle.GOBLIN_PRISON, speechText);
             }
         }
