@@ -6,9 +6,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.dungeonrealms.app.model.DungeonBaseModel;
 import com.dungeonrealms.app.model.DungeonUser;
-import com.dungeonrealms.app.model.GameSession;
-import com.dungeonrealms.app.model.Hero;
-
 import java.util.List;
 
 public class SaveLoad {
@@ -19,22 +16,6 @@ public class SaveLoad {
 
     public static void SaveUser(DungeonUser dungeonUser) {
         new SaveLoadInternal<DungeonUser>().save(dungeonUser);
-    }
-
-    public static GameSession LoadGameSession(String sessionId) {
-        return new SaveLoadInternal<GameSession>().load(GameSession.class, new GameSession(), sessionId);
-    }
-
-    public static void SaveGameSession(GameSession session) {
-        new SaveLoadInternal<GameSession>().save(session);
-    }
-
-    public static Hero LoadHero(String heroId) {
-        return new SaveLoadInternal<Hero>().load(Hero.class, new Hero(), heroId);
-    }
-
-    public static void SaveHero(Hero hero) {
-        new SaveLoadInternal<Hero>().save(hero);
     }
 
     private static class SaveLoadInternal<T extends DungeonBaseModel> {

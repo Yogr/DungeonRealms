@@ -17,9 +17,9 @@ public class DungeonUser extends DungeonBaseModel {
     public String getId() { return mId; }
     public void setId(String id) { mId = id; }
 
-    @DynamoDBAttribute(attributeName = "SessionId")
-    private String mSessionId;
+    @DynamoDBAttribute(attributeName = "GameSession")
+    private GameSession mGameSession;
 
-    @DynamoDBAttribute(attributeName = "HeroIdList")
-    private List<String> mHeroIds;
+    @DynamoDBAttribute(attributeName = "Heroes")
+    private List<Hero> mHeros;
 }

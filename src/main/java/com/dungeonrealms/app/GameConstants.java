@@ -4,6 +4,7 @@ public class GameConstants {
     public static final String SKILL_ID = "DungeonRealms";
 
     // General keys
+    public static final String USER = "USER";
     public static final String GAME_SESSION = "GAMESESSION";
 
     // Hero stat keys

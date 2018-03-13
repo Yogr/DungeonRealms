@@ -29,29 +29,20 @@ public class DungeonRealmsSpeechlet implements SpeechletV2 {
         Session session = requestEnvelope.getSession();
         // Find user
         DungeonUser user = SaveLoad.LoadUser(session.getUser().getUserId());
-        // Find hero(es)
-        List<Hero> heroes = new ArrayList<>();
-        for (String heroId : user.getHeroIds()) {
-            Hero hero = SaveLoad.LoadHero(heroId);
-            if (hero != null) {
-                heroes.add(hero);
-            }
-        }
+        List<Hero> heroes = user.getHeros();
 
-        GameSession gameSession;
-        if (heroes.size() == 0) {
+        GameSession gameSession = user.getGameSession();
+        if (heroes != null && heroes.size() == 0) {
             gameSession = new GameSession();
             gameSession.setGameState(GameState.CREATE);
-        } else if (!StringUtils.isNullOrEmpty(user.getSessionId())){
-            gameSession = SaveLoad.LoadGameSession(user.getSessionId());
-        } else {
-            String newSessionId = UUID.randomUUID().toString();
+            user.setGameSession(gameSession);
+        } else if (gameSession == null) {
             gameSession = new GameSession();
             gameSession.setGameState(GameState.TOWN);
-            gameSession.setId(newSessionId);
-            user.setSessionId(newSessionId);
+            user.setGameSession(gameSession);
         }
 
+        session.setAttribute(GameConstants.USER, user);
         session.setAttribute(GameConstants.GAME_SESSION, gameSession);
     }
 
@@ -85,15 +76,16 @@ public class DungeonRealmsSpeechlet implements SpeechletV2 {
         // any cleanup logic goes here
         Session session = requestEnvelope.getSession();
         GameSession gameSession = (GameSession) session.getAttribute(GameConstants.GAME_SESSION);
+        DungeonUser user = (DungeonUser) session.getAttribute(GameConstants.USER);
+
         GameState state = gameSession.getGameState();
 
-        // Only save game session if in dungeon (or combat)
-        if (state == GameState.COMBAT || state == GameState.DUNGEON) {
-            SaveLoad.SaveGameSession(gameSession);
-        } else {
-            // Otherwise clear the old session value if exists.
-            session.removeAttribute(GameConstants.GAME_SESSION);
+        // Clear game session if not in combat or dungeon
+        if (state != GameState.COMBAT && state != GameState.DUNGEON) {
+            //user.setGameSession(null);
+            // TODO: Set up right now to always save, so clearing session may not make much difference
         }
+        SaveLoad.SaveUser(user);
     }
 
     /**
