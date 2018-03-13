@@ -3,6 +3,7 @@ version '1.0'
 
 apply plugin: 'java'
 
+
 compileJava {
     targetCompatibility = JavaVersion.VERSION_1_8
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -31,10 +32,27 @@ sourceSets {
     }
 }
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE"
+    }
+}
+
+apply plugin: "io.spring.dependency-management"
+
+dependencyManagement {
+    imports {
+        mavenBom 'com.amazonaws:aws-java-sdk-bom:1.11.291'
+    }
+}
+
 dependencies {
     compile 'com.amazon.alexa:alexa-skills-kit:1.5.0'
     compile 'com.amazonaws:aws-lambda-java-core:1.0.0'
-    compile 'com.amazonaws:aws-java-sdk-dynamodb:1.9.40'
+    compile 'com.amazonaws:aws-java-sdk-dynamodb:1.11.291'
     compile 'com.amazonaws:aws-lambda-java-log4j:1.0.0'
 
     compile 'log4j:log4j:1.2.17'
