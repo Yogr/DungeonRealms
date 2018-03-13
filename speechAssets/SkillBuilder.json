@@ -268,7 +268,13 @@
         "slots": [
           {
             "name": "SpellName",
-            "type": "Spell"
+            "type": "Spell",
+            "samples": [
+              "cast {SpellName}",
+              "I am trying to cast {SpellName}",
+              "my {SpellName} spell",
+              "{SpellName}"
+            ]
           },
           {
             "name": "MonsterName",
@@ -344,7 +350,14 @@
         "slots": [
           {
             "name": "ItemName",
-            "type": "Item"
+            "type": "Item",
+            "samples": [
+              "use {ItemName}",
+              "I am trying to use {ItemName}",
+              "{ItemName}",
+              "the {ItemName}",
+              "my {ItemName}"
+            ]
           },
           {
             "name": "MonsterName",
@@ -925,7 +938,7 @@
             "confirmationRequired": false,
             "elicitationRequired": true,
             "prompts": {
-              "elicitation": ""
+              "elicitation": "Elicit.Slot.857641546237.1096735508237"
             }
           },
           {
@@ -955,7 +968,7 @@
             "confirmationRequired": false,
             "elicitationRequired": true,
             "prompts": {
-              "elicitation": ""
+              "elicitation": "Elicit.Slot.1490210877048.235252155763"
             }
           },
           {
@@ -1010,6 +1023,24 @@
         {
           "type": "PlainText",
           "value": "I'll give you {Price} for your {ItemName}. Sell this item?"
+        }
+      ]
+    },
+    {
+      "id": "Elicit.Slot.1490210877048.235252155763",
+      "variations": [
+        {
+          "type": "PlainText",
+          "value": "What item are you trying to use?"
+        }
+      ]
+    },
+    {
+      "id": "Elicit.Slot.857641546237.1096735508237",
+      "variations": [
+        {
+          "type": "PlainText",
+          "value": "What spell are you trying to cast?"
         }
       ]
     }
