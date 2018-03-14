@@ -4,13 +4,10 @@ import com.amazon.speech.slu.Intent;
 import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.Session;
 import com.amazonaws.util.StringUtils;
-import com.dungeonrealms.app.GameConstants;
-import com.dungeonrealms.app.game.CreateHero;
 import com.dungeonrealms.app.game.GameSessionManager;
 import com.dungeonrealms.app.model.*;
 import com.dungeonrealms.app.speech.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class CreateStateResolver extends DungeonRealmsResolver {
@@ -32,7 +29,8 @@ public class CreateStateResolver extends DungeonRealmsResolver {
                     return getAskResponse(CardTitle.CREATE_HERO, "Something went wrong creating your hero");
                 }
 
-                Hero hero = CreateHero.create(heroName);
+                Hero hero = new Hero();
+                hero.setName(heroName);
                 user.getHeroes().add(hero);
                 user.getGameSession().setGameState(GameState.DUNGEON);
 

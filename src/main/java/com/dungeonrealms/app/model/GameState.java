@@ -1,6 +1,5 @@
 package com.dungeonrealms.app.model;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
 import com.dungeonrealms.app.resolver.*;
