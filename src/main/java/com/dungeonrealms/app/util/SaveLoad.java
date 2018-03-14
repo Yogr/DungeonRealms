@@ -37,7 +37,7 @@ public class SaveLoad {
             getMapper().save(data);
         }
 
-        private static DynamoDBMapper getMapper() {
+        private DynamoDBMapper getMapper() {
             AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().build();
             return new DynamoDBMapper(client);
         }

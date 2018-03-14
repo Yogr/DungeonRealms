@@ -6,10 +6,7 @@ import com.amazon.speech.speechlet.Session;
 import com.amazonaws.util.StringUtils;
 import com.dungeonrealms.app.GameConstants;
 import com.dungeonrealms.app.game.CreateHero;
-import com.dungeonrealms.app.model.DungeonUser;
-import com.dungeonrealms.app.model.GameSession;
-import com.dungeonrealms.app.model.GameState;
-import com.dungeonrealms.app.model.Hero;
+import com.dungeonrealms.app.model.*;
 import com.dungeonrealms.app.speech.*;
 
 import java.util.HashMap;
@@ -19,7 +16,7 @@ public class CreateStateResolver extends DungeonRealmsResolver {
 
     @Override
     protected Map<String, ActionHandler> getActions() {
-        Map<String, ActionHandler> actions = new HashMap<>();
+        Map<String, ActionHandler> actions = super.getActions();
         actions.put(Actions.CREATE_HERO.getIntentName(), mCreateHeroHandler);
         return actions;
     }
@@ -30,11 +27,14 @@ public class CreateStateResolver extends DungeonRealmsResolver {
             String heroName = heroNameSlot.getValue();
             if (!StringUtils.isNullOrEmpty(heroName)) {
                 DungeonUser user = (DungeonUser) session.getAttribute(GameConstants.USER);
-
+                if (user == null) {
+                    return getAskResponse(CardTitle.CREATE_HERO, "Something went wrong creating your hero");
+                }
                 Hero hero = CreateHero.create(heroName);
                 user.getHeroes().add(hero);
 
                 GameSession gameSession = user.getGameSession();
+                gameSession.getHeroData().add(new HeroSessionData());
                 gameSession.setGameState(GameState.DUNGEON);
 
                 //session.setAttribute(GameConstants.USER, user);

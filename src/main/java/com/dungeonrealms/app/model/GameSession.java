@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,4 +16,9 @@ public class GameSession {
 
     @DynamoDBAttribute(attributeName = "HeroData")
     private List<HeroSessionData> mHeroData;
+
+    public GameSession() {
+        mGameState = GameState.TOWN;
+        mHeroData = new ArrayList<>();
+    }
 }

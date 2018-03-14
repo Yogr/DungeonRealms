@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,4 +23,9 @@ public class DungeonUser extends DungeonBaseModel {
 
     @DynamoDBAttribute(attributeName = "Heroes")
     private List<Hero> mHeroes;
+
+    public DungeonUser() {
+        mGameSession = new GameSession();
+        mHeroes = new ArrayList<>();
+    }
 }

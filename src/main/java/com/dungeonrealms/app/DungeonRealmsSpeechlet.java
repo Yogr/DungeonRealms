@@ -2,33 +2,33 @@ package com.dungeonrealms.app;
 
 import com.amazon.speech.json.SpeechletRequestEnvelope;
 import com.amazon.speech.speechlet.*;
-import com.amazonaws.util.StringUtils;
 import com.dungeonrealms.app.model.DungeonUser;
 import com.dungeonrealms.app.model.GameSession;
 import com.dungeonrealms.app.model.GameState;
-import com.dungeonrealms.app.model.Hero;
 import com.dungeonrealms.app.resolver.DungeonRealmsResolver;
 import com.dungeonrealms.app.resolver.GameStateResolver;
 import com.dungeonrealms.app.speech.Responses;
 import com.dungeonrealms.app.util.SaveLoad;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 public class DungeonRealmsSpeechlet implements SpeechletV2 {
-    private static final Logger log = LoggerFactory.getLogger(DungeonRealmsSpeechlet.class);
+    private static void log(String message) {
+        System.out.println(message);
+    }
 
     @Override
     public void onSessionStarted(SpeechletRequestEnvelope<SessionStartedRequest> requestEnvelope) {
-        log.info("onSessionStarted requestId={}, sessionId={}", requestEnvelope.getRequest().getRequestId(),
-                requestEnvelope.getSession().getSessionId());
         // any initialization logic goes here
         Session session = requestEnvelope.getSession();
         // Find user
+
+        log("Attempting to LoadUser");
         DungeonUser user = SaveLoad.LoadUser(session.getUser().getUserId());
+        log("dhartnett user is null?" + (user==null?"yes":"no"));
+        if (user == null) {
+            user = new DungeonUser();
+        }
+
+        /*
         List<Hero> heroes = user.getHeroes();
 
         GameSession gameSession = user.getGameSession();
@@ -41,15 +41,13 @@ public class DungeonRealmsSpeechlet implements SpeechletV2 {
             gameSession.setGameState(GameState.TOWN);
             user.setGameSession(gameSession);
         }
-
-        session.setAttribute(GameConstants.USER, user);
-        session.setAttribute(GameConstants.GAME_SESSION, gameSession);
+*/
+        //session.setAttribute(GameConstants.USER, user);
+        //session.setAttribute(GameConstants.GAME_SESSION, gameSession);
     }
 
     @Override
     public SpeechletResponse onLaunch(SpeechletRequestEnvelope<LaunchRequest> requestEnvelope) {
-        log.info("onLaunch requestId={}, sessionId={}", requestEnvelope.getRequest().getRequestId(),
-                requestEnvelope.getSession().getSessionId());
         return getWelcomeResponse();
     }
 
@@ -57,12 +55,15 @@ public class DungeonRealmsSpeechlet implements SpeechletV2 {
     public SpeechletResponse onIntent(SpeechletRequestEnvelope<IntentRequest> requestEnvelope) {
         IntentRequest request = requestEnvelope.getRequest();
         Session session = requestEnvelope.getSession();
-        log.info("onIntent requestId={}, sessionId={}", request.getRequestId(),
-                requestEnvelope.getSession().getSessionId());
 
         // Restore game state
-        GameSession gameSession = (GameSession) session.getAttribute(GameConstants.GAME_SESSION);
-        GameState state = gameSession.getGameState();
+        /*GameSession gameSession = (GameSession) session.getAttribute(GameConstants.GAME_SESSION);
+        if (gameSession == null) {
+            gameSession = new GameSession();
+            gameSession.setGameState(GameState.TOWN);
+            session.setAttribute(GameConstants.GAME_SESSION, gameSession);
+        }*/
+        GameState state = GameState.CREATE;//gameSession.getGameState();
 
         GameStateResolver resolver = state.getResolver();
 
@@ -71,21 +72,23 @@ public class DungeonRealmsSpeechlet implements SpeechletV2 {
 
     @Override
     public void onSessionEnded(SpeechletRequestEnvelope<SessionEndedRequest> requestEnvelope) {
-        log.info("onSessionEnded requestId={}, sessionId={}", requestEnvelope.getRequest().getRequestId(),
-                requestEnvelope.getSession().getSessionId());
         // any cleanup logic goes here
         Session session = requestEnvelope.getSession();
         GameSession gameSession = (GameSession) session.getAttribute(GameConstants.GAME_SESSION);
         DungeonUser user = (DungeonUser) session.getAttribute(GameConstants.USER);
 
-        GameState state = gameSession.getGameState();
+        if (gameSession != null) {
+            GameState state = gameSession.getGameState();
 
-        // Clear game session if not in combat or dungeon
-        if (state != GameState.COMBAT && state != GameState.DUNGEON) {
-            //user.setGameSession(null);
-            // TODO: Set up right now to always save, so clearing session may not make much difference
+            // Clear game session if not in combat or dungeon
+            if (state != GameState.COMBAT && state != GameState.DUNGEON) {
+                //user.setGameSession(null);
+                // TODO: Set up right now to always save, so clearing session may not make much difference
+            }
         }
-        SaveLoad.SaveUser(user);
+        if (user != null) {
+            SaveLoad.SaveUser(user);
+        }
     }
 
     /**
