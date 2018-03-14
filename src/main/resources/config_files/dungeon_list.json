@@ -1,0 +1,118 @@
+[
+  {
+    "name": "Goblin Dungeon",
+    "id": "1",
+    "rooms": {
+      "1": {
+        "id": "1",
+        "title": "Prison Cell",
+        "description": "You wake up in a dark prison cell with a goblin guard sleeping right outside. You feel a bump on your head that brings back painful memories of getting hit by a rock.",
+        "exits": {
+          "steal the key from the guard": "2",
+          "bash the cell door": "2"
+        }
+      },
+      "2": {
+        "id": "2",
+        "title": "Goblin Dungeon",
+        "description": "You are in a dark corridor with several prison cells on your left and your right. A door lies ahead.",
+        "exits": {
+          "open door": "3"
+        }
+      },
+      "3": {
+        "id": "3",
+        "title": "Goblin King Room",
+        "description": "The room you are in appears to be decorated with the finest goblin jewels and tapestries. Directly in the back of the room there is a goblin-sized throne with skulls on it.  This must be the Goblin King's Throne Room.",
+        "exits": null
+      }
+    }
+  },
+  {
+    "name": "Goblin Dungeon",
+    "id": "1",
+    "rooms": {
+      "1": {
+        "id": "1",
+        "title": "Prison Cell",
+        "description": "You wake up in a dark prison cell with a goblin guard sleeping right outside. You feel a bump on your head that brings back painful memories of getting hit by a rock.",
+        "exits": {
+          "steal the key from the guard": "2",
+          "bash the cell door": "2"
+        }
+      },
+      "2": {
+        "id": "2",
+        "title": "Goblin Dungeon",
+        "description": "You are in a dark corridor with several prison cells on your left and your right. A door lies ahead.",
+        "exits": {
+          "open door": "3"
+        }
+      },
+      "3": {
+        "id": "3",
+        "title": "Goblin King Room",
+        "description": "The room you are in appears to be decorated with the finest goblin jewels and tapestries. Directly in the back of the room there is a goblin-sized throne with skulls on it.  This must be the Goblin King's Throne Room.",
+        "exits": null
+      }
+    }
+  },
+  {
+    "name": "Goblin Dungeon",
+    "id": "1",
+    "rooms": {
+      "1": {
+        "id": "1",
+        "title": "Prison Cell",
+        "description": "You wake up in a dark prison cell with a goblin guard sleeping right outside. You feel a bump on your head that brings back painful memories of getting hit by a rock.",
+        "exits": {
+          "steal the key from the guard": "2",
+          "bash the cell door": "2"
+        }
+      },
+      "2": {
+        "id": "2",
+        "title": "Goblin Dungeon",
+        "description": "You are in a dark corridor with several prison cells on your left and your right. A door lies ahead.",
+        "exits": {
+          "open door": "3"
+        }
+      },
+      "3": {
+        "id": "3",
+        "title": "Goblin King Room",
+        "description": "The room you are in appears to be decorated with the finest goblin jewels and tapestries. Directly in the back of the room there is a goblin-sized throne with skulls on it.  This must be the Goblin King's Throne Room.",
+        "exits": null
+      }
+    }
+  },
+  {
+    "name": "Goblin Dungeon",
+    "id": "1",
+    "rooms": {
+      "1": {
+        "id": "1",
+        "title": "Prison Cell",
+        "description": "You wake up in a dark prison cell with a goblin guard sleeping right outside. You feel a bump on your head that brings back painful memories of getting hit by a rock.",
+        "exits": {
+          "steal the key from the guard": "2",
+          "bash the cell door": "2"
+        }
+      },
+      "2": {
+        "id": "2",
+        "title": "Goblin Dungeon",
+        "description": "You are in a dark corridor with several prison cells on your left and your right. A door lies ahead.",
+        "exits": {
+          "open door": "3"
+        }
+      },
+      "3": {
+        "id": "3",
+        "title": "Goblin King Room",
+        "description": "The room you are in appears to be decorated with the finest goblin jewels and tapestries. Directly in the back of the room there is a goblin-sized throne with skulls on it.  This must be the Goblin King's Throne Room.",
+        "exits": null
+      }
+    }
+  }
+]
