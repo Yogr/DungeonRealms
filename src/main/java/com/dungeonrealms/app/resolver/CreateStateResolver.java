@@ -6,6 +6,7 @@ import com.amazon.speech.speechlet.Session;
 import com.amazonaws.util.StringUtils;
 import com.dungeonrealms.app.GameConstants;
 import com.dungeonrealms.app.game.CreateHero;
+import com.dungeonrealms.app.game.GameSessionManager;
 import com.dungeonrealms.app.model.*;
 import com.dungeonrealms.app.speech.*;
 
@@ -26,19 +27,17 @@ public class CreateStateResolver extends DungeonRealmsResolver {
         if (heroNameSlot != null) {
             String heroName = heroNameSlot.getValue();
             if (!StringUtils.isNullOrEmpty(heroName)) {
-                DungeonUser user = (DungeonUser) session.getAttribute(GameConstants.USER);
+                DungeonUser user = GameSessionManager.getInstance().getUser();
                 if (user == null) {
                     return getAskResponse(CardTitle.CREATE_HERO, "Something went wrong creating your hero");
                 }
+
                 Hero hero = CreateHero.create(heroName);
                 user.getHeroes().add(hero);
+                user.getGameSession().setGameState(GameState.DUNGEON);
 
-                GameSession gameSession = user.getGameSession();
-                gameSession.getHeroData().add(new HeroSessionData());
-                gameSession.setGameState(GameState.DUNGEON);
+                GameSessionManager.getInstance().SaveGameSession(session);
 
-                //session.setAttribute(GameConstants.USER, user);
-                //session.setAttribute(GameConstants.GAME_SESSION, gameSession);
                 String speechText = String.format(Responses.HELLO_NEW_HERO, heroName);
 
                 return getPromptedAskResponse(CardTitle.GOBLIN_PRISON, speechText);
