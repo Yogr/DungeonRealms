@@ -1,0 +1,22 @@
+[
+  {
+    "name":"Short Sword",
+    "id":"1",
+    "type":"WEAPON"
+  },
+  {
+    "name":"Leather Armor",
+    "id":"2",
+    "type":"ARMOR"
+  },
+  {
+    "name":"Leather Helmet",
+    "id":"3",
+    "type":"HELMET"
+  },
+  {
+    "name":"Gold Bling",
+    "id":"4",
+    "type":"GOLD"
+  }
+]
