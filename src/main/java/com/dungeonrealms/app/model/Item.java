@@ -6,7 +6,9 @@ import lombok.Data;
 @Data
 @Builder
 public class Item {
-    private final String mId;
+    private final Integer mId;
     private final String mName;
     private final ItemType mType;
+    private final Integer mAttack;
+    private final Integer mDefense;
 }

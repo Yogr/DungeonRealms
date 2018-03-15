@@ -8,7 +8,7 @@ import java.util.Map;
 @Data
 @Builder
 public class Dungeon {
-    private final String mId;
+    private final Integer mId;
     private final String mName;
-    private final Map<String, Room> mRooms;
+    private final Map<Integer, Room> mRooms;
 }

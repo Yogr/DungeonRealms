@@ -14,23 +14,12 @@ import java.util.List;
 
 public class GameSessionManager {
 
-    @Getter
-    private DungeonUser mUser;
-
-    public GameSession getGameSession() { return mUser.getGameSession(); }
-
-    public List<Hero> getHeroes() { return mUser.getHeroes(); }
-
-    @Getter(lazy = true)
-    private final static GameSessionManager sInstance = new GameSessionManager();
-
-    public void StartGameSession(Session session) {
+    public static DungeonUser StartGameSession(Session session) {
         DungeonUser user = SaveLoad.LoadUser(session.getUser().getUserId());
         if (user == null) {
             user = new DungeonUser();
             user.setId(session.getUser().getUserId());
         }
-        mUser = user;
 
         // Check for heroes to set Create state
         List<Hero> heroes = user.getHeroes();
@@ -38,28 +27,32 @@ public class GameSessionManager {
             user.getGameSession().setGameState(GameState.CREATE);
         }
 
-        SaveGameSession(session);
+        SaveGameSession(session, user);
+
+        return user;
     }
 
     @SuppressWarnings("unchecked")
-    public void RestoreGameSession(Session session) {
-        mUser = new DungeonUser((LinkedHashMap<String, Object>)session.getAttribute(GameConstants.USER));
-        GameSession gameSession = mUser.getGameSession();
+    public static DungeonUser RestoreGameSession(Session session) {
+        DungeonUser user = new DungeonUser((LinkedHashMap<String, Object>)session.getAttribute(GameConstants.USER));
+        GameSession gameSession = user.getGameSession();
         if (gameSession == null) {
             gameSession = new GameSession();
             gameSession.setGameState(GameState.TOWN);
         }
 
-        if (mUser.getHeroes() == null || mUser.getHeroes().isEmpty()) {
+        if (user.getHeroes() == null || user.getHeroes().isEmpty()) {
             gameSession.setGameState(GameState.CREATE);
         }
 
-        SaveGameSession(session);
+        SaveGameSession(session, user);
+
+        return user;
     }
 
-    public void SaveGameSession(Session session) {
+    public static void SaveGameSession(Session session, DungeonUser user) {
         session.removeAttribute(GameConstants.USER);
-        session.setAttribute(GameConstants.USER, mUser);
+        session.setAttribute(GameConstants.USER, user);
     }
 
 

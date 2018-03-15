@@ -11,13 +11,14 @@ import com.amazon.speech.ui.OutputSpeech;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
+import com.dungeonrealms.app.model.DungeonUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class GameStateResolver {
 
-    public SpeechletResponse resolveIntent(Session session, IntentRequest request) {
+    public SpeechletResponse resolveIntent(Session session, DungeonUser user, IntentRequest request) {
 
         // Delegate all requests back to Alexa until they are completed
         if (request.getDialogState() != IntentRequest.DialogState.COMPLETED) {
@@ -34,13 +35,10 @@ public abstract class GameStateResolver {
             return response;
         }
 
-        // Completed intents can be resolved with an action
-        Intent intent = request.getIntent();
-        String intentName = (intent != null) ? intent.getName() : null;
-        return resolveIntent(session, intentName, intent);
+        return resolveIntent(session, user, request.getIntent());
     }
 
-    public abstract SpeechletResponse resolveIntent(Session session, String intentName, Intent intent);
+    public abstract SpeechletResponse resolveIntent(Session session, DungeonUser user, Intent intent);
 
     /**
      * Helper method for retrieving an Ask response with a simple card and reprompt included.

@@ -8,8 +8,11 @@ import java.util.Map;
 @Data
 @Builder
 public class Room {
-    private final String mId;
+    private final Integer mId;
     private final String mTitle;
     private final String mDescription;
-    private final Map<String, String> mExits;
+    private final int[] mTrapIds;
+    private final int[] mMonsterIds;
+    private final int[] mTreasureIds;
+    private final Map<String, Integer> mExits;
 }

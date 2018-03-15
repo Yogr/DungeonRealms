@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class Monster {
-    private final String mId;
+    private final Integer mId;
     private final String mName;
     private final Integer mHitPoints;
     private final Integer mAttack;

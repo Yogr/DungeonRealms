@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DungeonBaseModel {
+public class BaseModel {
     protected String mId;
 }

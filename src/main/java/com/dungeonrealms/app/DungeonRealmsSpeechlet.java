@@ -2,34 +2,31 @@ package com.dungeonrealms.app;
 
 import com.amazon.speech.json.SpeechletRequestEnvelope;
 import com.amazon.speech.speechlet.*;
-import com.dungeonrealms.app.dummy.GetDummy;
 import com.dungeonrealms.app.game.GameSessionManager;
-import com.dungeonrealms.app.model.*;
+import com.dungeonrealms.app.model.DungeonUser;
+import com.dungeonrealms.app.model.GameState;
+import com.dungeonrealms.app.model.Hero;
 import com.dungeonrealms.app.resolver.DungeonRealmsResolver;
 import com.dungeonrealms.app.resolver.GameStateResolver;
 import com.dungeonrealms.app.speech.Responses;
 import com.dungeonrealms.app.util.SaveLoad;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DungeonRealmsSpeechlet implements SpeechletV2 {
     private static void log(String message) {
         System.out.println(message);
     }
 
+    private DungeonUser mDungeonUser;
+
     @Override
     public void onSessionStarted(SpeechletRequestEnvelope<SessionStartedRequest> requestEnvelope) {
         // any initialization logic goes here
         Session session = requestEnvelope.getSession();
 
-        GameSessionManager gameSessionManager = GameSessionManager.getInstance();
         if (session.isNew()) {
-            gameSessionManager.StartGameSession(session);
+            mDungeonUser = GameSessionManager.StartGameSession(session);
         } else {
-            gameSessionManager.RestoreGameSession(session);
+            mDungeonUser = GameSessionManager.RestoreGameSession(session);
         }
     }
 
@@ -45,20 +42,22 @@ public class DungeonRealmsSpeechlet implements SpeechletV2 {
         Session session = requestEnvelope.getSession();
 
         // Restore game state
-        GameSessionManager.getInstance().RestoreGameSession(session);
-        GameState state = GameSessionManager.getInstance().getGameSession().getGameState();
+        mDungeonUser = GameSessionManager.RestoreGameSession(session);
+        GameState state = mDungeonUser.getGameSession().getGameState();
 
         GameStateResolver resolver = state.getResolver();
 
-        return resolver.resolveIntent(session, request);
+        return resolver.resolveIntent(session, mDungeonUser, request);
     }
 
     @Override
     public void onSessionEnded(SpeechletRequestEnvelope<SessionEndedRequest> requestEnvelope) {
         // any cleanup logic goes here
-        DungeonUser user = GameSessionManager.getInstance().getUser();
-        if (user != null) {
-            SaveLoad.SaveUser(user);
+        if (mDungeonUser == null) {
+            mDungeonUser = GameSessionManager.RestoreGameSession(requestEnvelope.getSession());
+        }
+        if (mDungeonUser != null) {
+            SaveLoad.SaveUser(mDungeonUser);
         }
     }
 
@@ -69,8 +68,8 @@ public class DungeonRealmsSpeechlet implements SpeechletV2 {
      */
     private SpeechletResponse getWelcomeResponse() {
         String speechText = Responses.WELCOME_NEW;
-        if (!GameSessionManager.getInstance().getHeroes().isEmpty()) {
-            Hero hero = GameSessionManager.getInstance().getHeroes().get(0);
+        if (mDungeonUser != null && !mDungeonUser.getHeroes().isEmpty()) {
+            Hero hero = mDungeonUser.getHeroes().get(0);
             speechText = String.format(Responses.WELCOME_BACK, hero.getName());
         }
         return new DungeonRealmsResolver().getAskResponse(GameConstants.SKILL_ID, speechText);

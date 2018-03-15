@@ -1,5 +1,6 @@
 package com.dungeonrealms.app.util;
 
+
 import com.dungeonrealms.app.model.DungeonUser;
 
 public class SaveLoad {
@@ -20,5 +21,4 @@ public class SaveLoad {
     public static void SaveUser(DungeonUser dungeonUser) {
         Config.getInstance().getDbMapper().save(dungeonUser);
     }
-
 }

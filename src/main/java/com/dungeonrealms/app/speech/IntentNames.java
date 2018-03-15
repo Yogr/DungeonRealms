@@ -30,6 +30,7 @@ public class IntentNames {
     public static final String USE_ITEM = "UseItemIntent";
 
     // Dungeon (Non-Combat)
+    public static final String MOVE_ROOM = "MoveRoomIntent";
     public static final String SEARCH_FOR_TRAPS = "SearchTrapsIntent";
     public static final String SEARCH_FOR_TREASURE = "SearchTreasureIntent";
     public static final String DISARM_TRAPS = "DisarmTrapsIntent";

@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @DynamoDBTable(tableName = "DungeonRealms.Users")
-public class DungeonUser extends DungeonBaseModel {
+public class DungeonUser extends BaseModel {
 
     @DynamoDBHashKey(attributeName = "UserId")
     public String getId() { return mId; }

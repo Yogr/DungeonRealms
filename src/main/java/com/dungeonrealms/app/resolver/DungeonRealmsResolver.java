@@ -5,21 +5,28 @@ import com.amazon.speech.speechlet.Session;
 import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazonaws.util.StringUtils;
-import com.dungeonrealms.app.speech.Actions;
+import com.dungeonrealms.app.dummy.GetDummy;
+import com.dungeonrealms.app.model.Dungeon;
+import com.dungeonrealms.app.model.DungeonUser;
+import com.dungeonrealms.app.model.Room;
 import com.dungeonrealms.app.speech.CardTitle;
+import com.dungeonrealms.app.speech.HelpActionMap;
+import com.dungeonrealms.app.speech.IntentNames;
 import com.dungeonrealms.app.speech.Responses;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class DungeonRealmsResolver extends GameStateResolver {
 
     @Override
-    public SpeechletResponse resolveIntent(Session session, String intentName, Intent intent) {
-        Map<String, ActionHandler> actions = getActions();
+    public SpeechletResponse resolveIntent(Session session, DungeonUser user, Intent intent) {
+        String intentName = (intent != null) ? intent.getName() : null;
 
+        Map<String, ActionHandler> actions = getActions();
         if (actions.containsKey(intentName)) {
-            return actions.get(intentName).handleIntent(session, intentName, intent);
+            return actions.get(intentName).handleIntent(session, user, intent);
         }
 
         return getInvalidActionResponse();
@@ -27,18 +34,26 @@ public class DungeonRealmsResolver extends GameStateResolver {
 
     protected Map<String, ActionHandler> getActions() {
         Map<String, ActionHandler> actions = new HashMap<>();
-        actions.put(Actions.HELP.getIntentName(), mHelpActionHandler);
-        actions.put(Actions.CANCEL.getIntentName(), mStopActionHandler);
-        actions.put(Actions.QUIT.getIntentName(), mStopActionHandler);
+        actions.put(IntentNames.AMAZON_HELP, mHelpActionHandler);
+        actions.put(IntentNames.AMAZON_CANCEL, mStopActionHandler);
+        actions.put(IntentNames.AMAZON_STOP, mStopActionHandler);
         return actions;
     }
 
-    private ActionHandler mHelpActionHandler = (Session session, String intentName, Intent intent) -> {
+    private ActionHandler mHelpActionHandler = (Session session, DungeonUser user, Intent intent) -> {
         StringBuilder actionsText = new StringBuilder();
 
         for (String name : getActions().keySet()) {
-            Actions action = Actions.valueOf(name);
-            actionsText.append(" " + action.getActionName());
+            if (IntentNames.MOVE_ROOM.equals(name)) {
+                Set<String> roomExits = getRoomExits(user);
+                if (roomExits != null) {
+                    for (String exit : roomExits) {
+                        actionsText.append(", go " + exit);
+                    }
+                }
+            } else {
+                actionsText.append(", " + HelpActionMap.getIntentFriendlyName().get(name));
+            }
         }
 
         String speechText;
@@ -51,8 +66,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
         return getAskResponse(CardTitle.DUNGEON_REALMS, speechText);
     };
 
-    private ActionHandler mStopActionHandler = (Session session, String intentName, Intent intent) -> {
-        // TODO: Save game
+    private ActionHandler mStopActionHandler = (Session session, DungeonUser user, Intent intent) -> {
         PlainTextOutputSpeech speech = getPlainTextOutputSpeech(Responses.GOODBYE);
         return SpeechletResponse.newTellResponse(speech);
     };
@@ -69,6 +83,30 @@ public class DungeonRealmsResolver extends GameStateResolver {
     protected SpeechletResponse getPromptedAskResponse(String cardTitle, String speechText) {
         String doNextAppendedString = speechText + Responses.PROMPT_ACTION;
         return getAskResponse(cardTitle, doNextAppendedString);
+    }
+
+    public Set<String> getRoomExits(DungeonUser user) {
+        return getDungeonRoom(getDungeon(user.getGameSession().getDungeonId()), user.getGameSession().getRoomId()).getExits().keySet();
+    }
+
+    // TODO : Implement real dungeon fetch from static manager
+    public Dungeon getDungeon(Integer dungeonId) {
+        if (dungeonId != null && dungeonId != -1) {
+            return GetDummy.dummyDungeon();
+        }
+        return null;
+    }
+
+    // TODO: Remove this and implement real room fetch from static manager
+    public Room getDungeonRoom(Dungeon dungeon, Integer roomId) {
+        if (roomId != null && roomId != -1) {
+            switch (roomId) {
+                case 1: return GetDummy.dummyRoom1();
+                case 2: return GetDummy.dummyRoom2();
+                case 3: return GetDummy.dummyRoom3();
+            }
+        }
+        return null;
     }
 
 }
