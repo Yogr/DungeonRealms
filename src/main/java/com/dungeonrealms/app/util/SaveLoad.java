@@ -10,7 +10,7 @@ public class SaveLoad {
      * @return DungeonUser
      */
     public static DungeonUser LoadUser(String userId) {
-       return Config.getInstance().getDBMapper().load(DungeonUser.class, userId);
+       return Config.getInstance().getDbMapper().load(DungeonUser.class, userId);
     }
 
     /***
@@ -18,7 +18,7 @@ public class SaveLoad {
      * @param dungeonUser object that is to be saved to DynamoDB
      */
     public static void SaveUser(DungeonUser dungeonUser) {
-        Config.getInstance().getDBMapper().save(dungeonUser);
+        Config.getInstance().getDbMapper().save(dungeonUser);
     }
 
 }

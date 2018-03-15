@@ -7,19 +7,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 
 public class Config {
+
     @Getter(lazy=true)
     private final static Config sInstance = new Config();
 
-    private AmazonDynamoDB mDbClient = AmazonDynamoDBClientBuilder.standard().build();
-    private DynamoDBMapper mDbmapper =  new DynamoDBMapper(mDbClient);
-    private ObjectMapper mJacksonMapper = new ObjectMapper();
+    private AmazonDynamoDB mDbClient;
+    @Getter
+    private DynamoDBMapper mDbMapper;
+    @Getter
+    private ObjectMapper mJacksonMapper;
 
-    public DynamoDBMapper getDBMapper() {
-        return mDbmapper;
-    }
-
-    public ObjectMapper getJacksonMapper() {
-        return mJacksonMapper;
+    private Config() {
+        mDbClient = AmazonDynamoDBClientBuilder.standard().build();
+        mDbMapper =  new DynamoDBMapper(mDbClient);
+        mJacksonMapper = new ObjectMapper();
     }
 
 }
