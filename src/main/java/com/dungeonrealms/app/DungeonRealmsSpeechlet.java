@@ -2,15 +2,18 @@ package com.dungeonrealms.app;
 
 import com.amazon.speech.json.SpeechletRequestEnvelope;
 import com.amazon.speech.speechlet.*;
+import com.dungeonrealms.app.dummy.GetDummy;
 import com.dungeonrealms.app.game.GameSessionManager;
-import com.dungeonrealms.app.model.DungeonUser;
-import com.dungeonrealms.app.model.GameSession;
-import com.dungeonrealms.app.model.GameState;
-import com.dungeonrealms.app.model.Hero;
+import com.dungeonrealms.app.model.*;
 import com.dungeonrealms.app.resolver.DungeonRealmsResolver;
 import com.dungeonrealms.app.resolver.GameStateResolver;
 import com.dungeonrealms.app.speech.Responses;
 import com.dungeonrealms.app.util.SaveLoad;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DungeonRealmsSpeechlet implements SpeechletV2 {
     private static void log(String message) {
@@ -32,6 +35,7 @@ public class DungeonRealmsSpeechlet implements SpeechletV2 {
 
     @Override
     public SpeechletResponse onLaunch(SpeechletRequestEnvelope<LaunchRequest> requestEnvelope) {
+
         return getWelcomeResponse();
     }
 
@@ -71,4 +75,5 @@ public class DungeonRealmsSpeechlet implements SpeechletV2 {
         }
         return new DungeonRealmsResolver().getAskResponse(GameConstants.SKILL_ID, speechText);
     }
+
 }
