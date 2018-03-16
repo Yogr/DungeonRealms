@@ -12,9 +12,11 @@ public class DungeonUtils {
 
     public static String constructFullRoomMessage(String prefix, GameSession gameSession) {
         StringBuilder messageBuilder = new StringBuilder();
-        messageBuilder = messageBuilder.append(prefix).append(". ");
+        if (!StringUtils.isNullOrEmpty(prefix)) {
+            messageBuilder.append(prefix).append(". ");
+        }
 
-        if (gameSession.getGameState() == GameState.DUNGEON) {
+        if (gameSession.getGameState() == GameState.DUNGEON || gameSession.getGameState() == GameState.COMBAT) {
             Dungeon dungeon = GetDummy.dummyDungeon();
             Integer roomId = gameSession.getRoomId();
             Room room = GetDummy.dummyRoom1();
@@ -26,18 +28,19 @@ public class DungeonUtils {
                     case 3: room = GetDummy.dummyRoom3(); break;
                 }
             }
-            messageBuilder = messageBuilder.append(room.getDescription()).append(". ");
+            messageBuilder.append(room.getDescription()).append(". ");
         }
 
         if (!gameSession.getMonsters().isEmpty()) {
-            messageBuilder = messageBuilder.append("There's also ");
+            messageBuilder.append("There's also ");
             int count = gameSession.getMonsters().size();
             for (int i = 0; i < count; ++i) {
                 if (i != 0 && i + 1 == count) {
-                    messageBuilder = messageBuilder.append("and ");
+                    messageBuilder.append("and ");
                 }
-                messageBuilder = messageBuilder.append("a ").append(GetDummy.dummyGoblin().getName()); // TODO: monster static lookup: gameSession.getMonsters().get(i).getMonsterId();
+                messageBuilder.append("a ").append(GetDummy.dummyGoblin().getName()); // TODO: monster static lookup: gameSession.getMonsters().get(i).getMonsterId();
             }
+            messageBuilder.append(" here");
         }
 
         return messageBuilder.toString();
