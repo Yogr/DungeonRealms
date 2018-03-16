@@ -52,7 +52,6 @@ public class DungeonRealmsSpeechlet implements SpeechletV2 {
     @Override
     public void onSessionEnded(SpeechletRequestEnvelope<SessionEndedRequest> requestEnvelope) {
         // any cleanup logic goes here
-        log("YOUR SESSION HAS BEEN ENDED USER IS " + mDungeonUser);
         if (mDungeonUser == null) {
             mDungeonUser = GameSessionManager.RestoreGameSession(requestEnvelope.getSession());
         }

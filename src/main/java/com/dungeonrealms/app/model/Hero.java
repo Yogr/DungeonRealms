@@ -13,49 +13,27 @@ import java.util.*;
 @DynamoDBDocument
 public class Hero {
 
-    @DynamoDBAttribute(attributeName = "Name")
+    @DynamoDBAttribute(attributeName = "name")
     private String mName;
 
-    @DynamoDBAttribute(attributeName = "Exp")
+    @DynamoDBAttribute(attributeName = "experience")
     private Integer mExperience;
 
-    @Getter(AccessLevel.PRIVATE)
-    @DynamoDBAttribute(attributeName = "Hp")
+    @DynamoDBAttribute(attributeName = "hitpointBase")
     private Integer mHitpointBase;
 
-    @Getter(AccessLevel.PRIVATE)
-    @DynamoDBAttribute(attributeName = "Mp")
+    @DynamoDBAttribute(attributeName = "manaBase")
     private Integer mManaBase;
 
-    @Getter(AccessLevel.PRIVATE)
-    @DynamoDBAttribute(attributeName = "Inventory")
+    @DynamoDBAttribute(attributeName = "inventoryMap")
     private Map<String, Integer> mInventoryMap;
-
-/*    // TODO: Write/read only from Session
-    private Integer mCurrentHp;
-
-    // TODO: Write/read only from Session
-    private Integer mCurrentMana;
-
-    // TODO: Do not write this to dynamoDB or Session, loaded from raw json
-    private List<Item> mItems;
-
-    // TODO: Do not write this to dynamoDB or Session it is calculated
-    private Integer mAttack;
-    // TODO: Do not write this to dynamoDB or Session it is calculated
-    private Integer mDefense; */
 
     public Hero() {
         mName = "Adventurer";
         mExperience = 0;
         mHitpointBase = 10;
         mManaBase = 10;
-        //mCurrentHp = mHitpointBase;
-        //mCurrentMana = mManaBase;
-        //mAttack = 1;
-        //mDefense = 1;
         mInventoryMap = new LinkedHashMap<>();
-        //mItems = new ArrayList<>();
     }
 
     @SuppressWarnings("unchecked")
@@ -65,8 +43,6 @@ public class Hero {
         mHitpointBase = (Integer) dataMap.get("hitpointBase");
         mManaBase = (Integer) dataMap.get("manaBase");
         mInventoryMap = (LinkedHashMap<String, Integer>) dataMap.get("inventory");
-        //mItems = new ArrayList<>();
-        // TODO: iterate inventory map and pull items from raw json
     }
 
     /*

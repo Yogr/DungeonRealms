@@ -19,24 +19,29 @@ public class DungeonUser extends BaseModel {
     public String getId() { return mId; }
     public void setId(String id) { mId = id; }
 
-    @DynamoDBAttribute(attributeName = "GameSession")
+    @DynamoDBAttribute(attributeName = "gameSession")
     private GameSession mGameSession;
 
-    @DynamoDBAttribute(attributeName = "Heroes")
+    @DynamoDBAttribute(attributeName = "heroes")
     private List<Hero> mHeroes;
+
+    @DynamoDBAttribute
+    private Integer mGold;
 
     public DungeonUser() {
         mId = "";
         mGameSession = new GameSession();
         mHeroes = new ArrayList<>();
+        mGold = 0;
     }
 
     @SuppressWarnings("unchecked")
     public DungeonUser(LinkedHashMap<String, Object> dataMap) {
         mId = (String) dataMap.get("id");
         mGameSession = new GameSession((LinkedHashMap<String, Object>) dataMap.get("gameSession"));
-        mHeroes = new ArrayList<>();
+        mGold = (Integer) dataMap.get("gold");
 
+        mHeroes = new ArrayList<>();
         List<Object> tempList = (List<Object>) dataMap.get("heroes");
         for (Object o : tempList) {
             Hero hero = new Hero((LinkedHashMap<String, Object>) o);

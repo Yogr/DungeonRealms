@@ -13,31 +13,30 @@ import java.util.UUID;
 @DynamoDBDocument
 public class MonsterInstance {
 
-    @DynamoDBAttribute(attributeName = "InstanceId")
+    @DynamoDBAttribute(attributeName = "instanceId")
     private String mInstanceId;
 
-    @DynamoDBAttribute(attributeName = "MonsterId")
+    @DynamoDBAttribute(attributeName = "monsterId")
     private Integer mMonsterId;
 
-    @DynamoDBAttribute(attributeName = "Hp")
+    @DynamoDBAttribute(attributeName = "currentHP")
     private Integer mCurrentHP;
 
-    // TODO: Figure out how to ignore this ref in dynamo DB and Session
-    //private Monster mMonster;
+    public MonsterInstance() {
+        mInstanceId = "";
+        mMonsterId = -1;
+        mCurrentHP = 3;
+    }
 
     public MonsterInstance(Monster monster) {
         mInstanceId = UUID.randomUUID().toString();
         mMonsterId = monster.getId();
         mCurrentHP = monster.getHitPoints();
-        //mMonster = monster;
     }
 
     public MonsterInstance(LinkedHashMap<String, Object> dataMap) {
         mInstanceId = (String) dataMap.get("instanceId");
         mMonsterId = (Integer) dataMap.get("monsterId");
-        mCurrentHP = (Integer) dataMap.get("hp");
-
-        // TODO: Implement lookup from raw Json to fetch static monster data
-        // TODO: mMonster = SomeDataManger.getMonsterById(mMonsterId);
+        mCurrentHP = (Integer) dataMap.get("currentHP");
     }
 }

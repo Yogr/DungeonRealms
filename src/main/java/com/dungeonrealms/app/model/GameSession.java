@@ -14,22 +14,23 @@ import java.util.List;
 @DynamoDBDocument
 public class GameSession {
 
-    @DynamoDBAttribute(attributeName = "State")
+    @DynamoDBAttribute(attributeName = "state")
     private GameState mGameState;
 
-    @DynamoDBAttribute(attributeName = "DungeonId")
+    @DynamoDBAttribute(attributeName = "dungeonId")
     private Integer mDungeonId;
 
-    @DynamoDBAttribute(attributeName = "RoomId")
+    @DynamoDBAttribute(attributeName = "roomId")
     private Integer mRoomId;
 
-    @DynamoDBAttribute(attributeName = "Monsters")
+    @DynamoDBAttribute(attributeName = "monsters")
     private List<MonsterInstance> mMonsters;
 
     public GameSession() {
         mGameState = GameState.TOWN;
         mDungeonId = -1;
         mRoomId = -1;
+
         mMonsters = new ArrayList<>();
     }
 
@@ -38,10 +39,10 @@ public class GameSession {
         mGameState = GameState.valueOf((String) dataMap.get("gameState"));
         mDungeonId = (Integer) dataMap.get("dungeonId");
         mRoomId = (Integer) dataMap.get("roomId");
-        mMonsters = new ArrayList<>();
 
-        List<Object> tempList = (List<Object>) dataMap.get("monsters");
-        for (Object o : tempList) {
+        mMonsters = new ArrayList<>();
+        List<Object> tempMonsterList = (List<Object>) dataMap.get("monsters");
+        for (Object o : tempMonsterList) {
             MonsterInstance monster = new MonsterInstance((LinkedHashMap<String, Object>) o);
             mMonsters.add(monster);
         }
