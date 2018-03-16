@@ -12,7 +12,7 @@ public class DungeonUtils {
 
     public static String constructFullRoomMessage(String prefix, GameSession gameSession) {
         StringBuilder messageBuilder = new StringBuilder();
-        messageBuilder.append(prefix).append(". ");
+        messageBuilder = messageBuilder.append(prefix).append(". ");
 
         if (gameSession.getGameState() == GameState.DUNGEON) {
             Dungeon dungeon = GetDummy.dummyDungeon();
@@ -26,17 +26,17 @@ public class DungeonUtils {
                     case 3: room = GetDummy.dummyRoom3(); break;
                 }
             }
-            messageBuilder.append(room.getDescription()).append(". ");
+            messageBuilder = messageBuilder.append(room.getDescription()).append(". ");
         }
 
         if (!gameSession.getMonsters().isEmpty()) {
-            messageBuilder.append("There's also ");
+            messageBuilder = messageBuilder.append("There's also ");
             int count = gameSession.getMonsters().size();
             for (int i = 0; i < count; ++i) {
                 if (i != 0 && i + 1 == count) {
-                    messageBuilder.append("and ");
+                    messageBuilder = messageBuilder.append("and ");
                 }
-                messageBuilder.append("a ").append(GetDummy.dummyGoblin().getName()); // TODO: monster static lookup: gameSession.getMonsters().get(i).getMonsterId();
+                messageBuilder = messageBuilder.append("a ").append(GetDummy.dummyGoblin().getName()); // TODO: monster static lookup: gameSession.getMonsters().get(i).getMonsterId();
             }
         }
 
