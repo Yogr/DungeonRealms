@@ -85,9 +85,7 @@
           "new quest",
           "start quest",
           "start adventure",
-          "dungeon",
-          "go dungeon",
-          "go to dungeon"
+          "dungeon"
         ]
       },
       {
@@ -374,6 +372,24 @@
           "use {ItemName} on {HeroName}",
           "use {ItemName} on {MonsterName}",
           "use {ItemName}"
+        ]
+      },
+      {
+        "name": "MoveRoomIntent",
+        "slots": [
+          {
+            "name": "Location",
+            "type": "Location"
+          }
+        ],
+        "samples": [
+          "travel {Location}",
+          "travel to {Location}",
+          "open {Location}",
+          "go through {Location}",
+          "climb {Location}",
+          "go to {Location}",
+          "go {Location}"
         ]
       }
     ],
@@ -855,6 +871,81 @@
             "id": "",
             "name": {
               "value": "Fireball",
+              "synonyms": []
+            }
+          }
+        ]
+      },
+      {
+        "name": "Location",
+        "values": [
+          {
+            "id": "",
+            "name": {
+              "value": "stairs",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "",
+            "name": {
+              "value": "ladder",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "",
+            "name": {
+              "value": "corridor",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "",
+            "name": {
+              "value": "hallway",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "",
+            "name": {
+              "value": "door",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "",
+            "name": {
+              "value": "south",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "",
+            "name": {
+              "value": "north",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "",
+            "name": {
+              "value": "west",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "",
+            "name": {
+              "value": "east",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "",
+            "name": {
+              "value": "room",
               "synonyms": []
             }
           }

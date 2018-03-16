@@ -67,6 +67,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
     };
 
     private ActionHandler mStopActionHandler = (Session session, DungeonUser user, Intent intent) -> {
+        System.out.println("GOODBYE!!");
         PlainTextOutputSpeech speech = getPlainTextOutputSpeech(Responses.GOODBYE);
         return SpeechletResponse.newTellResponse(speech);
     };
