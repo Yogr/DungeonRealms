@@ -4,7 +4,6 @@ import com.amazon.speech.slu.Intent;
 import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.Session;
 import com.amazonaws.util.StringUtils;
-import com.dungeonrealms.app.dummy.GetDummy;
 import com.dungeonrealms.app.game.Navigation;
 import com.dungeonrealms.app.model.Dungeon;
 import com.dungeonrealms.app.model.DungeonUser;
@@ -12,9 +11,8 @@ import com.dungeonrealms.app.model.Room;
 import com.dungeonrealms.app.speech.CardTitle;
 import com.dungeonrealms.app.speech.IntentNames;
 import com.dungeonrealms.app.speech.SlotNames;
+import com.dungeonrealms.app.util.DungeonUtils;
 
-import javax.smartcardio.Card;
-import java.util.HashMap;
 import java.util.Map;
 
 public class DungeonStateResolver extends DungeonRealmsResolver {
@@ -43,7 +41,7 @@ public class DungeonStateResolver extends DungeonRealmsResolver {
                             // TODO: Exit Dungeon a.k.a. return to Town
                             moveSuccessful = true;
                         } else {
-                            moveSuccessful = Navigation.MoveToRoom(user, dungeon, newRoomId);
+                            moveSuccessful = Navigation.moveToRoom(user, dungeon, newRoomId);
                         }
                     }
                 }
@@ -52,13 +50,13 @@ public class DungeonStateResolver extends DungeonRealmsResolver {
 
         String speechText;
         if (moveSuccessful) {
-            Room newRoom = getDungeonRoom(dungeon, user.getGameSession().getRoomId());
-            speechText = newRoom.getDescription();
+            speechText = DungeonUtils.constructFullRoomMessage(user.getGameSession());
         } else {
             speechText = "You cannot move in that direction";
         }
 
-        return getAskResponse(CardTitle.DUNGEON_REALMS, speechText);
+        Room currentRoom = getDungeonRoom(dungeon, user.getGameSession().getRoomId());
+        return getAskResponse(currentRoom != null ? currentRoom.getTitle() : CardTitle.DUNGEON_REALMS, speechText);
     };
 
     private ActionHandler mSearchForTrapsHandler = (Session session, DungeonUser user, Intent intent) -> {

@@ -9,7 +9,5 @@ public class Responses {
     public static final String PROMPT_ACTION = " What would you like to do?";
 
     public static final String CREATE_HERO = "What do they call you, hero";
-    public static final String HELLO_NEW_HERO = "Hello %1$s, You wake up in a dark prison cell with a " +
-            "goblin guard sleeping right outside. You feel a bump on your head that brings back" +
-            " painful memories of getting hit by a rock.";
+    public static final String HELLO_NEW_HERO = "Hello %1$s";
 }

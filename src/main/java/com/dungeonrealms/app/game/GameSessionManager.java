@@ -7,7 +7,6 @@ import com.dungeonrealms.app.model.GameSession;
 import com.dungeonrealms.app.model.GameState;
 import com.dungeonrealms.app.model.Hero;
 import com.dungeonrealms.app.util.SaveLoad;
-import lombok.Getter;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 public class GameSessionManager {
 
     public static DungeonUser StartGameSession(Session session) {
-        DungeonUser user = SaveLoad.LoadUser(session.getUser().getUserId());
+        DungeonUser user = SaveLoad.loadUser(session.getUser().getUserId());
         if (user == null) {
             user = new DungeonUser();
             user.setId(session.getUser().getUserId());

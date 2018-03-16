@@ -23,13 +23,13 @@ public class MonsterInstance {
     private Integer mCurrentHP;
 
     // TODO: Figure out how to ignore this ref in dynamo DB and Session
-    private Monster mMonster;
+    //private Monster mMonster;
 
     public MonsterInstance(Monster monster) {
         mInstanceId = UUID.randomUUID().toString();
         mMonsterId = monster.getId();
         mCurrentHP = monster.getHitPoints();
-        mMonster = monster;
+        //mMonster = monster;
     }
 
     public MonsterInstance(LinkedHashMap<String, Object> dataMap) {

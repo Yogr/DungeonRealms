@@ -2,13 +2,13 @@ package com.dungeonrealms.app;
 
 import com.amazon.speech.json.SpeechletRequestEnvelope;
 import com.amazon.speech.speechlet.*;
+import com.dungeonrealms.app.dummy.GetDummy;
 import com.dungeonrealms.app.game.GameSessionManager;
-import com.dungeonrealms.app.model.DungeonUser;
-import com.dungeonrealms.app.model.GameState;
-import com.dungeonrealms.app.model.Hero;
+import com.dungeonrealms.app.model.*;
 import com.dungeonrealms.app.resolver.DungeonRealmsResolver;
 import com.dungeonrealms.app.resolver.GameStateResolver;
 import com.dungeonrealms.app.speech.Responses;
+import com.dungeonrealms.app.util.DungeonUtils;
 import com.dungeonrealms.app.util.SaveLoad;
 
 public class DungeonRealmsSpeechlet implements SpeechletV2 {
@@ -32,7 +32,6 @@ public class DungeonRealmsSpeechlet implements SpeechletV2 {
 
     @Override
     public SpeechletResponse onLaunch(SpeechletRequestEnvelope<LaunchRequest> requestEnvelope) {
-
         return getWelcomeResponse();
     }
 
@@ -53,11 +52,12 @@ public class DungeonRealmsSpeechlet implements SpeechletV2 {
     @Override
     public void onSessionEnded(SpeechletRequestEnvelope<SessionEndedRequest> requestEnvelope) {
         // any cleanup logic goes here
+        log("YOUR SESSION HAS BEEN ENDED USER IS " + mDungeonUser);
         if (mDungeonUser == null) {
             mDungeonUser = GameSessionManager.RestoreGameSession(requestEnvelope.getSession());
         }
         if (mDungeonUser != null) {
-            SaveLoad.SaveUser(mDungeonUser);
+            SaveLoad.saveUser(mDungeonUser);
         }
     }
 
@@ -71,6 +71,8 @@ public class DungeonRealmsSpeechlet implements SpeechletV2 {
         if (mDungeonUser != null && !mDungeonUser.getHeroes().isEmpty()) {
             Hero hero = mDungeonUser.getHeroes().get(0);
             speechText = String.format(Responses.WELCOME_BACK, hero.getName());
+
+            speechText = DungeonUtils.constructFullRoomMessage(speechText, mDungeonUser.getGameSession());
         }
         return new DungeonRealmsResolver().getAskResponse(GameConstants.SKILL_ID, speechText);
     }

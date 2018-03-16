@@ -7,6 +7,7 @@ import com.amazonaws.util.StringUtils;
 import com.dungeonrealms.app.game.GameSessionManager;
 import com.dungeonrealms.app.model.*;
 import com.dungeonrealms.app.speech.*;
+import com.dungeonrealms.app.util.DungeonUtils;
 
 import java.util.Map;
 
@@ -38,6 +39,8 @@ public class CreateStateResolver extends DungeonRealmsResolver {
                 GameSessionManager.SaveGameSession(session, user);
 
                 String speechText = String.format(Responses.HELLO_NEW_HERO, heroName);
+
+                speechText = DungeonUtils.constructFullRoomMessage(speechText, gameSession);
 
                 return getPromptedAskResponse(CardTitle.GOBLIN_PRISON, speechText);
             }

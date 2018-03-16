@@ -10,7 +10,7 @@ public class SaveLoad {
      * @param userId the Alexa userId of the user making the request
      * @return DungeonUser
      */
-    public static DungeonUser LoadUser(String userId) {
+    public static DungeonUser loadUser(String userId) {
        return Config.getInstance().getDbMapper().load(DungeonUser.class, userId);
     }
 
@@ -18,7 +18,7 @@ public class SaveLoad {
      * This method saves the current user to our DynamoDB Database
      * @param dungeonUser object that is to be saved to DynamoDB
      */
-    public static void SaveUser(DungeonUser dungeonUser) {
+    public static void saveUser(DungeonUser dungeonUser) {
         Config.getInstance().getDbMapper().save(dungeonUser);
     }
 }
