@@ -1,0 +1,42 @@
+{
+  "1": {
+    "id": "1",
+    "name": "Goblin Dungeon",
+    "rooms": {
+      "1": {
+        "id": "1",
+        "title": "Goblin Dungeon",
+        "description": "You wake up in a dark corner of a dungeon. You can't remember how you got here. The only way forward is a dimly lit corridor.",
+        "exits": {
+          "corridor": "2"
+        },
+        "treasureIds": [ ],
+        "trapIds": [ ],
+        "monsterIds": [ ]
+      },
+      "2": {
+        "id": "2",
+        "title": "Goblin Dungeon",
+        "description": "You move through the dimly lit corridor and see several prison cells on your left and your right. One of these must have been for you. A wooden door lies ahead, with a set of stairs leading up next to it.",
+        "exits": {
+          "door": "3",
+          "stairs": "-1"
+        },
+        "treasureIds": [ ],
+        "trapIds": [ ],
+        "monsterIds": [ "1" ]
+      },
+      "3": {
+        "id": "3",
+        "title": "Goblin King Room",
+        "description": "The room you are in appears to be decorated with the finest goblin jewels and tapestries. Directly in the back of the room there is a goblin-sized throne with skulls on it.  This must be the Goblin King's Throne Room.",
+        "exits": {
+          "stairs": "-1"
+        },
+        "treasureIds": [ ],
+        "trapIds": [ ],
+        "monsterIds": [ ]
+      }
+    }
+  }
+}

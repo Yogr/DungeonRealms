@@ -4,13 +4,15 @@ import com.amazon.speech.slu.Intent;
 import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.Session;
 import com.amazonaws.util.StringUtils;
+import com.dungeonrealms.app.model.BaseModel;
+import com.dungeonrealms.app.speech.SlotNames;
+
+import com.dungeonrealms.app.model.DungeonUser;
+import com.dungeonrealms.app.speech.CardTitle;
 import com.dungeonrealms.app.game.Navigation;
 import com.dungeonrealms.app.model.Dungeon;
-import com.dungeonrealms.app.model.DungeonUser;
 import com.dungeonrealms.app.model.Room;
-import com.dungeonrealms.app.speech.CardTitle;
 import com.dungeonrealms.app.speech.IntentNames;
-import com.dungeonrealms.app.speech.SlotNames;
 import com.dungeonrealms.app.util.DungeonUtils;
 
 import java.util.Map;
@@ -26,8 +28,8 @@ public class DungeonStateResolver extends DungeonRealmsResolver {
     }
 
     private ActionHandler mMoveRoomHandler = (Session session, DungeonUser user, Intent intent) -> {
-        Dungeon dungeon = getDungeon(user.getGameSession().getDungeonId());
-        Room room = getDungeonRoom(dungeon, user.getGameSession().getRoomId());
+        Dungeon dungeon = Navigation.getDungeon(user.getGameSession().getDungeonId());
+        Room room = Navigation.getDungeonRoom(dungeon, user.getGameSession().getRoomId());
 
         boolean moveSuccessful = false;
         if (dungeon != null && room != null) {
@@ -35,9 +37,9 @@ public class DungeonStateResolver extends DungeonRealmsResolver {
             if (locationSlot != null) {
                 String moveLocation = locationSlot.getValue();
                 if (!StringUtils.isNullOrEmpty(moveLocation)) {
-                    Integer newRoomId = room.getExits().get(moveLocation);
+                    String newRoomId = room.getExits().get(moveLocation);
                     if (newRoomId != null) {
-                        if (newRoomId == -1) {
+                        if (newRoomId.equals(BaseModel.INVALID)) {
                             // TODO: Exit Dungeon a.k.a. return to Town
                             moveSuccessful = true;
                         } else {
@@ -55,7 +57,7 @@ public class DungeonStateResolver extends DungeonRealmsResolver {
             speechText = "You cannot move in that direction";
         }
 
-        Room currentRoom = getDungeonRoom(dungeon, user.getGameSession().getRoomId());
+        Room currentRoom = Navigation.getDungeonRoom(dungeon, user.getGameSession().getRoomId());
         return getAskResponse(currentRoom != null ? currentRoom.getTitle() : CardTitle.DUNGEON_REALMS, speechText);
     };
 

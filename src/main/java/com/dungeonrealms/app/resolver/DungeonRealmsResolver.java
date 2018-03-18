@@ -3,19 +3,19 @@ package com.dungeonrealms.app.resolver;
 import com.amazon.speech.slu.Intent;
 import com.amazon.speech.speechlet.Session;
 import com.amazon.speech.speechlet.SpeechletResponse;
-import com.amazon.speech.ui.Card;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazonaws.util.StringUtils;
-import com.dungeonrealms.app.dummy.GetDummy;
+import com.dungeonrealms.app.speech.HelpActionMap;
+import com.dungeonrealms.app.speech.Responses;
+import com.dungeonrealms.app.util.SaveLoad;
+
 import com.dungeonrealms.app.model.Dungeon;
 import com.dungeonrealms.app.model.DungeonUser;
 import com.dungeonrealms.app.model.Room;
 import com.dungeonrealms.app.speech.CardTitle;
-import com.dungeonrealms.app.speech.HelpActionMap;
 import com.dungeonrealms.app.speech.IntentNames;
-import com.dungeonrealms.app.speech.Responses;
+import com.dungeonrealms.app.game.Navigation;
 import com.dungeonrealms.app.util.DungeonUtils;
-import com.dungeonrealms.app.util.SaveLoad;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +55,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
                 continue;
             }
             if (IntentNames.MOVE_ROOM.equals(name)) {
-                Set<String> roomExits = getRoomExits(user);
+                Set<String> roomExits = Navigation.getRoomExits(user);
                 if (roomExits != null) {
                     for (String exit : roomExits) {
                         actionsText.append(", go " + exit);
@@ -86,7 +86,11 @@ public class DungeonRealmsResolver extends GameStateResolver {
 
     private ActionHandler mLookHandler = (Session session, DungeonUser user, Intent intent) -> {
         String speechText = DungeonUtils.constructFullRoomMessage(user.getGameSession());
-        Room room = getDungeonRoom(getDungeon(user.getGameSession().getDungeonId()), user.getGameSession().getRoomId());
+        Dungeon dungeon = Navigation.getDungeon(user.getGameSession().getDungeonId());
+        Room room = null;
+        if (dungeon != null) {
+            room = Navigation.getDungeonRoom(dungeon, user.getGameSession().getRoomId());
+        }
         return getAskResponse(room != null ? room.getTitle() : CardTitle.DUNGEON_REALMS, speechText);
     };
 
@@ -108,30 +112,6 @@ public class DungeonRealmsResolver extends GameStateResolver {
     protected SpeechletResponse getPromptedAskResponse(String cardTitle, String speechText) {
         String doNextAppendedString = speechText + Responses.PROMPT_ACTION;
         return getAskResponse(cardTitle, doNextAppendedString);
-    }
-
-    public Set<String> getRoomExits(DungeonUser user) {
-        return getDungeonRoom(getDungeon(user.getGameSession().getDungeonId()), user.getGameSession().getRoomId()).getExits().keySet();
-    }
-
-    // TODO : Implement real dungeon fetch from static manager
-    public Dungeon getDungeon(Integer dungeonId) {
-        if (dungeonId != null && dungeonId != -1) {
-            return GetDummy.dummyDungeon();
-        }
-        return null;
-    }
-
-    // TODO: Remove this and implement real room fetch from static manager
-    public Room getDungeonRoom(Dungeon dungeon, Integer roomId) {
-        if (roomId != null && roomId != -1) {
-            switch (roomId) {
-                case 1: return GetDummy.dummyRoom1();
-                case 2: return GetDummy.dummyRoom2();
-                case 3: return GetDummy.dummyRoom3();
-            }
-        }
-        return null;
     }
 
 }

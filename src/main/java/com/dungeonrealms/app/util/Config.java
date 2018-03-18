@@ -8,7 +8,7 @@ import lombok.Getter;
 
 public class Config {
 
-    @Getter(lazy=true)
+    @Getter(lazy = true)
     private final static Config sInstance = new Config();
 
     private AmazonDynamoDB mDbClient;

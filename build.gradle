@@ -45,23 +45,36 @@ sourceSets {
             srcDirs 'src'
         }
         resources {
-            srcDirs 'src/resources'
+            srcDirs 'src'
         }
     }
 }
+
 
 dependencies {
     compile 'com.amazon.alexa:alexa-skills-kit:1.5.0'
     compile 'com.amazonaws:aws-java-sdk-lambda'
     compile 'com.amazonaws:aws-java-sdk-dynamodb'
+    compile 'com.amazonaws:aws-lambda-java-log4j:1.0.0'
+
+    compile 'org.apache.logging.log4j:log4j-core:2.8.2'
+    compile 'org.apache.logging.log4j:log4j-api:2.8.2'
 
     compileOnly 'org.projectlombok:lombok:1.16.20'
 }
 
 task fatJar(type: Jar) {
-    baseName = project.name + '-fat'
+    baseName = project.name
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
+
+    doLast {
+        copy {
+            from 'build/libs'
+            into 'out/artifacts/DungeonRealms_jar'
+            include '*.jar'
+        }
+    }
 }
 
 build.dependsOn fatJar

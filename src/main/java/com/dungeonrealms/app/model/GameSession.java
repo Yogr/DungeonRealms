@@ -14,22 +14,22 @@ import java.util.List;
 @DynamoDBDocument
 public class GameSession {
 
-    @DynamoDBAttribute(attributeName = "state")
+    @DynamoDBAttribute
     private GameState mGameState;
 
-    @DynamoDBAttribute(attributeName = "dungeonId")
-    private Integer mDungeonId;
+    @DynamoDBAttribute
+    private String mDungeonId;
 
-    @DynamoDBAttribute(attributeName = "roomId")
-    private Integer mRoomId;
+    @DynamoDBAttribute
+    private String mRoomId;
 
-    @DynamoDBAttribute(attributeName = "monsters")
+    @DynamoDBAttribute
     private List<MonsterInstance> mMonsters;
 
     public GameSession() {
         mGameState = GameState.TOWN;
-        mDungeonId = -1;
-        mRoomId = -1;
+        mDungeonId = BaseModel.INVALID;
+        mRoomId = BaseModel.INVALID;
 
         mMonsters = new ArrayList<>();
     }
@@ -37,8 +37,8 @@ public class GameSession {
     @SuppressWarnings("unchecked")
     public GameSession(LinkedHashMap<String, Object> dataMap) {
         mGameState = GameState.valueOf((String) dataMap.get("gameState"));
-        mDungeonId = (Integer) dataMap.get("dungeonId");
-        mRoomId = (Integer) dataMap.get("roomId");
+        mDungeonId = (String) dataMap.get("dungeonId");
+        mRoomId = (String) dataMap.get("roomId");
 
         mMonsters = new ArrayList<>();
         List<Object> tempMonsterList = (List<Object>) dataMap.get("monsters");

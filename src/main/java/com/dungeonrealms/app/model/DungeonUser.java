@@ -19,10 +19,10 @@ public class DungeonUser extends BaseModel {
     public String getId() { return mId; }
     public void setId(String id) { mId = id; }
 
-    @DynamoDBAttribute(attributeName = "gameSession")
+    @DynamoDBAttribute
     private GameSession mGameSession;
 
-    @DynamoDBAttribute(attributeName = "heroes")
+    @DynamoDBAttribute
     private List<Hero> mHeroes;
 
     @DynamoDBAttribute

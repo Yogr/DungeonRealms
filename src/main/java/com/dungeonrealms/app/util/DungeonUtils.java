@@ -1,8 +1,9 @@
 package com.dungeonrealms.app.util;
 
 import com.amazonaws.util.StringUtils;
-import com.dungeonrealms.app.dummy.GetDummy;
 import com.dungeonrealms.app.model.*;
+import com.dungeonrealms.app.game.GameResources;
+import com.dungeonrealms.app.game.Navigation;
 
 public class DungeonUtils {
 
@@ -17,17 +18,8 @@ public class DungeonUtils {
         }
 
         if (gameSession.getGameState() == GameState.DUNGEON || gameSession.getGameState() == GameState.COMBAT) {
-            Dungeon dungeon = GetDummy.dummyDungeon();
-            Integer roomId = gameSession.getRoomId();
-            Room room = GetDummy.dummyRoom1();
-            if (roomId != null && roomId != -1) {
-                switch (roomId) {
-                    default:
-                    case 1: break;
-                    case 2: room = GetDummy.dummyRoom2(); break;
-                    case 3: room = GetDummy.dummyRoom3(); break;
-                }
-            }
+            Dungeon dungeon = Navigation.getDungeon(gameSession.getDungeonId());
+            Room room = Navigation.getDungeonRoom(dungeon, gameSession.getRoomId());
             messageBuilder.append(room.getDescription()).append(". ");
         }
 
@@ -38,7 +30,8 @@ public class DungeonUtils {
                 if (i != 0 && i + 1 == count) {
                     messageBuilder.append("and ");
                 }
-                messageBuilder.append("a ").append(GetDummy.dummyGoblin().getName()); // TODO: monster static lookup: gameSession.getMonsters().get(i).getMonsterId();
+                Monster monster = GameResources.getInstance().getMonsters().get(gameSession.getMonsters().get(i).getMonsterId());
+                messageBuilder.append("a ").append(monster.getName());
             }
             messageBuilder.append(" here");
         }

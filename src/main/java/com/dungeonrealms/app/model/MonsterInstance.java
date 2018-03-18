@@ -6,37 +6,28 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.LinkedHashMap;
-import java.util.UUID;
 
 @Getter
 @Setter
 @DynamoDBDocument
-public class MonsterInstance {
+public class MonsterInstance extends FighterInstance {
 
-    @DynamoDBAttribute(attributeName = "instanceId")
-    private String mInstanceId;
+    public static final String INVALID = "-1";
 
-    @DynamoDBAttribute(attributeName = "monsterId")
-    private Integer mMonsterId;
-
-    @DynamoDBAttribute(attributeName = "currentHP")
-    private Integer mCurrentHP;
+    @DynamoDBAttribute
+    private String mMonsterId;
 
     public MonsterInstance() {
-        mInstanceId = "";
-        mMonsterId = -1;
-        mCurrentHP = 3;
+        mMonsterId = INVALID;
     }
 
     public MonsterInstance(Monster monster) {
-        mInstanceId = UUID.randomUUID().toString();
         mMonsterId = monster.getId();
-        mCurrentHP = monster.getHitPoints();
+        setCurrentHP(monster.getHitPoints());
     }
 
     public MonsterInstance(LinkedHashMap<String, Object> dataMap) {
-        mInstanceId = (String) dataMap.get("instanceId");
-        mMonsterId = (Integer) dataMap.get("monsterId");
-        mCurrentHP = (Integer) dataMap.get("currentHP");
+        mMonsterId = (String) dataMap.get("monsterId");
+        setCurrentHP((Integer) dataMap.get("currentHP"));
     }
 }

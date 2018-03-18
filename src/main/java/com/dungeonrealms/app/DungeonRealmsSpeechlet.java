@@ -2,11 +2,11 @@ package com.dungeonrealms.app;
 
 import com.amazon.speech.json.SpeechletRequestEnvelope;
 import com.amazon.speech.speechlet.*;
-import com.dungeonrealms.app.dummy.GetDummy;
+
+import com.dungeonrealms.app.resolver.GameStateResolver;
 import com.dungeonrealms.app.game.GameSessionManager;
 import com.dungeonrealms.app.model.*;
 import com.dungeonrealms.app.resolver.DungeonRealmsResolver;
-import com.dungeonrealms.app.resolver.GameStateResolver;
 import com.dungeonrealms.app.speech.Responses;
 import com.dungeonrealms.app.util.DungeonUtils;
 import com.dungeonrealms.app.util.SaveLoad;

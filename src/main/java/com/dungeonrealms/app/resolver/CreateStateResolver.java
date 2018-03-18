@@ -5,8 +5,14 @@ import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.Session;
 import com.amazonaws.util.StringUtils;
 import com.dungeonrealms.app.game.GameSessionManager;
-import com.dungeonrealms.app.model.*;
-import com.dungeonrealms.app.speech.*;
+import com.dungeonrealms.app.model.Hero;
+import com.dungeonrealms.app.speech.Responses;
+import com.dungeonrealms.app.model.DungeonUser;
+import com.dungeonrealms.app.model.GameSession;
+import com.dungeonrealms.app.model.GameState;
+import com.dungeonrealms.app.speech.CardTitle;
+import com.dungeonrealms.app.speech.IntentNames;
+import com.dungeonrealms.app.speech.SlotNames;
 import com.dungeonrealms.app.util.DungeonUtils;
 
 import java.util.Map;
@@ -33,8 +39,8 @@ public class CreateStateResolver extends DungeonRealmsResolver {
                 user.getHeroes().add(hero);
                 GameSession gameSession = user.getGameSession();
                 gameSession.setGameState(GameState.DUNGEON);
-                gameSession.setDungeonId(1);
-                gameSession.setRoomId(1);
+                gameSession.setDungeonId("1");
+                gameSession.setRoomId("1");
 
                 GameSessionManager.SaveGameSession(session, user);
 

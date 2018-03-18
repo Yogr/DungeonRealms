@@ -1,0 +1,9 @@
+{
+  "1":{
+    "id":"1",
+    "name":"goblin",
+    "hitPoints":3,
+    "attack":3,
+    "defense":1
+  }
+}

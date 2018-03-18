@@ -1,0 +1,22 @@
+{
+  "1":{
+    "id":"4",
+    "name":"healing potion",
+    "type":"CONSUMABLE"
+  },
+  "2":{
+    "id":"1",
+    "name":"short sword",
+    "type":"WEAPON"
+  },
+  "3":{
+    "id":"2",
+    "name":"leather tunic",
+    "type":"ARMOR"
+  },
+  "4":{
+    "id":"3",
+    "name":"gold coins",
+    "type":"GOLD"
+  }
+}
