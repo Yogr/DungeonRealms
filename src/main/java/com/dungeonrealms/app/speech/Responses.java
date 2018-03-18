@@ -1,7 +1,7 @@
 package com.dungeonrealms.app.speech;
 
 public class Responses {
-    public static final String INVALID_ACTION_RESPONSE = "You cannot do that right now. Say 'Actions' for a list of available commands.";
+    public static final String INVALID_ACTION_RESPONSE = "You cannot do that right now. Say 'Actions' for a list of available commands. ";
 
     public static final String WELCOME_NEW = "Welcome to Dungeon Realms. I see you are new here. If you'd like to create a hero, say, Create Hero. ";
     public static final String WELCOME_BACK = "Welcome back, %1$s. ";
@@ -15,4 +15,7 @@ public class Responses {
     public static final String DEALT_DAMAGE = "You strike a %1$s for %2$s damage. ";
     public static final String ATTACK_MISS = "You swing at a %1$s, but miss! ";
     public static final String ENEMY_DEFEATED = "The %1$s has been defeated! ";
+    public static final String ENEMY_HIT_HERO = "a %1$s hits %2$s for %3$s damage. ";
+    public static final String ENEMY_MISS_HERO = "a %1$s attacks %2$s, but misses! ";
+    public static final String NEXT_HERO_UP = "%1$s, what would you like to do? ";
 }

@@ -20,4 +20,12 @@ public abstract class FighterInstance {
         mCurrentHP = 0;
         mCurrentMana = 0;
     }
+
+    public void takeDamage(int amount) {
+        mCurrentHP -= amount;
+    }
+
+    public void useMana(int amount) {
+        mCurrentMana -= amount;
+    }
 }

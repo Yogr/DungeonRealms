@@ -1,20 +1,22 @@
 package com.dungeonrealms.app.game;
 
-import com.dungeonrealms.app.model.Monster;
-import com.dungeonrealms.app.model.MonsterInstance;
+import com.dungeonrealms.app.model.*;
 import com.dungeonrealms.app.speech.Responses;
-import com.dungeonrealms.app.model.Hero;
 
 import lombok.Getter;
 
+import java.util.List;
 import java.util.Random;
 
 public class Combat {
 
-    public static String doCombat(CombatAction heroAction, Hero hero, Monster monster, MonsterInstance monsterInstance) {
+
+
+    public static String doCombatTurn(CombatAction action, GameSession gameSession, HeroInstance heroInstance, MonsterInstance monsterInstance) {
         StringBuilder combatResult = new StringBuilder();
 
-        int result = heroAction.doAction(hero, monster, monsterInstance);
+        int result = action.doAction(gameSession, heroInstance, monsterInstance);
+        Monster monster = GameResources.getInstance().getMonsters().get(monsterInstance.getMonsterId());
         if (result > 0) {
             combatResult.append(String.format(Responses.DEALT_DAMAGE, monster.getName(), result));
         } else {
@@ -23,37 +25,84 @@ public class Combat {
 
         if (monsterInstance.getCurrentHP() <= 0) {
             // Monster die, add text
+            gameSession.getMonsters().remove(monsterInstance);
+            // If no more monsters, change state from COMBAT -> DUNGEON
+            if (gameSession.getMonsters().isEmpty()) {
+                gameSession.setGameState(GameState.DUNGEON);
+            }
+
             combatResult.append(String.format(Responses.ENEMY_DEFEATED, monster.getName()));
-            // TODO: Add Treasure roll & speech for slain monster
         }
 
-        // TODO: If no Heroes have next turn, do enemy turn for all (living) monsters in room
-        // TODO: and add their result to the return dialog. IF there IS another Hero up
-        // TODO: add text to tell them it is their turn.
+        List<HeroInstance> heroes = gameSession.getHeroInstances();
+        int i = 0;
+        for (; i < heroes.size(); ++i) {
+            if (heroInstance == heroes.get(0)) {
+                i++;
+                break;
+            }
+        }
+        boolean heroesTurnDone = i == heroes.size();
+        if (heroesTurnDone) {
+            String enemyCombatResult = doEnemyCombat(gameSession);
+            combatResult.append(enemyCombatResult);
+        } else {
+            combatResult.append(String.format(Responses.NEXT_HERO_UP, heroes.get(i).getName()));
+        }
 
         return combatResult.toString();
     }
 
+    private static String doEnemyCombat(GameSession gameSession) {
+        StringBuilder enemyResult = new StringBuilder();
+
+        List<MonsterInstance> monsters = gameSession.getMonsters();
+        for (MonsterInstance monster : monsters) {
+            Monster monsterMeta = GameResources.getInstance().getMonsters().get(monster.getMonsterId());
+            int randomHeroIndex = new Random().nextInt(gameSession.getHeroInstances().size());
+            HeroInstance targetHero = gameSession.getHeroInstances().get(randomHeroIndex);
+            int result = getAttack().doAction(gameSession, monster, targetHero);
+            if (result > 0) {
+                enemyResult.append(String.format(Responses.ENEMY_HIT_HERO, monsterMeta.getName(), targetHero.getName(), result));
+            } else {
+                enemyResult.append(String.format(Responses.ENEMY_MISS_HERO, monsterMeta.getName(), targetHero.getName()));
+            }
+        }
+
+        return enemyResult.toString();
+    }
+
     @Getter
-    private static CombatAction mAttackMonster = (Hero hero, Monster monster, MonsterInstance monsterInstance) -> {
-        int attack = new Random().nextInt(3); //hero.getAttack();
-        int defense = new Random().nextInt(monster.getDefense());
+    private static CombatAction mAttack = (GameSession gameSession, FighterInstance actor, FighterInstance target) -> {
+        int attack = 0, defense = 0;
+
+        // Get attack value for either hero or monster
+        if (actor instanceof HeroInstance) {
+            attack = new Random().nextInt(((HeroInstance) actor).getAttack()+1);
+        }
+        if (actor instanceof MonsterInstance) {
+            String monsterId = ((MonsterInstance) actor).getMonsterId();
+            Monster monster = GameResources.getInstance().getMonsters().get(monsterId);
+            attack = new Random().nextInt(monster.getAttack()+1);
+        }
+
+        // Get defense value for either hero or monster
+        if (target instanceof HeroInstance) {
+            defense = new Random().nextInt(((HeroInstance) target).getDefense()+1);
+        }
+        if (target instanceof MonsterInstance) {
+            String monsterId = ((MonsterInstance) target).getMonsterId();
+            Monster monster = GameResources.getInstance().getMonsters().get(monsterId);
+            defense = new Random().nextInt(monster.getDefense()+1);
+        }
 
         // TODO: Come up with better attack / defense calculations
         int damage = Math.max(0, attack-defense);
-        // TODO: Make a "take damage" method, create FigherSession base class
-        monsterInstance.setCurrentHP(monsterInstance.getCurrentHP() - damage);
+        target.takeDamage(damage);
         return damage;
     };
 
-    @Getter
-    private static CombatAction mCastFireball = (Hero hero, Monster monster, MonsterInstance monsterInstance) -> {
-        int power = new Random().nextInt(3 /*spellPower?*/);
-        monsterInstance.setCurrentHP(monsterInstance.getCurrentHP() - power);
-        return power;
-    };
-
     public interface CombatAction {
-        int doAction(Hero hero, Monster monster, MonsterInstance monsterInstance);
+        int doAction(GameSession gameSession, FighterInstance actor, FighterInstance target);
     }
 }

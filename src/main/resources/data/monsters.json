@@ -2,8 +2,15 @@
   "1":{
     "id":"1",
     "name":"goblin",
-    "hitPoints":3,
-    "attack":3,
+    "hitPoints":5,
+    "attack":2,
     "defense":1
+  },
+  "2":{
+    "id":"2",
+    "name":"goblin king",
+    "hitPoints":9,
+    "attack":3,
+    "defense":2
   }
 }

@@ -29,5 +29,6 @@ public class MonsterInstance extends FighterInstance {
     public MonsterInstance(LinkedHashMap<String, Object> dataMap) {
         mMonsterId = (String) dataMap.get("monsterId");
         setCurrentHP((Integer) dataMap.get("currentHP"));
+        setCurrentMana((Integer) dataMap.get("currentMana"));
     }
 }

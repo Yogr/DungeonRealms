@@ -1,22 +1,26 @@
 {
   "1":{
-    "id":"4",
-    "name":"healing potion",
-    "type":"CONSUMABLE"
-  },
-  "2":{
     "id":"1",
     "name":"short sword",
-    "type":"WEAPON"
+    "type":"WEAPON",
+    "attack":3,
+    "defense":0,
+    "spellpower":0
   },
-  "3":{
+  "2":{
     "id":"2",
     "name":"leather tunic",
-    "type":"ARMOR"
+    "type":"ARMOR",
+    "attack":0,
+    "defense":2,
+    "spellpower":0
   },
-  "4":{
+  "3":{
     "id":"3",
-    "name":"gold coins",
-    "type":"GOLD"
+    "name":"healing potion",
+    "type":"CONSUMABLE",
+    "attack":0,
+    "defense":0,
+    "spellpower":4
   }
 }

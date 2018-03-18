@@ -2,6 +2,7 @@ package com.dungeonrealms.app.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+import com.dungeonrealms.app.game.GameResources;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,15 +25,23 @@ public class Hero {
     @DynamoDBAttribute(attributeName = "manaBase")
     private Integer mManaBase;
 
-    @DynamoDBAttribute(attributeName = "inventoryMap")
-    private Map<String, Integer> mInventoryMap;
+    @DynamoDBAttribute(attributeName = "backpack")
+    private Map<String, Integer> mBackpack;
+
+    @DynamoDBAttribute(attributeName = "equipment")
+    private List<String> mEquipment;
 
     public Hero() {
-        mName = "Adventurer";
+
+    }
+
+    public Hero(String name) {
+        mName = name;
         mExperience = 0;
         mHitpointBase = 10;
         mManaBase = 10;
-        mInventoryMap = new LinkedHashMap<>();
+        mBackpack = new LinkedHashMap<>();
+        mEquipment = new ArrayList<>();
     }
 
     @SuppressWarnings("unchecked")
@@ -41,26 +50,17 @@ public class Hero {
         mExperience = (Integer) dataMap.get("experience");
         mHitpointBase = (Integer) dataMap.get("hitpointBase");
         mManaBase = (Integer) dataMap.get("manaBase");
-        mInventoryMap = (LinkedHashMap<String, Integer>) dataMap.get("inventory");
+        mBackpack = (LinkedHashMap<String, Integer>) dataMap.get("backpack");
+        mEquipment = (List<String>) dataMap.get("equipment");
     }
 
-    /*
-    public void addItem(Item item) {
-        mItems.add(item);
-        modifyAttributesFromItem(item, 1);
-    }
+    public static Hero createNewHero(String name) {
+        Hero hero = new Hero(name);
 
-    public void removeItem(Item item) {
-        if (mItems.contains(item)) {
-            mItems.remove(item);
-            modifyAttributesFromItem(item, -1);
-        }
-    }
+        hero.getEquipment().add("1"); // SHORT SWORD
+        hero.getEquipment().add("2"); // LEATHER TUNIC
+        hero.getBackpack().put("3", 2); // HEALING POTION
 
-    private void modifyAttributesFromItem(Item item, int modifier) {
-        mAttack += item.getAttack() * modifier;
-        mDefense += item.getDefense() * modifier;
-        // TODO: hp / mana / other stats ?
+        return hero;
     }
-    */
 }

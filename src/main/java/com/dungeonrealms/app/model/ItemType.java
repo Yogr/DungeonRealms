@@ -4,6 +4,5 @@ public enum ItemType {
     WEAPON,
     HELMET,
     ARMOR,
-    CONSUMABLE,
-    GOLD
+    CONSUMABLE
 }

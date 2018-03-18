@@ -26,12 +26,16 @@ public class GameSession {
     @DynamoDBAttribute
     private List<MonsterInstance> mMonsters;
 
+    @DynamoDBAttribute
+    private List<HeroInstance> mHeroInstances;
+
     public GameSession() {
         mGameState = GameState.TOWN;
         mDungeonId = BaseModel.INVALID;
         mRoomId = BaseModel.INVALID;
 
         mMonsters = new ArrayList<>();
+        mHeroInstances = new ArrayList<>();
     }
 
     @SuppressWarnings("unchecked")
@@ -45,6 +49,13 @@ public class GameSession {
         for (Object o : tempMonsterList) {
             MonsterInstance monster = new MonsterInstance((LinkedHashMap<String, Object>) o);
             mMonsters.add(monster);
+        }
+
+        mHeroInstances = new ArrayList<>();
+        List<Object> tempHeroList = (List<Object>) dataMap.get("heroInstances");
+        for (Object o : tempHeroList) {
+            HeroInstance hero = new HeroInstance((LinkedHashMap<String, Object>) o);
+            mHeroInstances.add(hero);
         }
     }
 }

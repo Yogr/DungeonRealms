@@ -5,14 +5,12 @@ import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.Session;
 import com.amazonaws.util.StringUtils;
 import com.dungeonrealms.app.game.Combat;
+import com.dungeonrealms.app.model.*;
 import com.dungeonrealms.app.speech.SlotNames;
 
-import com.dungeonrealms.app.model.DungeonUser;
 import com.dungeonrealms.app.speech.CardTitle;
 import com.dungeonrealms.app.speech.IntentNames;
 import com.dungeonrealms.app.game.GameResources;
-import com.dungeonrealms.app.model.Monster;
-import com.dungeonrealms.app.model.MonsterInstance;
 
 import java.util.Map;
 
@@ -31,11 +29,14 @@ public class CombatStateResolver extends DungeonRealmsResolver {
         Slot monsterSlot = intent.getSlot(SlotNames.MONSTER);
         String monsterName = monsterSlot == null ? "" : monsterSlot.getValue();
         for (MonsterInstance monsterInstance : user.getGameSession().getMonsters()) {
-            // TODO : Replace with static lookup of monsterInstance
             Monster monster = GameResources.getInstance().getMonsters().get(monsterInstance.getMonsterId());
             if (StringUtils.isNullOrEmpty(monsterName) || monsterName.equals(monster.getName())) {
                 // Had no specific monster, or found the monster requested, now do the attack
-                String speechText = Combat.doCombat(Combat.getAttackMonster(), user.getHeroes().get(0), monster, monsterInstance);
+                Combat.CombatAction action = Combat.getAttack();
+                GameSession gameSession = user.getGameSession();
+                HeroInstance attackingHero = gameSession.getHeroInstances().get(0);
+                String speechText = Combat.doCombatTurn(action, gameSession, attackingHero, monsterInstance);
+
                 return getAskResponse(CardTitle.DUNGEON_REALMS, speechText);
             }
         }

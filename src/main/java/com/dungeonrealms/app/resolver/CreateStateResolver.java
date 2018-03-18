@@ -5,11 +5,8 @@ import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.Session;
 import com.amazonaws.util.StringUtils;
 import com.dungeonrealms.app.game.GameSessionManager;
-import com.dungeonrealms.app.model.Hero;
+import com.dungeonrealms.app.model.*;
 import com.dungeonrealms.app.speech.Responses;
-import com.dungeonrealms.app.model.DungeonUser;
-import com.dungeonrealms.app.model.GameSession;
-import com.dungeonrealms.app.model.GameState;
 import com.dungeonrealms.app.speech.CardTitle;
 import com.dungeonrealms.app.speech.IntentNames;
 import com.dungeonrealms.app.speech.SlotNames;
@@ -34,10 +31,10 @@ public class CreateStateResolver extends DungeonRealmsResolver {
                 if (user == null) {
                     return getAskResponse(CardTitle.CREATE_HERO, "Something went wrong creating your hero");
                 }
-                Hero hero = new Hero();
-                hero.setName(heroName);
+                Hero hero = Hero.createNewHero(heroName);
                 user.getHeroes().add(hero);
                 GameSession gameSession = user.getGameSession();
+                gameSession.getHeroInstances().add(new HeroInstance(hero));
                 gameSession.setGameState(GameState.DUNGEON);
                 gameSession.setDungeonId("1");
                 gameSession.setRoomId("1");

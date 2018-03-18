@@ -32,7 +32,7 @@ public class DungeonUser extends BaseModel {
         mId = "";
         mGameSession = new GameSession();
         mHeroes = new ArrayList<>();
-        mGold = 0;
+        mGold = 100;
     }
 
     @SuppressWarnings("unchecked")
