@@ -4,14 +4,12 @@ import com.amazon.speech.slu.Intent;
 import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.Session;
 import com.amazonaws.util.StringUtils;
-import com.dungeonrealms.app.model.BaseModel;
+import com.dungeonrealms.app.model.*;
+import com.dungeonrealms.app.speech.Responses;
 import com.dungeonrealms.app.speech.SlotNames;
 
-import com.dungeonrealms.app.model.DungeonUser;
 import com.dungeonrealms.app.speech.CardTitle;
 import com.dungeonrealms.app.game.Navigation;
-import com.dungeonrealms.app.model.Dungeon;
-import com.dungeonrealms.app.model.Room;
 import com.dungeonrealms.app.speech.IntentNames;
 import com.dungeonrealms.app.util.DungeonUtils;
 
@@ -22,6 +20,7 @@ public class DungeonStateResolver extends DungeonRealmsResolver {
     @Override
     protected Map<String, ActionHandler> getActions() {
         Map<String, ActionHandler> actions = super.getActions();
+        actions.put(IntentNames.STATUS, mStatusHandler);
         actions.put(IntentNames.SEARCH_FOR_TRAPS, mSearchForTrapsHandler);
         actions.put(IntentNames.MOVE_ROOM, mMoveRoomHandler);
         return actions;
@@ -59,6 +58,14 @@ public class DungeonStateResolver extends DungeonRealmsResolver {
 
         Room currentRoom = Navigation.getDungeonRoom(dungeon, user.getGameSession().getRoomId());
         return getAskResponse(currentRoom != null ? currentRoom.getTitle() : CardTitle.DUNGEON_REALMS, speechText);
+    };
+
+    private ActionHandler mStatusHandler = (Session session, DungeonUser user, Intent intent) -> {
+        StringBuilder speechText = new StringBuilder();
+        for (HeroInstance hero : user.getGameSession().getHeroInstances()) {
+            speechText.append(String.format(Responses.HERO_STATUS, hero.getName(), hero.getCurrentHP(), hero.getCurrentMana()));
+        }
+        return getAskResponse(CardTitle.DUNGEON_REALMS, speechText.toString());
     };
 
     private ActionHandler mSearchForTrapsHandler = (Session session, DungeonUser user, Intent intent) -> {

@@ -6,6 +6,7 @@ import com.dungeonrealms.app.model.Item;
 import com.dungeonrealms.app.model.ItemType;
 
 import java.util.Iterator;
+import java.util.Map;
 
 public class Inventory {
 
@@ -75,5 +76,23 @@ public class Inventory {
         return false;
     }
 
+    public static void buildEquipmentString(StringBuilder sb, Hero hero) {
+        for (String itemId : hero.getEquipment()) {
+            Item item = GameResources.getInstance().getItems().get(itemId);
+            sb.append("a ").append(item.getName()).append("; ");
+        }
+    }
+
+    public static void buildBackpackString(StringBuilder sb, Hero hero) {
+        for (Map.Entry<String, Integer> itemEntry : hero.getBackpack().entrySet()) {
+            Item item = GameResources.getInstance().getItems().get(itemEntry.getKey());
+            if (itemEntry.getValue() == 1) {
+                sb.append("a ");
+            } else {
+                sb.append(String.format("%1$s ", itemEntry.getValue()));
+            }
+            sb.append(item.getName()).append("; ");
+        }
+    }
 
 }

@@ -6,6 +6,7 @@ import com.amazon.speech.speechlet.Session;
 import com.amazonaws.util.StringUtils;
 import com.dungeonrealms.app.game.Combat;
 import com.dungeonrealms.app.model.*;
+import com.dungeonrealms.app.speech.Responses;
 import com.dungeonrealms.app.speech.SlotNames;
 
 import com.dungeonrealms.app.speech.CardTitle;
@@ -21,6 +22,7 @@ public class CombatStateResolver extends DungeonRealmsResolver {
         Map<String, ActionHandler> actions = super.getActions();
 
         actions.put(IntentNames.ATTACK, mAttackHandler);
+        actions.put(IntentNames.STATUS, mStatusHandler);
 
         return actions;
     }
@@ -41,5 +43,13 @@ public class CombatStateResolver extends DungeonRealmsResolver {
             }
         }
         return getInvalidActionResponse();
+    };
+
+    private ActionHandler mStatusHandler = (Session session, DungeonUser user, Intent intent) -> {
+        StringBuilder speechText = new StringBuilder();
+        for (HeroInstance hero : user.getGameSession().getHeroInstances()) {
+            speechText.append(String.format(Responses.HERO_STATUS, hero.getName(), hero.getCurrentHP(), hero.getCurrentMana()));
+        }
+        return getAskResponse(CardTitle.DUNGEON_REALMS, speechText.toString());
     };
 }

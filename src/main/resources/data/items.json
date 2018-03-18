@@ -2,7 +2,10 @@
   "1":{
     "id":"1",
     "name":"short sword",
+    "alias":"sword",
+    "description":"a short iron blade, not very sharp. ",
     "type":"WEAPON",
+    "cost":20,
     "attack":3,
     "defense":0,
     "spellpower":0
@@ -10,7 +13,10 @@
   "2":{
     "id":"2",
     "name":"leather tunic",
+    "alias":"tunic",
+    "description":"a tunic of fine sewn leather. ",
     "type":"ARMOR",
+    "cost":40,
     "attack":0,
     "defense":2,
     "spellpower":0
@@ -18,9 +24,12 @@
   "3":{
     "id":"3",
     "name":"healing potion",
+    "alias":"potion",
+    "description":"a red potion with magical healing properties. ",
     "type":"CONSUMABLE",
+    "cost":100,
     "attack":0,
     "defense":0,
-    "spellpower":4
+    "spellpower":5
   }
 }

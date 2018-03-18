@@ -3,6 +3,7 @@ package com.dungeonrealms.app.model;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.dungeonrealms.app.game.GameResources;
+import com.dungeonrealms.app.game.Level;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -62,5 +63,15 @@ public class Hero {
         hero.getBackpack().put("3", 2); // HEALING POTION
 
         return hero;
+    }
+
+    public int getLevel() {
+        int currentLevel = 0;
+        for (Level level : Level.values()) {
+            if (mExperience >= level.getExpRequired()) {
+                currentLevel = level.ordinal() + 1;
+            }
+        }
+        return currentLevel;
     }
 }

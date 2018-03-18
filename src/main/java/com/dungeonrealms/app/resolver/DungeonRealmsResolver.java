@@ -1,19 +1,17 @@
 package com.dungeonrealms.app.resolver;
 
 import com.amazon.speech.slu.Intent;
+import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.Session;
 import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazonaws.util.StringUtils;
-import com.dungeonrealms.app.speech.HelpActionMap;
-import com.dungeonrealms.app.speech.Responses;
+import com.dungeonrealms.app.game.GameResources;
+import com.dungeonrealms.app.game.Inventory;
+import com.dungeonrealms.app.model.*;
+import com.dungeonrealms.app.speech.*;
 import com.dungeonrealms.app.util.SaveLoad;
 
-import com.dungeonrealms.app.model.Dungeon;
-import com.dungeonrealms.app.model.DungeonUser;
-import com.dungeonrealms.app.model.Room;
-import com.dungeonrealms.app.speech.CardTitle;
-import com.dungeonrealms.app.speech.IntentNames;
 import com.dungeonrealms.app.game.Navigation;
 import com.dungeonrealms.app.util.DungeonUtils;
 
@@ -39,6 +37,8 @@ public class DungeonRealmsResolver extends GameStateResolver {
         Map<String, ActionHandler> actions = new HashMap<>();
         actions.put(IntentNames.LOOK, mLookHandler);
         actions.put(IntentNames.GOLD_COUNT, mGoldCountHandler);
+        actions.put(IntentNames.HERO_DESCRIPTION, mDescribeHeroHandler);
+        actions.put(IntentNames.ITEM_DESCRIPTION, mDescribeItemHandler);
         actions.put(IntentNames.AMAZON_HELP, mHelpActionHandler);
         actions.put(IntentNames.AMAZON_CANCEL, mStopActionHandler);
         actions.put(IntentNames.AMAZON_STOP, mStopActionHandler);
@@ -58,11 +58,11 @@ public class DungeonRealmsResolver extends GameStateResolver {
                 Set<String> roomExits = Navigation.getRoomExits(user);
                 if (roomExits != null) {
                     for (String exit : roomExits) {
-                        actionsText.append(", go " + exit);
+                        actionsText.append(", go ").append(exit);
                     }
                 }
             } else {
-                actionsText.append(", " + HelpActionMap.getIntentFriendlyName().get(name));
+                actionsText.append(", ").append(HelpActionMap.getIntentFriendlyName().get(name));
             }
         }
 
@@ -92,6 +92,82 @@ public class DungeonRealmsResolver extends GameStateResolver {
             room = Navigation.getDungeonRoom(dungeon, user.getGameSession().getRoomId());
         }
         return getAskResponse(room != null ? room.getTitle() : CardTitle.DUNGEON_REALMS, speechText);
+    };
+
+    private ActionHandler mDescribeHeroHandler = (Session session, DungeonUser user, Intent intent) -> {
+        Slot heroNameSlot = intent.getSlot(SlotNames.HERO);
+        String heroName = heroNameSlot != null ? heroNameSlot.getValue() : null;
+        if (!StringUtils.isNullOrEmpty(heroName)) {
+            Hero hero = user.findHeroByName(heroName);
+            if (hero != null) {
+                StringBuilder heroDescrip = new StringBuilder();
+                heroDescrip.append(String.format(Responses.DESCRIBE_HERO, hero.getName(), hero.getLevel()));
+                StringBuilder equipmentSb = new StringBuilder();
+                Inventory.buildEquipmentString(equipmentSb, hero);
+                heroDescrip.append(String.format(Responses.DESCRIBE_HERO_EQUIP, hero.getName(), equipmentSb.toString()));
+                return getAskResponse(CardTitle.DUNGEON_REALMS, heroDescrip.toString());
+            } else {
+                return getAskResponse(CardTitle.DUNGEON_REALMS, String.format(Responses.THING_NOT_FOUND, heroName));
+            }
+        }
+        return getAskResponse(CardTitle.DUNGEON_REALMS, Responses.NOT_FOUND);
+    };
+
+    private ActionHandler mDescribeItemHandler = (Session session, DungeonUser user, Intent intent) -> {
+        Slot itemNameSlot = intent.getSlot(SlotNames.ITEM);
+        String itemName = itemNameSlot != null ? itemNameSlot.getValue() : null;
+        if (!StringUtils.isNullOrEmpty(itemName)) {
+            // Search through hero equipment and then backpack for this item
+            for (Hero hero : user.getHeroes()) {
+                Item foundItem = null;
+
+                // Try to resolve by exact name first to favor descriptive name over similar name
+                for (String itemId : hero.getEquipment()) {
+                    Item itemTmp = GameResources.getInstance().getItems().get(itemId);
+                    if (itemTmp.getName().equals(itemName)) {
+                        foundItem = itemTmp;
+                        break;
+                    }
+                }
+
+                // Look at alias as a fallback if not found
+                if (foundItem == null) {
+                    for (String itemId : hero.getEquipment()) {
+                        Item itemTmp = GameResources.getInstance().getItems().get(itemId);
+                        if (itemTmp.getAlias().equals(itemName)) {
+                            foundItem = itemTmp;
+                            break;
+                        }
+                    }
+                }
+
+                if (foundItem != null) {
+                    StringBuilder itemSb = new StringBuilder();
+                    itemSb.append(String.format(Responses.DESCRIBE_ITEM, foundItem.getDescription()));
+                    if (foundItem.getAttack() > 0 ||
+                            foundItem.getDefense() > 0 ||
+                            foundItem.getSpellpower() > 0) {
+                        itemSb.append("It offers ");
+                        if (foundItem.getAttack() > 0) {
+                            itemSb.append(foundItem.getAttack()).append(" attack power; ");
+                        }
+                        if (foundItem.getDefense() > 0) {
+                            itemSb.append(foundItem.getDefense()).append(" armor rating; ");
+                        }
+                        if (foundItem.getSpellpower() > 0) {
+                            itemSb.append(foundItem.getSpellpower()).append(" magical power; ");
+                        }
+                    }
+                    if (foundItem.getCost() > 0) {
+                        itemSb.append("It is worth ").append(foundItem.getCost()/2).append(" gold coins; ");
+                    }
+                    return getAskResponse(CardTitle.DUNGEON_REALMS, itemSb.toString());
+                } else {
+                    return getAskResponse(CardTitle.DUNGEON_REALMS, String.format(Responses.THING_NOT_FOUND, itemName));
+                }
+            }
+        }
+        return getAskResponse(CardTitle.DUNGEON_REALMS, Responses.NOT_FOUND);
     };
 
     private ActionHandler mGoldCountHandler = (Session session, DungeonUser user, Intent intent) -> {

@@ -48,4 +48,13 @@ public class DungeonUser extends BaseModel {
             mHeroes.add(hero);
         }
     }
+
+    public Hero findHeroByName(String heroName) {
+        for (Hero hero : getHeroes()) {
+            if (hero.getName().equals(heroName)) {
+                return hero;
+            }
+        }
+        return null;
+    }
 }
