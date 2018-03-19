@@ -102,16 +102,12 @@
         ]
       },
       {
-        "name": "AbilitiesIntent",
+        "name": "AcademyIntent",
         "slots": [],
         "samples": [
-          "talents",
-          "go to my abilities",
-          "go to abilities",
-          "go to skill",
-          "go to my skills",
-          "skills",
-          "abilities"
+          "learn new spells",
+          "go to Wizard academy",
+          "go to academy"
         ]
       },
       {
@@ -234,17 +230,17 @@
         ]
       },
       {
-        "name": "ExitAreaIntent",
+        "name": "TownIntent",
         "slots": [],
         "samples": [
+          "go to town",
           "exit area",
           "leave area",
           "leave",
           "leave dungeon",
           "leave shop",
           "exit dungeon",
-          "exit shop",
-          "exit"
+          "exit shop"
         ]
       },
       {
@@ -390,6 +386,16 @@
           "climb {Location}",
           "go to {Location}",
           "go {Location}"
+        ]
+      },
+      {
+        "name": "BrowseItemsIntent",
+        "slots": [],
+        "samples": [
+          "catalog",
+          "whats for sale",
+          "what is for sale",
+          "browse items"
         ]
       }
     ],

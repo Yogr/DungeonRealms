@@ -23,6 +23,7 @@ public class DungeonStateResolver extends DungeonRealmsResolver {
         actions.put(IntentNames.STATUS, mStatusHandler);
         actions.put(IntentNames.SEARCH_FOR_TRAPS, mSearchForTrapsHandler);
         actions.put(IntentNames.MOVE_ROOM, mMoveRoomHandler);
+        actions.put(IntentNames.LOOK, mLookHandler);
         return actions;
     }
 
@@ -39,10 +40,9 @@ public class DungeonStateResolver extends DungeonRealmsResolver {
                     String newRoomId = room.getExits().get(moveLocation);
                     if (newRoomId != null) {
                         if (newRoomId.equals(BaseModel.INVALID)) {
-                            // TODO: Exit Dungeon a.k.a. return to Town
-                            moveSuccessful = true;
+                            moveSuccessful = Navigation.moveToTown(user.getGameSession());
                         } else {
-                            moveSuccessful = Navigation.moveToRoom(user, dungeon, newRoomId);
+                            moveSuccessful = Navigation.moveToRoom(user.getGameSession(), dungeon, newRoomId);
                         }
                     }
                 }
@@ -71,5 +71,15 @@ public class DungeonStateResolver extends DungeonRealmsResolver {
     private ActionHandler mSearchForTrapsHandler = (Session session, DungeonUser user, Intent intent) -> {
         String speechText = "You do not find any traps";
         return getAskResponse(CardTitle.DUNGEON_REALMS, speechText);
+    };
+
+    private ActionHandler mLookHandler = (Session session, DungeonUser user, Intent intent) -> {
+        String speechText = DungeonUtils.constructFullRoomMessage(user.getGameSession());
+        Dungeon dungeon = Navigation.getDungeon(user.getGameSession().getDungeonId());
+        Room room = null;
+        if (dungeon != null) {
+            room = Navigation.getDungeonRoom(dungeon, user.getGameSession().getRoomId());
+        }
+        return getAskResponse(room != null ? room.getTitle() : CardTitle.DUNGEON_REALMS, speechText);
     };
 }

@@ -4,6 +4,7 @@ import com.amazonaws.util.StringUtils;
 import com.dungeonrealms.app.model.*;
 import com.dungeonrealms.app.game.GameResources;
 import com.dungeonrealms.app.game.Navigation;
+import com.dungeonrealms.app.speech.Responses;
 
 public class DungeonUtils {
 
@@ -21,19 +22,22 @@ public class DungeonUtils {
             Dungeon dungeon = Navigation.getDungeon(gameSession.getDungeonId());
             Room room = Navigation.getDungeonRoom(dungeon, gameSession.getRoomId());
             messageBuilder.append(room.getDescription());
-        }
 
-        if (!gameSession.getMonsters().isEmpty()) {
-            messageBuilder.append(" There's also ");
-            int count = gameSession.getMonsters().size();
-            for (int i = 0; i < count; ++i) {
-                if (i != 0 && i + 1 == count) {
-                    messageBuilder.append(" and ");
+            if (!gameSession.getMonsters().isEmpty()) {
+                messageBuilder.append(" There's also ");
+                int count = gameSession.getMonsters().size();
+                for (int i = 0; i < count; ++i) {
+                    if (i != 0 && i + 1 == count) {
+                        messageBuilder.append(" and ");
+                    }
+                    Monster monster = GameResources.getInstance().getMonsters().get(gameSession.getMonsters().get(i).getMonsterId());
+                    messageBuilder.append("a ").append(monster.getName());
                 }
-                Monster monster = GameResources.getInstance().getMonsters().get(gameSession.getMonsters().get(i).getMonsterId());
-                messageBuilder.append("a ").append(monster.getName());
+                messageBuilder.append(" here");
             }
-            messageBuilder.append(" here");
+        } else if (gameSession.getGameState() == GameState.TOWN) {
+            // Elvis has left the dungeon
+            messageBuilder.append(Responses.LEAVE_DUNGEON).append(Responses.TOWN_DESCRIPTION);
         }
 
         return messageBuilder.toString();

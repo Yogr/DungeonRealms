@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.dungeonrealms.app.game.GameResources;
 import com.dungeonrealms.app.game.Level;
+import com.dungeonrealms.app.game.Spellbook;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +27,9 @@ public class Hero {
     @DynamoDBAttribute(attributeName = "manaBase")
     private Integer mManaBase;
 
+    /*@DynamoDBAttribute(attributeName = "spells")
+    private List<Integer> mSpells;
+*/
     @DynamoDBAttribute(attributeName = "backpack")
     private Map<String, Integer> mBackpack;
 
@@ -41,6 +45,7 @@ public class Hero {
         mExperience = 0;
         mHitpointBase = 10;
         mManaBase = 10;
+        //mSpells = new ArrayList<>();
         mBackpack = new LinkedHashMap<>();
         mEquipment = new ArrayList<>();
     }
@@ -51,6 +56,7 @@ public class Hero {
         mExperience = (Integer) dataMap.get("experience");
         mHitpointBase = (Integer) dataMap.get("hitpointBase");
         mManaBase = (Integer) dataMap.get("manaBase");
+       // mSpells = (List<Integer>) dataMap.get("spells");
         mBackpack = (LinkedHashMap<String, Integer>) dataMap.get("backpack");
         mEquipment = (List<String>) dataMap.get("equipment");
     }
@@ -61,6 +67,8 @@ public class Hero {
         hero.getEquipment().add("1"); // SHORT SWORD
         hero.getEquipment().add("2"); // LEATHER TUNIC
         hero.getBackpack().put("3", 2); // HEALING POTION
+
+        //hero.getSpells().add(Spellbook.MAGIC_MISSILE.ordinal());
 
         return hero;
     }

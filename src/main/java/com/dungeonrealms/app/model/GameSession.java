@@ -29,6 +29,9 @@ public class GameSession {
     @DynamoDBAttribute
     private List<HeroInstance> mHeroInstances;
 
+    @DynamoDBAttribute
+    private Integer mCurrentHeroTurn;
+
     public GameSession() {
         mGameState = GameState.TOWN;
         mDungeonId = BaseModel.INVALID;
@@ -36,6 +39,8 @@ public class GameSession {
 
         mMonsters = new ArrayList<>();
         mHeroInstances = new ArrayList<>();
+
+        mCurrentHeroTurn = 0;
     }
 
     @SuppressWarnings("unchecked")
@@ -43,6 +48,7 @@ public class GameSession {
         mGameState = GameState.valueOf((String) dataMap.get("gameState"));
         mDungeonId = (String) dataMap.get("dungeonId");
         mRoomId = (String) dataMap.get("roomId");
+        mCurrentHeroTurn = (Integer) dataMap.get("currentHeroTurn");
 
         mMonsters = new ArrayList<>();
         List<Object> tempMonsterList = (List<Object>) dataMap.get("monsters");
@@ -57,5 +63,14 @@ public class GameSession {
             HeroInstance hero = new HeroInstance((LinkedHashMap<String, Object>) o);
             mHeroInstances.add(hero);
         }
+    }
+
+    public void clearDungeonVars() {
+        mGameState = GameState.TOWN;
+        mDungeonId = BaseModel.INVALID;
+        mRoomId = BaseModel.INVALID;
+        mCurrentHeroTurn = 0;
+        mMonsters.clear();
+        mHeroInstances.clear();
     }
 }

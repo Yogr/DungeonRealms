@@ -7,4 +7,5 @@ public class SlotNames {
     public static final String HERO     = "HeroName";
     public static final String PRICE    = "Price";
     public static final String LOCATION = "Location";
+    public static final String ITEMTYPE = "ItemType";
 }

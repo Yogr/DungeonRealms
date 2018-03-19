@@ -8,18 +8,19 @@ public class IntentNames {
     public static final String STATUS = "StatusIntent";
     public static final String HERO_DESCRIPTION = "HeroDescriptionIntent";
     public static final String ITEM_DESCRIPTION = "ItemDescriptionIntent";
-    public static final String EXIT_AREA = "ExitAreaIntent";
+    public static final String CHECK_INVENTORY = "InventoryIntent";
 
     // Go-To Area
     public static final String GOTO_SHOP = "ShopIntent";
     public static final String GOTO_DUNGEON = "DungeonIntent";
-    public static final String GOTO_ABILITIES = "AbilitiesIntent";
-    public static final String GOTO_INVENTORY = "InventoryIntent";
+    public static final String GOTO_ACADEMY = "AcademyIntent";
+    public static final String GOTO_TOWN = "TownIntent";
 
     // Create Hero
     public static final String CREATE_HERO = "CreateHeroIntent";
 
     // Shop
+    public static final String BROWSE_ITEMS = "BrowseItemsIntent";
     public static final String BUY_ITEM = "BuyItemIntent";
     public static final String SELL_ITEM = "SellItemIntent";
 

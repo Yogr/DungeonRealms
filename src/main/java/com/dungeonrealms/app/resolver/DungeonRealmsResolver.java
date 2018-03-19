@@ -35,7 +35,6 @@ public class DungeonRealmsResolver extends GameStateResolver {
 
     protected Map<String, ActionHandler> getActions() {
         Map<String, ActionHandler> actions = new HashMap<>();
-        actions.put(IntentNames.LOOK, mLookHandler);
         actions.put(IntentNames.GOLD_COUNT, mGoldCountHandler);
         actions.put(IntentNames.HERO_DESCRIPTION, mDescribeHeroHandler);
         actions.put(IntentNames.ITEM_DESCRIPTION, mDescribeItemHandler);
@@ -82,16 +81,6 @@ public class DungeonRealmsResolver extends GameStateResolver {
         SpeechletResponse response = SpeechletResponse.newTellResponse(speech);
         response.setNullableShouldEndSession(true);
         return response;
-    };
-
-    private ActionHandler mLookHandler = (Session session, DungeonUser user, Intent intent) -> {
-        String speechText = DungeonUtils.constructFullRoomMessage(user.getGameSession());
-        Dungeon dungeon = Navigation.getDungeon(user.getGameSession().getDungeonId());
-        Room room = null;
-        if (dungeon != null) {
-            room = Navigation.getDungeonRoom(dungeon, user.getGameSession().getRoomId());
-        }
-        return getAskResponse(room != null ? room.getTitle() : CardTitle.DUNGEON_REALMS, speechText);
     };
 
     private ActionHandler mDescribeHeroHandler = (Session session, DungeonUser user, Intent intent) -> {

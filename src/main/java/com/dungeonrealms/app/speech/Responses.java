@@ -26,4 +26,22 @@ public class Responses {
     public static final String ENEMY_HIT_HERO = "a %1$s hits %2$s for %3$s damage. ";
     public static final String ENEMY_MISS_HERO = "a %1$s attacks %2$s, but misses! ";
     public static final String NEXT_HERO_UP = "%1$s, what would you like to do? ";
+
+    // Dungeon
+    public static final String LEAVE_DUNGEON = "You find the exit of the dungeon, and head back to town. ";
+
+    // Town
+    public static final String TOWN_DESCRIPTION = "The Town's streets are full of citizens, adventurers, and wanderers " +
+            "much like yourself. You see a blacksmith shop and the Wizard's Academy. ";
+    public static final String GOTO_SHOP = "You travel to Griznak's Goods and Smithery. ";
+
+    // Shop
+    public static final String SHOP_DESCRIPTION = "Inside there are many " +
+            "hanging weapons, armor, and other goods. A large, ogre-like shopkeeper greets you. You may ask him what is for sale, " +
+            "or offer to buy or sell any items. ";
+    public static final String GOTO_TOWN = "You leave Griznak's Goods and Smithery and head back to town. ";
+    public static final String BOUGHT_ITEM = "You purchase a %1$s for %2$s gold coins. ";
+    public static final String SOLD_ITEM = "You sell a %1$s for %2$s gold coins. ";
+    public static final String CANNOT_BUY = "Sorry, you can't purchase that. ";
+    public static final String CANNOT_SELL = "Sorry, you can't sell that. ";
 }
