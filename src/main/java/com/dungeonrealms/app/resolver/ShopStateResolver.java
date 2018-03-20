@@ -42,10 +42,6 @@ public class ShopStateResolver extends DungeonRealmsResolver {
         if (!StringUtils.isNullOrEmpty(itemName)) {
             Item item = ItemUtils.getItemByName(itemName);
             if (item != null) {
-                /*Slot priceSlot = Slot.builder()
-                        .withName(SlotNames.PRICE)
-                        .withValue(item.getCost().toString())
-                        .build();*/
                 DialogSlot priceSlot = new DialogSlot();
                 priceSlot.setName(SlotNames.PRICE);
                 int itemPrice = item.getCost();

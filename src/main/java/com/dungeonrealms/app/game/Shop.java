@@ -35,7 +35,7 @@ public class Shop {
 
     public static Item sellItem(Item item, DungeonUser user, Hero hero) {
         if (Inventory.removeItemFromBackpack(item.getId(), hero)) {
-            user.setGold(user.getGold() + (item.getCost()/2);
+            user.setGold(user.getGold() + (item.getCost()/2));
             return item;
         }
         return null;
