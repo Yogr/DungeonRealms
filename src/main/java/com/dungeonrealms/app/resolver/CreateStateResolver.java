@@ -3,6 +3,7 @@ package com.dungeonrealms.app.resolver;
 import com.amazon.speech.slu.Intent;
 import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.Session;
+import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazonaws.util.StringUtils;
 import com.dungeonrealms.app.game.GameResources;
 import com.dungeonrealms.app.game.GameSessionManager;
@@ -25,7 +26,7 @@ public class CreateStateResolver extends DungeonRealmsResolver {
         return actions;
     }
 
-    private ActionHandler mCreateHeroHandler = (Session session, DungeonUser user, Intent intent) -> {
+    private ActionHandler mCreateHeroHandler = (session, user, intent) -> {
         Slot heroNameSlot = intent.getSlot(SlotNames.HERO);
         if (heroNameSlot != null) {
             String heroName = heroNameSlot.getValue();

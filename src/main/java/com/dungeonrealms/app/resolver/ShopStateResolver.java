@@ -3,6 +3,9 @@ package com.dungeonrealms.app.resolver;
 import com.amazon.speech.slu.Intent;
 import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.Session;
+import com.amazon.speech.speechlet.SpeechletResponse;
+import com.amazon.speech.speechlet.dialog.directives.DialogIntent;
+import com.amazon.speech.speechlet.dialog.directives.DialogSlot;
 import com.amazonaws.util.StringUtils;
 import com.dungeonrealms.app.game.GameResources;
 import com.dungeonrealms.app.game.Navigation;
@@ -12,7 +15,9 @@ import com.dungeonrealms.app.speech.CardTitle;
 import com.dungeonrealms.app.speech.IntentNames;
 import com.dungeonrealms.app.speech.Responses;
 import com.dungeonrealms.app.speech.SlotNames;
+import com.dungeonrealms.app.util.ItemUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ShopStateResolver extends DungeonRealmsResolver {
@@ -28,6 +33,33 @@ public class ShopStateResolver extends DungeonRealmsResolver {
         actions.put(IntentNames.LOOK, mLookHandler);
 
         return actions;
+    }
+
+    @Override
+    public SpeechletResponse resolveIncompleteIntent(Session session, DungeonUser user, Intent intent) {
+        Slot itemNameSlot = intent.getSlot(SlotNames.ITEM);
+        String itemName = itemNameSlot != null ? itemNameSlot.getValue() : null;
+        if (!StringUtils.isNullOrEmpty(itemName)) {
+            Item item = ItemUtils.getItemByName(itemName);
+            if (item != null) {
+                /*Slot priceSlot = Slot.builder()
+                        .withName(SlotNames.PRICE)
+                        .withValue(item.getCost().toString())
+                        .build();*/
+                DialogSlot priceSlot = new DialogSlot();
+                priceSlot.setName(SlotNames.PRICE);
+                int itemPrice = item.getCost();
+                if (IntentNames.SELL_ITEM.equals(intent.getName())) {
+                    itemPrice = itemPrice / 2;
+                }
+                priceSlot.setValue(String.valueOf(itemPrice));
+
+                DialogIntent dialogIntent = new DialogIntent(intent);
+                dialogIntent.getSlots().put(SlotNames.PRICE, priceSlot);
+                return getDelegateResponseWithDialogIntent(dialogIntent);
+            }
+        }
+        return super.resolveIncompleteIntent(session, user, intent);
     }
 
     private ActionHandler mLookHandler = (Session session, DungeonUser user, Intent intent) ->

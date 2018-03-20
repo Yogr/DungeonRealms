@@ -76,6 +76,28 @@ public class Inventory {
         return false;
     }
 
+    public static Item getItemFromBackpackByName(String itemName, Hero hero) {
+        Item foundItem = null;
+        for(String bagItemId : hero.getBackpack().keySet()) {
+            Item bagItem = GameResources.getInstance().getItems().get(bagItemId);
+            if (bagItem.getName().equals(itemName)) {
+                foundItem = bagItem;
+                break;
+            }
+        }
+
+        if (foundItem == null) {
+            for(String bagItemId : hero.getBackpack().keySet()) {
+                Item bagItem = GameResources.getInstance().getItems().get(bagItemId);
+                if (bagItem.getAlias().equals(itemName)) {
+                    foundItem = bagItem;
+                    break;
+                }
+            }
+        }
+        return foundItem;
+    }
+
     public static void buildEquipmentString(StringBuilder sb, Hero hero) {
         for (String itemId : hero.getEquipment()) {
             Item item = GameResources.getInstance().getItems().get(itemId);

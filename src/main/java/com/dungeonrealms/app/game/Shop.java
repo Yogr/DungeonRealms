@@ -3,27 +3,12 @@ package com.dungeonrealms.app.game;
 import com.dungeonrealms.app.model.DungeonUser;
 import com.dungeonrealms.app.model.Hero;
 import com.dungeonrealms.app.model.Item;
+import com.dungeonrealms.app.util.ItemUtils;
 
 public class Shop {
 
     public static Item buyItem(String itemName, DungeonUser user, Hero hero) {
-        Item foundItem = null;
-        for(Item item : GameResources.getInstance().getItems().values()) {
-            if (item.getName().equals(itemName)) {
-                foundItem = item;
-                break;
-            }
-        }
-
-        if (foundItem == null) {
-            for(Item item : GameResources.getInstance().getItems().values()) {
-                if (item.getAlias().equals(itemName)) {
-                    foundItem = item;
-                    break;
-                }
-            }
-        }
-
+        Item foundItem = ItemUtils.getItemByName(itemName);
         if (foundItem != null) {
             return buyItem(foundItem, user, hero);
         }
@@ -41,25 +26,7 @@ public class Shop {
     }
 
     public static Item sellItem(String itemName, DungeonUser user, Hero hero) {
-        Item foundItem = null;
-        for(String bagItemId : hero.getBackpack().keySet()) {
-            Item bagItem = GameResources.getInstance().getItems().get(bagItemId);
-            if (bagItem.getName().equals(itemName)) {
-                foundItem = bagItem;
-                break;
-            }
-        }
-
-        if (foundItem == null) {
-            for(String bagItemId : hero.getBackpack().keySet()) {
-                Item bagItem = GameResources.getInstance().getItems().get(bagItemId);
-                if (bagItem.getAlias().equals(itemName)) {
-                    foundItem = bagItem;
-                    break;
-                }
-            }
-        }
-
+        Item foundItem = Inventory.getItemFromBackpackByName(itemName, hero);
         if (foundItem != null) {
             return sellItem(foundItem, user, hero);
         }
@@ -68,7 +35,7 @@ public class Shop {
 
     public static Item sellItem(Item item, DungeonUser user, Hero hero) {
         if (Inventory.removeItemFromBackpack(item.getId(), hero)) {
-            user.setGold(user.getGold() + item.getCost());
+            user.setGold(user.getGold() + (item.getCost()/2);
             return item;
         }
         return null;

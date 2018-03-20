@@ -19,26 +19,32 @@ import java.util.List;
 public abstract class GameStateResolver {
 
     public SpeechletResponse resolveIntent(Session session, DungeonUser user, IntentRequest request) {
-
-        // Delegate all requests back to Alexa until they are completed
+        // Delegate request back to Alexa until it is completed
         if (request.getDialogState() != IntentRequest.DialogState.COMPLETED) {
-            DialogIntent dialogIntent = new DialogIntent(request.getIntent());
-
-            DelegateDirective directive = new DelegateDirective();
-            directive.setUpdatedIntent(dialogIntent);
-
-            List<Directive> directiveList = new ArrayList<>();
-            directiveList.add(directive);
-            SpeechletResponse response = new SpeechletResponse();
-            response.setDirectives(directiveList);
-            response.setNullableShouldEndSession(false);
-            return response;
+            return resolveIncompleteIntent(session, user, request.getIntent());
         }
 
         return resolveIntent(session, user, request.getIntent());
     }
 
     public abstract SpeechletResponse resolveIntent(Session session, DungeonUser user, Intent intent);
+
+    public SpeechletResponse resolveIncompleteIntent(Session session, DungeonUser user, Intent intent) {
+        DialogIntent dialogIntent = new DialogIntent(intent);
+        return getDelegateResponseWithDialogIntent(dialogIntent);
+    }
+
+    public SpeechletResponse getDelegateResponseWithDialogIntent(DialogIntent dialogIntent) {
+        DelegateDirective directive = new DelegateDirective();
+        directive.setUpdatedIntent(dialogIntent);
+        List<Directive> directiveList = new ArrayList<>();
+        directiveList.add(directive);
+
+        SpeechletResponse response = new SpeechletResponse();
+        response.setDirectives(directiveList);
+        response.setNullableShouldEndSession(false);
+        return response;
+    }
 
     /**
      * Helper method for retrieving an Ask response with a simple card and reprompt included.
