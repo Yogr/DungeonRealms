@@ -29,6 +29,7 @@ public class Combat {
             // If no more monsters, change state from COMBAT -> DUNGEON
             if (gameSession.getMonsters().isEmpty()) {
                 gameSession.setGameState(GameState.DUNGEON);
+                gameSession.setCurrentRoomCleared();
             }
 
             combatResult.append(String.format(Responses.ENEMY_DEFEATED, monster.getName()));
@@ -37,7 +38,7 @@ public class Combat {
         List<HeroInstance> heroes = gameSession.getHeroInstances();
         int i = 0;
         for (; i < heroes.size(); ++i) {
-            if (heroInstance == heroes.get(0)) {
+            if (heroInstance == heroes.get(i)) {
                 i++;
                 break;
             }

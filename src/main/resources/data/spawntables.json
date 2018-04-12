@@ -1,0 +1,125 @@
+{
+  "0": {
+    "ID": "0",
+    "ItemIDs": [
+      "0",
+      "2",
+      "3"
+    ],
+    "ItemChances": [
+      34,
+      33,
+      33
+    ],
+    "NumberOfTries": 1,
+    "Name": "goblin_dungeon_01"
+  },
+  "1": {
+    "ID": "1",
+    "ItemIDs": [
+      "1"
+    ],
+    "ItemChances": [
+      100
+    ],
+    "NumberOfTries": 1,
+    "Name": "goblin_king_room"
+  },
+  "2": {
+    "ID": "2",
+    "ItemIDs": [
+      "0",
+      "2",
+      "3"
+    ],
+    "ItemChances": [
+      35,
+      35,
+      15
+    ],
+    "NumberOfTries": 2,
+    "Name": "goblin_dungeon_02"
+  },
+  "3": {
+    "ID": "3",
+    "ItemIDs": [
+      "4",
+      "5"
+    ],
+    "ItemChances": [
+      50,
+      50
+    ],
+    "NumberOfTries": 1,
+    "Name": "crypt_01"
+  },
+  "4": {
+    "ID": "4",
+    "ItemIDs": [
+      "4",
+      "5"
+    ],
+    "ItemChances": [
+      50,
+      50
+    ],
+    "NumberOfTries": 2,
+    "Name": "crypt_02"
+  },
+  "5": {
+    "ID": "5",
+    "ItemIDs": [
+      "4",
+      "5",
+      "6",
+      "7"
+    ],
+    "ItemChances": [
+      15,
+      15,
+      40,
+      30
+    ],
+    "NumberOfTries": 1,
+    "Name": "crypt_03"
+  },
+  "6": {
+    "ID": "6",
+    "ItemIDs": [
+      "6",
+      "7"
+    ],
+    "ItemChances": [
+      50,
+      50
+    ],
+    "NumberOfTries": 1,
+    "Name": "crypt_04"
+  },
+  "7": {
+    "ID": "7",
+    "ItemIDs": [
+      "4",
+      "5",
+      "6"
+    ],
+    "ItemChances": [
+      60,
+      20,
+      20
+    ],
+    "NumberOfTries": 2,
+    "Name": "crypt_05"
+  },
+  "8": {
+    "ID": "8",
+    "ItemIDs": [
+      "8"
+    ],
+    "ItemChances": [
+      100
+    ],
+    "NumberOfTries": 1,
+    "Name": "crypt_mummy"
+  }
+}

@@ -23,7 +23,7 @@ public class MonsterInstance extends FighterInstance {
 
     public MonsterInstance(Monster monster) {
         mMonsterId = monster.getId();
-        setCurrentHP(monster.getHitPoints());
+        setCurrentHP(monster.getHealth());
     }
 
     public MonsterInstance(LinkedHashMap<String, Object> dataMap) {

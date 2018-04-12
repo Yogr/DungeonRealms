@@ -1,9 +1,6 @@
 package com.dungeonrealms.app.resolver;
 
-import com.amazon.speech.slu.Intent;
 import com.amazon.speech.slu.Slot;
-import com.amazon.speech.speechlet.Session;
-import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazonaws.util.StringUtils;
 import com.dungeonrealms.app.game.GameResources;
 import com.dungeonrealms.app.game.GameSessionManager;
@@ -37,8 +34,8 @@ public class CreateStateResolver extends DungeonRealmsResolver {
                 Hero hero = Hero.createNewHero(heroName);
                 user.getHeroes().add(hero);
                 GameSession gameSession = user.getGameSession();
-                Dungeon startDungeon = GameResources.getInstance().getDungeons().values().iterator().next();
-                Navigation.moveToDungeon(gameSession, startDungeon, user.getHeroes());
+                Area startArea = GameResources.getInstance().getAreas().get("1");
+                Navigation.moveToArea(user, startArea);
 
                 GameSessionManager.SaveGameSession(session, user);
 

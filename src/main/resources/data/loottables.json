@@ -1,0 +1,58 @@
+{
+  "0": {
+    "ID": "0",
+    "ItemIDs": [
+      "0",
+      "5"
+    ],
+    "ItemChances": [
+      10,
+      5
+    ],
+    "NumberOfTries": 1,
+    "Name": "goblin_common"
+  },
+  "1": {
+    "ID": "1",
+    "ItemIDs": [
+      "8",
+      "3"
+    ],
+    "ItemChances": [
+      90,
+      10
+    ],
+    "NumberOfTries": 1,
+    "Name": "goblin_king"
+  },
+  "2": {
+    "ID": "2",
+    "ItemIDs": [
+      "1",
+      "2",
+      "3",
+      "0"
+    ],
+    "ItemChances": [
+      5,
+      2,
+      5,
+      7
+    ],
+    "NumberOfTries": 1,
+    "Name": "crypt_common"
+  },
+  "3": {
+    "ID": "3",
+    "ItemIDs": [
+      "9",
+      "4"
+    ],
+    "ItemChances": [
+      60,
+      40
+    ],
+    "NumberOfTries": 1,
+    "Name": "crypt_mummy"
+  }
+}

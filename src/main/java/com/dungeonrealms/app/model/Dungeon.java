@@ -1,13 +1,11 @@
 package com.dungeonrealms.app.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
 import lombok.Data;
 
 import java.util.Map;
 
 @Data
-@Builder
 public class Dungeon {
     private final String mId;
     private final String mName;

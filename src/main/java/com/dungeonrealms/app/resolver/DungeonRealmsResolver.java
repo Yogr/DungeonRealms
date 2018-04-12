@@ -10,6 +10,7 @@ import com.dungeonrealms.app.game.GameResources;
 import com.dungeonrealms.app.game.Inventory;
 import com.dungeonrealms.app.model.*;
 import com.dungeonrealms.app.speech.*;
+import com.dungeonrealms.app.util.DungeonUtils;
 import com.dungeonrealms.app.util.SaveLoad;
 
 import com.dungeonrealms.app.game.Navigation;
@@ -24,7 +25,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
     public SpeechletResponse resolveIntent(Session session, DungeonUser user, Intent intent) {
         String intentName = (intent != null) ? intent.getName() : null;
 
-        Map<String, ActionHandler> actions = getActions();
+        Map<String, ActionHandler> actions = getAllActions();
         if (actions.containsKey(intentName)) {
             return actions.get(intentName).handleIntent(session, user, intent);
         }
@@ -32,15 +33,24 @@ public class DungeonRealmsResolver extends GameStateResolver {
         return getInvalidActionResponse();
     }
 
-    protected Map<String, ActionHandler> getActions() {
+    private Map<String, ActionHandler> getAllActions() {
         Map<String, ActionHandler> actions = new HashMap<>();
+        actions.put(IntentNames.LOOK, mLookHandler);
         actions.put(IntentNames.GOLD_COUNT, mGoldCountHandler);
         actions.put(IntentNames.HERO_DESCRIPTION, mDescribeHeroHandler);
         actions.put(IntentNames.ITEM_DESCRIPTION, mDescribeItemHandler);
         actions.put(IntentNames.AMAZON_HELP, mHelpActionHandler);
         actions.put(IntentNames.AMAZON_CANCEL, mStopActionHandler);
         actions.put(IntentNames.AMAZON_STOP, mStopActionHandler);
+        actions.put(IntentNames.MOVE_ROOM, mMoveRoomHandler);
+
+        actions.putAll(getActions());
+
         return actions;
+    }
+
+    protected Map<String, ActionHandler> getActions() {
+        return new HashMap<>();
     }
 
     private ActionHandler mHelpActionHandler = (Session session, DungeonUser user, Intent intent) -> {
@@ -72,6 +82,49 @@ public class DungeonRealmsResolver extends GameStateResolver {
         }
 
         return getAskResponse(CardTitle.DUNGEON_REALMS, speechText);
+    };
+
+    private ActionHandler mLookHandler = (Session session, DungeonUser user, Intent intent) -> {
+        String speechText = DungeonUtils.constructFullRoomMessage(user.getGameSession());
+        Area area = Navigation.getArea(user.getGameSession().getAreaId());
+        Room room = null;
+        if (area != null) {
+            room = Navigation.getAreaRoom(area, user.getGameSession().getRoomId());
+        }
+        return getAskResponse(room != null ? room.getTitle() : CardTitle.DUNGEON_REALMS, speechText);
+    };
+
+    private ActionHandler mMoveRoomHandler = (session, user, intent) -> {
+        Area area = Navigation.getArea(user.getGameSession().getAreaId());
+        Room room = Navigation.getAreaRoom(area, user.getGameSession().getRoomId());
+
+        boolean moveSuccessful = false;
+        if (area != null && room != null) {
+            Slot locationSlot = intent.getSlot(SlotNames.LOCATION);
+            if (locationSlot != null) {
+                String moveLocation = locationSlot.getValue();
+                if (!StringUtils.isNullOrEmpty(moveLocation)) {
+                    String newRoomId = room.getExits().get(moveLocation);
+                    if (newRoomId != null) {
+                        if (newRoomId.equals(BaseModel.INVALID)) {
+                            moveSuccessful = Navigation.moveToTown(user.getGameSession());
+                        } else {
+                            moveSuccessful = Navigation.moveToRoom(user, area, newRoomId);
+                        }
+                    }
+                }
+            }
+        }
+
+        String speechText;
+        if (moveSuccessful) {
+            speechText = DungeonUtils.constructFullRoomMessage(user.getGameSession());
+        } else {
+            speechText = "You cannot move in that direction";
+        }
+
+        Room currentRoom = Navigation.getAreaRoom(area, user.getGameSession().getRoomId());
+        return getAskResponse(currentRoom != null ? currentRoom.getTitle() : CardTitle.DUNGEON_REALMS, speechText);
     };
 
     private ActionHandler mStopActionHandler = (Session session, DungeonUser user, Intent intent) -> {

@@ -18,26 +18,21 @@ public class DungeonUtils {
             messageBuilder.append(prefix);
         }
 
-        if (gameSession.getGameState() == GameState.DUNGEON || gameSession.getGameState() == GameState.COMBAT) {
-            Dungeon dungeon = Navigation.getDungeon(gameSession.getDungeonId());
-            Room room = Navigation.getDungeonRoom(dungeon, gameSession.getRoomId());
-            messageBuilder.append(room.getDescription());
+        Area area = Navigation.getArea(gameSession.getAreaId());
+        Room room = Navigation.getAreaRoom(area, gameSession.getRoomId());
+        messageBuilder.append(room.getDescription());
 
-            if (!gameSession.getMonsters().isEmpty()) {
-                messageBuilder.append(" There's also ");
-                int count = gameSession.getMonsters().size();
-                for (int i = 0; i < count; ++i) {
-                    if (i != 0 && i + 1 == count) {
-                        messageBuilder.append(" and ");
-                    }
-                    Monster monster = GameResources.getInstance().getMonsters().get(gameSession.getMonsters().get(i).getMonsterId());
-                    messageBuilder.append("a ").append(monster.getName());
+        if (!gameSession.getMonsters().isEmpty()) {
+            messageBuilder.append(" There's also ");
+            int count = gameSession.getMonsters().size();
+            for (int i = 0; i < count; ++i) {
+                if (i != 0 && i + 1 == count) {
+                    messageBuilder.append(" and ");
                 }
-                messageBuilder.append(" here");
+                Monster monster = GameResources.getInstance().getMonsters().get(gameSession.getMonsters().get(i).getMonsterId());
+                messageBuilder.append("a ").append(monster.getName());
             }
-        } else if (gameSession.getGameState() == GameState.TOWN) {
-            // Elvis has left the dungeon
-            messageBuilder.append(Responses.LEAVE_DUNGEON).append(Responses.TOWN_DESCRIPTION);
+            messageBuilder.append(" here");
         }
 
         return messageBuilder.toString();

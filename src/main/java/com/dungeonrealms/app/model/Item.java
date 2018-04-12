@@ -12,28 +12,52 @@ public class Item {
     private final String mAlias;
     private final String mDescription;
     private final ItemType mType;
+    private final WearSlot mSlot;
     private final Integer mCost;
     private final Integer mAttack;
     private final Integer mDefense;
     private final Integer mSpellpower;
+    private final Integer mHealth;
+    private final Integer mMana;
 
-    public Item(@JsonProperty("id") String id,
-                @JsonProperty("name") String name,
-                @JsonProperty("alias") String alias,
-                @JsonProperty("description") String description,
-                @JsonProperty("type") ItemType type,
-                @JsonProperty("cost") Integer cost,
-                @JsonProperty("attack") Integer attack,
-                @JsonProperty("defense") Integer defense,
-                @JsonProperty("spellpower") Integer spellpower) {
+    public Item(@JsonProperty("ID") String id,
+                @JsonProperty("Name") String name,
+                @JsonProperty("Alias") String alias,
+                @JsonProperty("Description") String description,
+                @JsonProperty("ItemType") ItemType type,
+                @JsonProperty("WearSlot") WearSlot wearSlot,
+                @JsonProperty("Worth") Integer cost,
+                @JsonProperty("Attack") Integer attack,
+                @JsonProperty("Defense") Integer defense,
+                @JsonProperty("Spellpower") Integer spellpower,
+                @JsonProperty("Health") Integer health,
+                @JsonProperty("Mana") Integer mana) {
         mId = id;
         mName = name;
         mAlias = alias;
         mDescription = description;
         mType = type;
+        mSlot = wearSlot;
         mCost = cost;
         mAttack = attack;
         mDefense = defense;
         mSpellpower = spellpower;
+        mHealth = health;
+        mMana = mana;
+    }
+
+    public enum ItemType {
+        WEAPON,
+        ARMOR,
+        CONSUMABLE,
+        OTHER
+    }
+
+    public enum WearSlot {
+        NONE,
+        WEAPON,
+        ARMOR,
+        HEAD,
+        SHIELD
     }
 }

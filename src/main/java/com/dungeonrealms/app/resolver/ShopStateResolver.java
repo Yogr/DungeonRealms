@@ -24,13 +24,12 @@ public class ShopStateResolver extends DungeonRealmsResolver {
 
     @Override
     protected Map<String, ActionHandler> getActions() {
-        Map<String, ActionHandler> actions = super.getActions();
+        Map<String, ActionHandler> actions = new HashMap<>();
 
         actions.put(IntentNames.GOTO_TOWN, mGotoTownHandler);
         actions.put(IntentNames.BROWSE_ITEMS, mBrowseItemsHandler);
         actions.put(IntentNames.BUY_ITEM, mBuyItemHandler);
         actions.put(IntentNames.SELL_ITEM, mSellItemHandler);
-        actions.put(IntentNames.LOOK, mLookHandler);
 
         return actions;
     }
@@ -58,8 +57,9 @@ public class ShopStateResolver extends DungeonRealmsResolver {
         return super.resolveIncompleteIntent(session, user, intent);
     }
 
+    /*
     private ActionHandler mLookHandler = (Session session, DungeonUser user, Intent intent) ->
-            getAskResponse(CardTitle.DUNGEON_REALMS, Responses.SHOP_DESCRIPTION);
+            getAskResponse(CardTitle.DUNGEON_REALMS, Responses.SHOP_DESCRIPTION); */
 
     private ActionHandler mGotoTownHandler = (Session session, DungeonUser user, Intent intent) -> {
         StringBuilder response = new StringBuilder();

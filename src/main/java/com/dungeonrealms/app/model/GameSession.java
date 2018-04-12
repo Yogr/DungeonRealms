@@ -2,6 +2,7 @@ package com.dungeonrealms.app.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +19,7 @@ public class GameSession {
     private GameState mGameState;
 
     @DynamoDBAttribute
-    private String mDungeonId;
+    private String mAreaId;
 
     @DynamoDBAttribute
     private String mRoomId;
@@ -30,15 +31,19 @@ public class GameSession {
     private List<HeroInstance> mHeroInstances;
 
     @DynamoDBAttribute
+    private List<String> mClearedRoomIds;
+
+    @DynamoDBAttribute
     private Integer mCurrentHeroTurn;
 
     public GameSession() {
         mGameState = GameState.TOWN;
-        mDungeonId = BaseModel.INVALID;
+        mAreaId = BaseModel.INVALID;
         mRoomId = BaseModel.INVALID;
 
         mMonsters = new ArrayList<>();
         mHeroInstances = new ArrayList<>();
+        mClearedRoomIds = new ArrayList<>();
 
         mCurrentHeroTurn = 0;
     }
@@ -46,7 +51,7 @@ public class GameSession {
     @SuppressWarnings("unchecked")
     public GameSession(LinkedHashMap<String, Object> dataMap) {
         mGameState = GameState.valueOf((String) dataMap.get("gameState"));
-        mDungeonId = (String) dataMap.get("dungeonId");
+        mAreaId = (String) dataMap.get("areaId");
         mRoomId = (String) dataMap.get("roomId");
         mCurrentHeroTurn = (Integer) dataMap.get("currentHeroTurn");
 
@@ -63,14 +68,38 @@ public class GameSession {
             HeroInstance hero = new HeroInstance((LinkedHashMap<String, Object>) o);
             mHeroInstances.add(hero);
         }
+
+        mClearedRoomIds = new ArrayList<>();
+        List<Object> tempClearedRoomList = (List<Object>) dataMap.get("clearedRoomIds");
+        for (Object o : tempClearedRoomList) {
+            String clearedRoomId = (String) o;
+            mClearedRoomIds.add(clearedRoomId);
+        }
     }
 
-    public void clearDungeonVars() {
-        mGameState = GameState.TOWN;
-        mDungeonId = BaseModel.INVALID;
-        mRoomId = BaseModel.INVALID;
+    public void clearDungeonSession() {
         mCurrentHeroTurn = 0;
         mMonsters.clear();
-        mHeroInstances.clear();
+        mClearedRoomIds.clear();
+    }
+
+    public void startDungeonSession(List<Hero> heroes) {
+        for (Hero hero : heroes) {
+            mHeroInstances.add(new HeroInstance(hero));
+        }
+        mCurrentHeroTurn = 0;
+    }
+
+    public void setCurrentRoomCleared() {
+        mClearedRoomIds.add(mRoomId);
+    }
+
+    public void setGameStateByRoomType(Room.RoomType roomType) {
+        switch(roomType) {
+            case SHOP: mGameState = GameState.SHOP; break;
+            case TOWN: mGameState = GameState.TOWN; break;
+            case DUNGEON: mGameState = GameState.DUNGEON; break;
+            default: break;
+        }
     }
 }

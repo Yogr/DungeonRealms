@@ -3,12 +3,14 @@ package com.dungeonrealms.app.game;
 import com.dungeonrealms.app.model.Hero;
 import com.dungeonrealms.app.model.HeroInstance;
 import com.dungeonrealms.app.model.Item;
-import com.dungeonrealms.app.model.ItemType;
+import com.dungeonrealms.app.model.Item.ItemType;
 
 import java.util.Iterator;
 import java.util.Map;
 
 public class Inventory {
+
+    public static final int ITEM_NOT_FOUND = -1;
 
     public static void addItemToBackpack(String itemId, Hero hero) {
         int quantity = 1;
@@ -19,12 +21,16 @@ public class Inventory {
     }
 
     public static boolean removeItemFromBackpack(String itemId, Hero hero) {
+        return removeItemFromBackpack(itemId, hero, 1);
+    }
+
+    public static boolean removeItemFromBackpack(String itemId, Hero hero, int quantity) {
         if (hero.getBackpack().containsKey(itemId)) {
-            int quantity = hero.getBackpack().get(itemId) - 1;
-            if (quantity <= 0) {
+            int newQuantity = hero.getBackpack().get(itemId) - quantity;
+            if (newQuantity <= 0) {
                 hero.getBackpack().remove(itemId);
             } else {
-                hero.getBackpack().put(itemId, quantity);
+                hero.getBackpack().put(itemId, newQuantity);
             }
             return true;
         }
@@ -34,8 +40,7 @@ public class Inventory {
     public static boolean equipItem(Item item, Hero hero, HeroInstance heroInstance) {
         ItemType slot = item.getType();
         if (slot != ItemType.WEAPON &&
-                slot != ItemType.ARMOR &&
-                slot != ItemType.HELMET) {
+                slot != ItemType.ARMOR) {
             return false;
         }
 
@@ -74,6 +79,26 @@ public class Inventory {
             }
         }
         return false;
+    }
+
+    public static int getItemQuantity(String itemId, Hero hero) {
+        if (hero.getBackpack().containsKey(itemId)) {
+            return hero.getBackpack().get(itemId);
+        }
+        return ITEM_NOT_FOUND;
+    }
+
+    public static int useItemByName(String itemName, Hero hero, HeroInstance heroInstance) {
+        Item itemFound = Inventory.getItemFromBackpackByName(itemName, hero);
+        if (itemFound != null) {
+            if (Inventory.removeItemFromBackpack(itemFound.getId(), hero)) {
+                // TODO: Implement item effect IDs to map to spells
+                int newHp = Math.min(hero.getHitpointBase(), heroInstance.getCurrentHP() + itemFound.getSpellpower());
+                heroInstance.setCurrentHP(newHp);
+                return getItemQuantity(itemFound.getId(), hero);
+            }
+        }
+        return ITEM_NOT_FOUND;
     }
 
     public static Item getItemFromBackpackByName(String itemName, Hero hero) {

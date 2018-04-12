@@ -14,7 +14,8 @@ public enum GameState {
     TOWN(new TownStateResolver()),
     SHOP(new ShopStateResolver()),
     DUNGEON(new DungeonStateResolver()),
-    COMBAT(new CombatStateResolver());
+    COMBAT(new CombatStateResolver()),
+    ACADEMY(new AcademyStateResolver());
 
     private final GameStateResolver mResolver;
 }

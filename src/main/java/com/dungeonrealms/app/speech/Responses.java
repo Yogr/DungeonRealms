@@ -29,6 +29,7 @@ public class Responses {
 
     // Dungeon
     public static final String LEAVE_DUNGEON = "You find the exit of the dungeon, and head back to town. ";
+    public static final String ITEM_USED_REMAINING = "%1$s uses a %2$s, and has %3$s remaining. ";
 
     // Town
     public static final String TOWN_DESCRIPTION = "The Town's streets are full of citizens, adventurers, and wanderers " +

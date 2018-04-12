@@ -5,23 +5,43 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 public class Monster {
     private final String mId;
     private final String mName;
-    private final Integer mHitPoints;
+    private final String mAlias;
+    private final Integer mLevel;
+    private final Integer mHealth;
+    private final Integer mMana;
     private final Integer mAttack;
     private final Integer mDefense;
+    private final Integer mSpellpower;
+    private final Integer mLootTableId;
+    private final boolean mIsHostile;
+    private final boolean mIsNPC;
 
-    public Monster(@JsonProperty("id") String id,
-                   @JsonProperty("name") String name,
-                   @JsonProperty("hitPoints") Integer hitPoints,
-                   @JsonProperty("attack") Integer attack,
-                   @JsonProperty("defense") Integer defense) {
+    public Monster(@JsonProperty("ID") String id,
+                   @JsonProperty("Name") String name,
+                   @JsonProperty("Alias") String alias,
+                   @JsonProperty("Level") Integer level,
+                   @JsonProperty("Health") Integer health,
+                   @JsonProperty("Mana") Integer mana,
+                   @JsonProperty("Attack") Integer attack,
+                   @JsonProperty("Defense") Integer defense,
+                   @JsonProperty("Spellpower") Integer spellpower,
+                   @JsonProperty("LootTableId") Integer lootTableId,
+                   @JsonProperty("IsHostile") boolean isHostile,
+                   @JsonProperty("IsNPC") boolean isNPC) {
         mId = id;
         mName = name;
-        mHitPoints = hitPoints;
+        mAlias = alias;
+        mLevel = level;
+        mHealth = health;
+        mMana = mana;
         mAttack = attack;
         mDefense = defense;
+        mSpellpower = spellpower;
+        mLootTableId = lootTableId;
+        mIsHostile = isHostile;
+        mIsNPC = isNPC;
     }
 }
