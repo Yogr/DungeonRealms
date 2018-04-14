@@ -46,7 +46,7 @@ public class Navigation {
                     }
                 }
             } else {
-                if (prevState.equals(GameState.DUNGEON)) {
+                if (prevState.equals(GameState.DUNGEON) || prevState.equals(GameState.COMBAT)) {
                     gameSession.clearDungeonSession();
                 }
             }
