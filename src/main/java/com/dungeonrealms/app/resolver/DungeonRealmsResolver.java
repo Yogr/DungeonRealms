@@ -56,7 +56,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
     private ActionHandler mHelpActionHandler = (Session session, DungeonUser user, Intent intent) -> {
         StringBuilder actionsText = new StringBuilder();
 
-        for (String name : getActions().keySet()) {
+        for (String name : getAllActions().keySet()) {
             if (IntentNames.AMAZON_CANCEL.equals(name) ||
                 IntentNames.AMAZON_HELP.equals(name) ||
                 IntentNames.AMAZON_STOP.equals(name)) {
