@@ -12,7 +12,8 @@ public class Combat {
 
 
 
-    public static String doCombatTurn(CombatAction action, GameSession gameSession, HeroInstance heroInstance, MonsterInstance monsterInstance) {
+    public static String doCombatTurn(CombatAction action, DungeonUser user, HeroInstance heroInstance, MonsterInstance monsterInstance) {
+        GameSession gameSession = user.getGameSession();
         StringBuilder combatResult = new StringBuilder();
 
         int result = action.doAction(gameSession, heroInstance, monsterInstance);
@@ -33,6 +34,32 @@ public class Combat {
             }
 
             combatResult.append(String.format(Responses.ENEMY_DEFEATED, monster.getName()));
+
+            Hero hero = user.findHeroByName(heroInstance.getName());
+            int experienceGain = Level.values()[monster.getLevel()-1].getExpRewardForMonster();
+            hero.gainExperience(experienceGain);
+            combatResult.append("You gain ").append(experienceGain).append(" experience. ");
+
+            RandomTable.LootTable lootTable = GameResources.getInstance().getLootTables().get(monster.getLootTableId());
+            if (lootTable != null) {
+                List<Item> loot = lootTable.draw();
+                if (loot.size() > 0) {
+                    combatResult.append("You found ");
+                }
+                for (int i = 0; i < loot.size(); ++i) {
+                    Item item = loot.get(i);
+                    Inventory.addItemToBackpack(item.getId(), hero);
+
+                    if (i != 0) {
+                        if (i + 1 == loot.size()) {
+                            combatResult.append("and ");
+                        } else {
+                            combatResult.append(", ");
+                        }
+                    }
+                    combatResult.append("a ").append(item.getName());
+                }
+            }
         }
 
         List<HeroInstance> heroes = gameSession.getHeroInstances();

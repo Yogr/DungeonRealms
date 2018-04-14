@@ -1,34 +1,41 @@
 package com.dungeonrealms.app.resolver;
 
-import com.amazon.speech.slu.Intent;
-import com.amazon.speech.speechlet.Session;
+import com.amazon.speech.slu.Slot;
+import com.dungeonrealms.app.game.GameResources;
 import com.dungeonrealms.app.game.Navigation;
-import com.dungeonrealms.app.model.DungeonUser;
+import com.dungeonrealms.app.model.Area;
 import com.dungeonrealms.app.speech.CardTitle;
 import com.dungeonrealms.app.speech.IntentNames;
 import com.dungeonrealms.app.speech.Responses;
+import com.dungeonrealms.app.speech.SlotNames;
+import com.dungeonrealms.app.util.DungeonUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Map;
 
 public class TownStateResolver extends DungeonRealmsResolver {
 
     @Override
-    protected Map<String, ActionHandler> getActions() {
-        Map<String, ActionHandler> actions = super.getActions();
+    protected Map<String, DungeonAction> getActions() {
+        Map<String, DungeonAction> actions = super.getActions();
 
-        actions.put(IntentNames.GOTO_SHOP, mGotoShopHandler);
-        actions.put(IntentNames.LOOK, mLookHandler);
+        actions.put(IntentNames.MOVE_ROOM, new DungeonAction("go", mStartDungeonHandler, false));
 
         return actions;
     }
 
-    private ActionHandler mGotoShopHandler = (Session session, DungeonUser user, Intent intent) -> {
-        StringBuilder response = new StringBuilder();
-        Navigation.moveToShop(user.getGameSession());
-        response.append(Responses.GOTO_SHOP).append(Responses.SHOP_DESCRIPTION);
-        return getAskResponse(CardTitle.SHOP, response.toString());
+    private ActionHandler mStartDungeonHandler = (session, user, intent) -> {
+        Slot locationSlot = intent.getSlot(SlotNames.LOCATION);
+        String location = locationSlot != null ? locationSlot.getValue() : null;
+
+        if (StringUtils.isNotEmpty(location)) {
+            Area dungeon = DungeonUtils.findAreaByName(location);
+            if (dungeon != null) {
+                Navigation.moveToArea(user, dungeon);
+                String response = DungeonUtils.constructFullRoomMessage(user.getGameSession());
+                return getAskResponse(dungeon.getName(), response);
+            }
+        }
+        return mMoveRoomHandler.handleIntent(session, user, intent);
     };
-
-    private ActionHandler mLookHandler = (Session session, DungeonUser user, Intent intent) ->
-            getAskResponse(CardTitle.DUNGEON_REALMS, Responses.TOWN_DESCRIPTION);
-
 }

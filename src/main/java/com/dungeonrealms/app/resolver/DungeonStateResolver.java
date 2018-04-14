@@ -18,10 +18,10 @@ import java.util.Map;
 public class DungeonStateResolver extends DungeonRealmsResolver {
 
     @Override
-    protected Map<String, ActionHandler> getActions() {
-        Map<String, ActionHandler> actions = super.getActions();
-        actions.put(IntentNames.STATUS, mStatusHandler);
-        actions.put(IntentNames.SEARCH_FOR_TRAPS, mSearchForTrapsHandler);
+    protected Map<String, DungeonAction> getActions() {
+        Map<String, DungeonAction> actions = super.getActions();
+        actions.put(IntentNames.STATUS, new DungeonAction("check status", mStatusHandler, false));
+        actions.put(IntentNames.SEARCH_FOR_TRAPS, new DungeonAction("search for traps", mSearchForTrapsHandler, false));
         return actions;
     }
 

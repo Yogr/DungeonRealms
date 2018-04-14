@@ -17,9 +17,9 @@ import java.util.Map;
 public class CreateStateResolver extends DungeonRealmsResolver {
 
     @Override
-    protected Map<String, ActionHandler> getActions() {
-        Map<String, ActionHandler> actions = super.getActions();
-        actions.put(IntentNames.CREATE_HERO, mCreateHeroHandler);
+    protected Map<String, DungeonAction> getActions() {
+        Map<String, DungeonAction> actions = super.getActions();
+        actions.put(IntentNames.CREATE_HERO, new DungeonAction("create hero", mCreateHeroHandler, false));
         return actions;
     }
 

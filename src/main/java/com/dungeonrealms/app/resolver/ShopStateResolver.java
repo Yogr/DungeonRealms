@@ -23,13 +23,13 @@ import java.util.Map;
 public class ShopStateResolver extends DungeonRealmsResolver {
 
     @Override
-    protected Map<String, ActionHandler> getActions() {
-        Map<String, ActionHandler> actions = new HashMap<>();
+    protected Map<String, DungeonAction> getActions() {
+        Map<String, DungeonAction> actions = new HashMap<>();
 
-        actions.put(IntentNames.GOTO_TOWN, mGotoTownHandler);
-        actions.put(IntentNames.BROWSE_ITEMS, mBrowseItemsHandler);
-        actions.put(IntentNames.BUY_ITEM, mBuyItemHandler);
-        actions.put(IntentNames.SELL_ITEM, mSellItemHandler);
+        actions.put(IntentNames.GOTO_TOWN, new DungeonAction("leave", mGotoTownHandler, false));
+        actions.put(IntentNames.BROWSE_ITEMS, new DungeonAction("browse items", mBrowseItemsHandler, false));
+        actions.put(IntentNames.BUY_ITEM, new DungeonAction("buy item", mBuyItemHandler, false));
+        actions.put(IntentNames.SELL_ITEM, new DungeonAction("sell item", mSellItemHandler, false));
 
         return actions;
     }

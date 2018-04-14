@@ -1,1145 +1,1075 @@
 {
-  "languageModel": {
-    "invocationName": "dungeon realms",
-    "intents": [
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "dungeon realms",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": [
+            "no",
+            "nevermind",
+            "don't do that",
+            "cancel that",
+            "cancel"
+          ]
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": [
+            "what actions",
+            "what commands",
+            "commands",
+            "actions",
+            "Dungeon Realms help",
+            "what are my actions",
+            "say actions",
+            "help",
+            "what can I do"
+          ]
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": [
+            "exit game",
+            "quit game",
+            "quit Dungeon Realms",
+            "quit",
+            "stop"
+          ]
+        },
+        {
+          "name": "CreateHeroIntent",
+          "slots": [
+            {
+              "name": "HeroName",
+              "type": "AMAZON.Person",
+              "samples": [
+                "{HeroName}"
+              ]
+            }
+          ],
+          "samples": [
+            "make a character",
+            "make a new character",
+            "create a new hero",
+            "make a hero",
+            "start hero",
+            "create my hero",
+            "create hero"
+          ]
+        },
+        {
+          "name": "ShopIntent",
+          "slots": [],
+          "samples": [
+            "go store",
+            "go shop",
+            "sell equipment",
+            "buy equipment",
+            "buy new items",
+            "go to store",
+            "go to shop",
+            "blacksmith",
+            "shop"
+          ]
+        },
+        {
+          "name": "DungeonIntent",
+          "slots": [],
+          "samples": [
+            "start dungeon",
+            "find a dungeon",
+            "new adventure",
+            "new quest",
+            "start quest",
+            "start adventure",
+            "dungeon"
+          ]
+        },
+        {
+          "name": "InventoryIntent",
+          "slots": [],
+          "samples": [
+            "what am I wearing",
+            "look at my inventory",
+            "go to equipment",
+            "go inventory",
+            "equipment",
+            "go to inventory",
+            "inventory"
+          ]
+        },
+        {
+          "name": "AcademyIntent",
+          "slots": [],
+          "samples": [
+            "learn new spells",
+            "go to Wizard academy",
+            "go to academy"
+          ]
+        },
+        {
+          "name": "HeroDescriptionIntent",
+          "slots": [
+            {
+              "name": "HeroName",
+              "type": "AMAZON.Person"
+            }
+          ],
+          "samples": [
+            "describe {HeroName}",
+            "who is {HeroName}",
+            "who is my hero",
+            "who am i",
+            "hero description",
+            "character description",
+            "look at my character",
+            "look at my hero",
+            "hero",
+            "character"
+          ]
+        },
+        {
+          "name": "LookIntent",
+          "slots": [],
+          "samples": [
+            "look room",
+            "where am I",
+            "look at room",
+            "look"
+          ]
+        },
+        {
+          "name": "GoldCountIntent",
+          "slots": [],
+          "samples": [
+            "how many gold coins",
+            "how many coins",
+            "am I rich",
+            "how much gold",
+            "how much gold do I have",
+            "gold"
+          ]
+        },
+        {
+          "name": "StatusIntent",
+          "slots": [
+            {
+              "name": "HeroName",
+              "type": "AMAZON.Person"
+            }
+          ],
+          "samples": [
+            "check status",
+            "status of {HeroName}",
+            "{HeroName} status",
+            "is {HeroName} hurt",
+            "how many hit points does {HeroName}",
+            "hit points",
+            "hit points {HeroName}",
+            "{HeroName} hitpoints",
+            "how many hitpoints does {HeroName} have",
+            "mana",
+            "status",
+            "hitpoints",
+            "how many hitpoints do I have",
+            "how much mana",
+            "how many hitpoints"
+          ]
+        },
+        {
+          "name": "BuyItemIntent",
+          "slots": [
+            {
+              "name": "ItemName",
+              "type": "Item"
+            },
+            {
+              "name": "Price",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "purchase {ItemName}",
+            "buy {ItemName}"
+          ]
+        },
+        {
+          "name": "SellItemIntent",
+          "slots": [
+            {
+              "name": "ItemName",
+              "type": "Item"
+            },
+            {
+              "name": "Price",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "sell my {ItemName}",
+            "sell {ItemName}"
+          ]
+        },
+        {
+          "name": "ItemDescriptionIntent",
+          "slots": [
+            {
+              "name": "ItemName",
+              "type": "Item"
+            }
+          ],
+          "samples": [
+            "{ItemName} stats",
+            "what is {ItemName}",
+            "what is the {ItemName}",
+            "describe {ItemName}",
+            "look {ItemName}",
+            "look at {ItemName}"
+          ]
+        },
+        {
+          "name": "TownIntent",
+          "slots": [],
+          "samples": [
+            "go to town",
+            "exit area",
+            "leave area",
+            "leave",
+            "leave dungeon",
+            "leave shop",
+            "exit dungeon",
+            "exit shop"
+          ]
+        },
+        {
+          "name": "AttackIntent",
+          "slots": [
+            {
+              "name": "MonsterName",
+              "type": "Monster"
+            }
+          ],
+          "samples": [
+            "kill {MonsterName}",
+            "attack {MonsterName}",
+            "attack"
+          ]
+        },
+        {
+          "name": "CastSpellIntent",
+          "slots": [
+            {
+              "name": "SpellName",
+              "type": "Spell",
+              "samples": [
+                "cast {SpellName}",
+                "I am trying to cast {SpellName}",
+                "my {SpellName} spell",
+                "{SpellName}"
+              ]
+            },
+            {
+              "name": "MonsterName",
+              "type": "Monster"
+            },
+            {
+              "name": "HeroName",
+              "type": "AMAZON.Person"
+            }
+          ],
+          "samples": [
+            "cast {SpellName} on {HeroName}",
+            "cast {SpellName} on {MonsterName}",
+            "cast {SpellName} on myself",
+            "cast {SpellName} on self",
+            "cast {SpellName}"
+          ]
+        },
+        {
+          "name": "SearchTrapsIntent",
+          "slots": [],
+          "samples": [
+            "search room for any traps",
+            "search area for any traps",
+            "search for trap",
+            "search area for traps",
+            "search room for traps",
+            "search traps",
+            "search for traps"
+          ]
+        },
+        {
+          "name": "SearchTreasureIntent",
+          "slots": [],
+          "samples": [
+            "look for loot",
+            "look for treasure",
+            "search for equipment",
+            "search for items",
+            "search for gold",
+            "search for treasure",
+            "loot monster",
+            "loot monsters",
+            "loot room",
+            "loot"
+          ]
+        },
+        {
+          "name": "DisarmTrapsIntent",
+          "slots": [],
+          "samples": [
+            "disable trap",
+            "disarm the trap",
+            "disable the trap",
+            "disarm traps",
+            "disarm trap",
+            "disarm"
+          ]
+        },
+        {
+          "name": "EscapeIntent",
+          "slots": [],
+          "samples": [
+            "escape from combat",
+            "flee from battle",
+            "flee from combat",
+            "flee",
+            "escape"
+          ]
+        },
+        {
+          "name": "UseItemIntent",
+          "slots": [
+            {
+              "name": "ItemName",
+              "type": "Item",
+              "samples": [
+                "use {ItemName}",
+                "I am trying to use {ItemName}",
+                "{ItemName}",
+                "the {ItemName}",
+                "my {ItemName}"
+              ]
+            },
+            {
+              "name": "MonsterName",
+              "type": "Monster"
+            },
+            {
+              "name": "HeroName",
+              "type": "AMAZON.Person"
+            }
+          ],
+          "samples": [
+            "use {ItemName} on myself",
+            "use {ItemName} on self",
+            "use {ItemName} on {HeroName}",
+            "use {ItemName} on {MonsterName}",
+            "use {ItemName}"
+          ]
+        },
+        {
+          "name": "MoveRoomIntent",
+          "slots": [
+            {
+              "name": "Location",
+              "type": "Location"
+            }
+          ],
+          "samples": [
+            "travel {Location}",
+            "travel to {Location}",
+            "open {Location}",
+            "go through {Location}",
+            "climb {Location}",
+            "go to {Location}",
+            "go {Location}"
+          ]
+        },
+        {
+          "name": "BrowseItemsIntent",
+          "slots": [],
+          "samples": [
+            "catalog",
+            "whats for sale",
+            "what is for sale",
+            "browse items"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "name": "AMAZON.Person",
+          "values": [
+            {
+              "name": {
+                "value": "Solidsnake"
+              }
+            },
+            {
+              "name": {
+                "value": "Cloud"
+              }
+            },
+            {
+              "name": {
+                "value": "Batman"
+              }
+            },
+            {
+              "name": {
+                "value": "Robinhood"
+              }
+            },
+            {
+              "name": {
+                "value": "Turboslicer"
+              }
+            },
+            {
+              "name": {
+                "value": "Rumbeard Battleforge"
+              }
+            },
+            {
+              "name": {
+                "value": "Leif Erikson"
+              }
+            },
+            {
+              "name": {
+                "value": "Lothbrok"
+              }
+            },
+            {
+              "name": {
+                "value": "Ragnar"
+              }
+            },
+            {
+              "name": {
+                "value": "Dagnar"
+              }
+            },
+            {
+              "name": {
+                "value": "Dothraki"
+              }
+            },
+            {
+              "name": {
+                "value": "Sear"
+              }
+            },
+            {
+              "name": {
+                "value": "Allanun"
+              }
+            },
+            {
+              "name": {
+                "value": "Utumno"
+              }
+            },
+            {
+              "name": {
+                "value": "Chemosh"
+              }
+            },
+            {
+              "name": {
+                "value": "Yogr"
+              }
+            },
+            {
+              "name": {
+                "value": "Luthe"
+              }
+            },
+            {
+              "name": {
+                "value": "Luthien"
+              }
+            },
+            {
+              "name": {
+                "value": "Arthur"
+              }
+            },
+            {
+              "name": {
+                "value": "Zelda"
+              }
+            },
+            {
+              "name": {
+                "value": "Link"
+              }
+            },
+            {
+              "name": {
+                "value": "Macguyver"
+              }
+            },
+            {
+              "name": {
+                "value": "Slade"
+              }
+            },
+            {
+              "name": {
+                "value": "Buffdude"
+              }
+            },
+            {
+              "name": {
+                "value": "Izlak"
+              }
+            },
+            {
+              "name": {
+                "value": "Grizwald"
+              }
+            },
+            {
+              "name": {
+                "value": "Arkyle"
+              }
+            },
+            {
+              "name": {
+                "value": "Rumbeard"
+              }
+            },
+            {
+              "name": {
+                "value": "Kazin"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Item",
+          "values": [
+            {
+              "name": {
+                "value": "potion of strength"
+              }
+            },
+            {
+              "name": {
+                "value": "mana potion"
+              }
+            },
+            {
+              "name": {
+                "value": "health potion"
+              }
+            },
+            {
+              "name": {
+                "value": "potion"
+              }
+            },
+            {
+              "name": {
+                "value": "gold"
+              }
+            },
+            {
+              "name": {
+                "value": "greatsword"
+              }
+            },
+            {
+              "name": {
+                "value": "shield"
+              }
+            },
+            {
+              "name": {
+                "value": "hood"
+              }
+            },
+            {
+              "name": {
+                "value": "helm"
+              }
+            },
+            {
+              "name": {
+                "value": "gloves"
+              }
+            },
+            {
+              "name": {
+                "value": "gauntlets"
+              }
+            },
+            {
+              "name": {
+                "value": "crossbow"
+              }
+            },
+            {
+              "name": {
+                "value": "staff"
+              }
+            },
+            {
+              "name": {
+                "value": "helmet"
+              }
+            },
+            {
+              "name": {
+                "value": "leather armor"
+              }
+            },
+            {
+              "name": {
+                "value": "platemail armor"
+              }
+            },
+            {
+              "name": {
+                "value": "chainmail armor"
+              }
+            },
+            {
+              "name": {
+                "value": "battle axe"
+              }
+            },
+            {
+              "name": {
+                "value": "axe"
+              }
+            },
+            {
+              "name": {
+                "value": "long sword"
+              }
+            },
+            {
+              "name": {
+                "value": "short sword"
+              }
+            },
+            {
+              "name": {
+                "value": "sword"
+              }
+            },
+            {
+              "name": {
+                "value": "dagger"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Monster",
+          "values": [
+            {
+              "name": {
+                "value": "mummy"
+              }
+            },
+            {
+              "name": {
+                "value": "freckled goblin"
+              }
+            },
+            {
+              "name": {
+                "value": "fat goblin"
+              }
+            },
+            {
+              "name": {
+                "value": "giant rat"
+              }
+            },
+            {
+              "name": {
+                "value": "ship rat"
+              }
+            },
+            {
+              "name": {
+                "value": "minotaur"
+              }
+            },
+            {
+              "name": {
+                "value": "warlock"
+              }
+            },
+            {
+              "name": {
+                "value": "gargoyle"
+              }
+            },
+            {
+              "name": {
+                "value": "zombie"
+              }
+            },
+            {
+              "name": {
+                "value": "dragon"
+              }
+            },
+            {
+              "name": {
+                "value": "skeleton"
+              }
+            },
+            {
+              "name": {
+                "value": "demon"
+              }
+            },
+            {
+              "name": {
+                "value": "orc"
+              }
+            },
+            {
+              "name": {
+                "value": "goblin"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Spell",
+          "values": [
+            {
+              "name": {
+                "value": "Magic Missile"
+              }
+            },
+            {
+              "name": {
+                "value": "Heal"
+              }
+            },
+            {
+              "name": {
+                "value": "Fireball"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Location",
+          "values": [
+            {
+              "name": {
+                "value": "down"
+              }
+            },
+            {
+              "name": {
+                "value": "up"
+              }
+            },
+            {
+              "name": {
+                "value": "southwest"
+              }
+            },
+            {
+              "name": {
+                "value": "southeast"
+              }
+            },
+            {
+              "name": {
+                "value": "northwest"
+              }
+            },
+            {
+              "name": {
+                "value": "northeast"
+              }
+            },
+            {
+              "name": {
+                "value": "out"
+              }
+            },
+            {
+              "name": {
+                "value": "town"
+              }
+            },
+            {
+              "name": {
+                "value": "lair"
+              }
+            },
+            {
+              "name": {
+                "value": "crypt"
+              }
+            },
+            {
+              "name": {
+                "value": "academy"
+              }
+            },
+            {
+              "name": {
+                "value": "doors"
+              }
+            },
+            {
+              "name": {
+                "value": "stairs",
+                "synonyms": [
+                  "stairway",
+                  "stair"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "ladder"
+              }
+            },
+            {
+              "name": {
+                "value": "corridor"
+              }
+            },
+            {
+              "name": {
+                "value": "hallway",
+                "synonyms": [
+                  "hall"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "door"
+              }
+            },
+            {
+              "name": {
+                "value": "south"
+              }
+            },
+            {
+              "name": {
+                "value": "north"
+              }
+            },
+            {
+              "name": {
+                "value": "west"
+              }
+            },
+            {
+              "name": {
+                "value": "east"
+              }
+            },
+            {
+              "name": {
+                "value": "room"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "CreateHeroIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "HeroName",
+              "type": "AMAZON.Person",
+              "confirmationRequired": true,
+              "elicitationRequired": true,
+              "prompts": {
+                "confirmation": "Confirm.Slot.314296811584.137672916567",
+                "elicitation": "Elicit.Slot.314296811584.137672916567"
+              }
+            }
+          ]
+        },
+        {
+          "name": "BuyItemIntent",
+          "confirmationRequired": true,
+          "prompts": {
+            "confirmation": "Confirm.Intent.487800432551"
+          },
+          "slots": [
+            {
+              "name": "ItemName",
+              "type": "Item",
+              "confirmationRequired": false,
+              "elicitationRequired": false,
+              "prompts": {}
+            },
+            {
+              "name": "Price",
+              "type": "AMAZON.NUMBER",
+              "confirmationRequired": false,
+              "elicitationRequired": false,
+              "prompts": {}
+            }
+          ]
+        },
+        {
+          "name": "SellItemIntent",
+          "confirmationRequired": true,
+          "prompts": {
+            "confirmation": "Confirm.Intent.547313444529"
+          },
+          "slots": [
+            {
+              "name": "ItemName",
+              "type": "Item",
+              "confirmationRequired": false,
+              "elicitationRequired": false,
+              "prompts": {}
+            },
+            {
+              "name": "Price",
+              "type": "AMAZON.NUMBER",
+              "confirmationRequired": false,
+              "elicitationRequired": false,
+              "prompts": {}
+            }
+          ]
+        },
+        {
+          "name": "CastSpellIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "SpellName",
+              "type": "Spell",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.857641546237.1096735508237"
+              }
+            },
+            {
+              "name": "MonsterName",
+              "type": "Monster",
+              "confirmationRequired": false,
+              "elicitationRequired": false,
+              "prompts": {}
+            },
+            {
+              "name": "HeroName",
+              "type": "AMAZON.Person",
+              "confirmationRequired": false,
+              "elicitationRequired": false,
+              "prompts": {}
+            }
+          ]
+        },
+        {
+          "name": "UseItemIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "ItemName",
+              "type": "Item",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1490210877048.235252155763"
+              }
+            },
+            {
+              "name": "MonsterName",
+              "type": "Monster",
+              "confirmationRequired": false,
+              "elicitationRequired": false,
+              "prompts": {}
+            },
+            {
+              "name": "HeroName",
+              "type": "AMAZON.Person",
+              "confirmationRequired": false,
+              "elicitationRequired": false,
+              "prompts": {}
+            }
+          ]
+        }
+      ]
+    },
+    "prompts": [
       {
-        "name": "AMAZON.CancelIntent",
-        "slots": [],
-        "samples": [
-          "no",
-          "nevermind",
-          "don't do that",
-          "cancel that",
-          "cancel"
-        ]
-      },
-      {
-        "name": "AMAZON.HelpIntent",
-        "slots": [],
-        "samples": [
-          "what actions",
-          "what commands",
-          "commands",
-          "actions",
-          "Dungeon Realms help",
-          "what are my actions",
-          "say actions",
-          "help",
-          "what can I do"
-        ]
-      },
-      {
-        "name": "AMAZON.StopIntent",
-        "slots": [],
-        "samples": [
-          "exit game",
-          "quit game",
-          "quit Dungeon Realms",
-          "quit",
-          "stop"
-        ]
-      },
-      {
-        "name": "CreateHeroIntent",
-        "slots": [
+        "id": "Elicit.Slot.314296811584.137672916567",
+        "variations": [
           {
-            "name": "HeroName",
-            "type": "AMAZON.Person",
-            "samples": [
-              "{HeroName}"
-            ]
+            "type": "PlainText",
+            "value": "What is your name, hero"
           }
-        ],
-        "samples": [
-          "make a character",
-          "make a new character",
-          "create a new hero",
-          "make a hero",
-          "start hero",
-          "create my hero",
-          "create hero"
         ]
       },
       {
-        "name": "ShopIntent",
-        "slots": [],
-        "samples": [
-          "go store",
-          "go shop",
-          "sell equipment",
-          "buy equipment",
-          "buy new items",
-          "go to store",
-          "go to shop",
-          "blacksmith",
-          "shop"
-        ]
-      },
-      {
-        "name": "DungeonIntent",
-        "slots": [],
-        "samples": [
-          "start dungeon",
-          "find a dungeon",
-          "new adventure",
-          "new quest",
-          "start quest",
-          "start adventure",
-          "dungeon"
-        ]
-      },
-      {
-        "name": "InventoryIntent",
-        "slots": [],
-        "samples": [
-          "what am I wearing",
-          "look at my inventory",
-          "go to equipment",
-          "go inventory",
-          "equipment",
-          "go to inventory",
-          "inventory"
-        ]
-      },
-      {
-        "name": "AcademyIntent",
-        "slots": [],
-        "samples": [
-          "learn new spells",
-          "go to Wizard academy",
-          "go to academy"
-        ]
-      },
-      {
-        "name": "HeroDescriptionIntent",
-        "slots": [
+        "id": "Confirm.Slot.314296811584.137672916567",
+        "variations": [
           {
-            "name": "HeroName",
-            "type": "AMAZON.Person"
-          }
-        ],
-        "samples": [
-          "describe {HeroName}",
-          "who is {HeroName}",
-          "who is my hero",
-          "who am i",
-          "hero description",
-          "character description",
-          "look at my character",
-          "look at my hero",
-          "hero",
-          "character"
-        ]
-      },
-      {
-        "name": "LookIntent",
-        "slots": [],
-        "samples": [
-          "look room",
-          "where am I",
-          "look at room",
-          "look"
-        ]
-      },
-      {
-        "name": "GoldCountIntent",
-        "slots": [],
-        "samples": [
-          "how many gold coins",
-          "how many coins",
-          "am I rich",
-          "how much gold",
-          "how much gold do I have",
-          "gold"
-        ]
-      },
-      {
-        "name": "StatusIntent",
-        "slots": [
-          {
-            "name": "HeroName",
-            "type": "AMAZON.Person"
-          }
-        ],
-        "samples": [
-          "status of {HeroName}",
-          "{HeroName} status",
-          "is {HeroName} hurt",
-          "how many hit points does {HeroName}",
-          "hit points",
-          "hit points {HeroName}",
-          "{HeroName} hitpoints",
-          "how many hitpoints does {HeroName} have",
-          "mana",
-          "status",
-          "hitpoints",
-          "how many hitpoints do I have",
-          "how much mana",
-          "how many hitpoints"
-        ]
-      },
-      {
-        "name": "BuyItemIntent",
-        "slots": [
-          {
-            "name": "ItemName",
-            "type": "Item"
-          },
-          {
-            "name": "Price",
-            "type": "AMAZON.NUMBER"
-          }
-        ],
-        "samples": [
-          "purchase {ItemName}",
-          "buy {ItemName}"
-        ]
-      },
-      {
-        "name": "SellItemIntent",
-        "slots": [
-          {
-            "name": "ItemName",
-            "type": "Item"
-          },
-          {
-            "name": "Price",
-            "type": "AMAZON.NUMBER"
-          }
-        ],
-        "samples": [
-          "sell my {ItemName}",
-          "sell {ItemName}"
-        ]
-      },
-      {
-        "name": "ItemDescriptionIntent",
-        "slots": [
-          {
-            "name": "ItemName",
-            "type": "Item"
-          }
-        ],
-        "samples": [
-          "{ItemName} stats",
-          "what is {ItemName}",
-          "what is the {ItemName}",
-          "describe {ItemName}",
-          "look {ItemName}",
-          "look at {ItemName}"
-        ]
-      },
-      {
-        "name": "TownIntent",
-        "slots": [],
-        "samples": [
-          "go to town",
-          "exit area",
-          "leave area",
-          "leave",
-          "leave dungeon",
-          "leave shop",
-          "exit dungeon",
-          "exit shop"
-        ]
-      },
-      {
-        "name": "AttackIntent",
-        "slots": [
-          {
-            "name": "MonsterName",
-            "type": "Monster"
-          }
-        ],
-        "samples": [
-          "kill {MonsterName}",
-          "attack {MonsterName}",
-          "attack"
-        ]
-      },
-      {
-        "name": "CastSpellIntent",
-        "slots": [
-          {
-            "name": "SpellName",
-            "type": "Spell",
-            "samples": [
-              "cast {SpellName}",
-              "I am trying to cast {SpellName}",
-              "my {SpellName} spell",
-              "{SpellName}"
-            ]
-          },
-          {
-            "name": "MonsterName",
-            "type": "Monster"
-          },
-          {
-            "name": "HeroName",
-            "type": "AMAZON.Person"
-          }
-        ],
-        "samples": [
-          "cast {SpellName} on {HeroName}",
-          "cast {SpellName} on {MonsterName}",
-          "cast {SpellName} on myself",
-          "cast {SpellName} on self",
-          "cast {SpellName}"
-        ]
-      },
-      {
-        "name": "SearchTrapsIntent",
-        "slots": [],
-        "samples": [
-          "search room for any traps",
-          "search area for any traps",
-          "search for trap",
-          "search area for traps",
-          "search room for traps",
-          "search traps",
-          "search for traps"
-        ]
-      },
-      {
-        "name": "SearchTreasureIntent",
-        "slots": [],
-        "samples": [
-          "look for loot",
-          "look for treasure",
-          "search for equipment",
-          "search for items",
-          "search for gold",
-          "search for treasure",
-          "loot monster",
-          "loot monsters",
-          "loot room",
-          "loot"
-        ]
-      },
-      {
-        "name": "DisarmTrapsIntent",
-        "slots": [],
-        "samples": [
-          "disable trap",
-          "disarm the trap",
-          "disable the trap",
-          "disarm traps",
-          "disarm trap",
-          "disarm"
-        ]
-      },
-      {
-        "name": "EscapeIntent",
-        "slots": [],
-        "samples": [
-          "escape from combat",
-          "flee from battle",
-          "flee from combat",
-          "flee",
-          "escape"
-        ]
-      },
-      {
-        "name": "UseItemIntent",
-        "slots": [
-          {
-            "name": "ItemName",
-            "type": "Item",
-            "samples": [
-              "use {ItemName}",
-              "I am trying to use {ItemName}",
-              "{ItemName}",
-              "the {ItemName}",
-              "my {ItemName}"
-            ]
-          },
-          {
-            "name": "MonsterName",
-            "type": "Monster"
-          },
-          {
-            "name": "HeroName",
-            "type": "AMAZON.Person"
-          }
-        ],
-        "samples": [
-          "use {ItemName} on myself",
-          "use {ItemName} on self",
-          "use {ItemName} on {HeroName}",
-          "use {ItemName} on {MonsterName}",
-          "use {ItemName}"
-        ]
-      },
-      {
-        "name": "MoveRoomIntent",
-        "slots": [
-          {
-            "name": "Location",
-            "type": "Location"
-          }
-        ],
-        "samples": [
-          "travel {Location}",
-          "travel to {Location}",
-          "open {Location}",
-          "go through {Location}",
-          "climb {Location}",
-          "go to {Location}",
-          "go {Location}"
-        ]
-      },
-      {
-        "name": "BrowseItemsIntent",
-        "slots": [],
-        "samples": [
-          "catalog",
-          "whats for sale",
-          "what is for sale",
-          "browse items"
-        ]
-      }
-    ],
-    "types": [
-      {
-        "name": "AMAZON.Person",
-        "values": [
-          {
-            "id": "",
-            "name": {
-              "value": "Solidsnake",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Cloud",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Batman",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Robinhood",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Turboslicer",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Rumbeard Battleforge",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Leif Erikson",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Lothbrok",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Ragnar",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Dagnar",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Dothraki",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Sear",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Allanun",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Utumno",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Chemosh",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Yogr",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Luthe",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Luthien",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Arthur",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Zelda",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Link",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Macguyver",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Slade",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Buffdude",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Izlak",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Grizwald",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Arkyle",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Rumbeard",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Kazin",
-              "synonyms": []
-            }
+            "type": "PlainText",
+            "value": "Ok, {HeroName}, is that correct?"
           }
         ]
       },
       {
-        "name": "Item",
-        "values": [
+        "id": "Confirm.Intent.487800432551",
+        "variations": [
           {
-            "id": "",
-            "name": {
-              "value": "potion of strength",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "mana potion",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "health potion",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "potion",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "gold",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "greatsword",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "shield",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "hood",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "helm",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "gloves",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "gauntlets",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "crossbow",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "staff",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "helmet",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "leather armor",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "platemail armor",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "chainmail armor",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "battle axe",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "axe",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "long sword",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "short sword",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "sword",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "dagger",
-              "synonyms": []
-            }
+            "type": "PlainText",
+            "value": "The {ItemName} costs {Price} gold. Would you like to buy this?"
           }
         ]
       },
       {
-        "name": "Monster",
-        "values": [
+        "id": "Confirm.Intent.547313444529",
+        "variations": [
           {
-            "id": "",
-            "name": {
-              "value": "giant rat",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "ship rat",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "minotaur",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "warlock",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "gargoyle",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "zombie",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "dragon",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "skeleton",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "demon",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "orc",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "goblin",
-              "synonyms": []
-            }
+            "type": "PlainText",
+            "value": "I'll give you {Price} gold for your {ItemName}. Sell this item?"
           }
         ]
       },
       {
-        "name": "Spell",
-        "values": [
+        "id": "Elicit.Slot.1490210877048.235252155763",
+        "variations": [
           {
-            "id": "",
-            "name": {
-              "value": "Magic Missile",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Heal",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "Fireball",
-              "synonyms": []
-            }
+            "type": "PlainText",
+            "value": "What item are you trying to use?"
           }
         ]
       },
       {
-        "name": "Location",
-        "values": [
+        "id": "Elicit.Slot.857641546237.1096735508237",
+        "variations": [
           {
-            "id": "",
-            "name": {
-              "value": "stairs",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "ladder",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "corridor",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "hallway",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "door",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "south",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "north",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "west",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "east",
-              "synonyms": []
-            }
-          },
-          {
-            "id": "",
-            "name": {
-              "value": "room",
-              "synonyms": []
-            }
+            "type": "PlainText",
+            "value": "What spell are you trying to cast?"
           }
         ]
       }
     ]
-  },
-  "dialog": {
-    "intents": [
-      {
-        "name": "CreateHeroIntent",
-        "confirmationRequired": false,
-        "prompts": {},
-        "slots": [
-          {
-            "name": "HeroName",
-            "type": "AMAZON.Person",
-            "confirmationRequired": true,
-            "elicitationRequired": true,
-            "prompts": {
-              "confirmation": "Confirm.Slot.314296811584.137672916567",
-              "elicitation": "Elicit.Slot.314296811584.137672916567"
-            }
-          }
-        ]
-      },
-      {
-        "name": "BuyItemIntent",
-        "confirmationRequired": true,
-        "prompts": {
-          "confirmation": "Confirm.Intent.487800432551"
-        },
-        "slots": [
-          {
-            "name": "ItemName",
-            "type": "Item",
-            "confirmationRequired": false,
-            "elicitationRequired": false,
-            "prompts": {}
-          },
-          {
-            "name": "Price",
-            "type": "AMAZON.NUMBER",
-            "confirmationRequired": false,
-            "elicitationRequired": false,
-            "prompts": {}
-          }
-        ]
-      },
-      {
-        "name": "SellItemIntent",
-        "confirmationRequired": true,
-        "prompts": {
-          "confirmation": "Confirm.Intent.547313444529"
-        },
-        "slots": [
-          {
-            "name": "ItemName",
-            "type": "Item",
-            "confirmationRequired": false,
-            "elicitationRequired": false,
-            "prompts": {}
-          },
-          {
-            "name": "Price",
-            "type": "AMAZON.NUMBER",
-            "confirmationRequired": false,
-            "elicitationRequired": false,
-            "prompts": {}
-          }
-        ]
-      },
-      {
-        "name": "CastSpellIntent",
-        "confirmationRequired": false,
-        "prompts": {},
-        "slots": [
-          {
-            "name": "SpellName",
-            "type": "Spell",
-            "confirmationRequired": false,
-            "elicitationRequired": true,
-            "prompts": {
-              "elicitation": "Elicit.Slot.857641546237.1096735508237"
-            }
-          },
-          {
-            "name": "MonsterName",
-            "type": "Monster",
-            "confirmationRequired": false,
-            "elicitationRequired": false,
-            "prompts": {}
-          },
-          {
-            "name": "HeroName",
-            "type": "AMAZON.Person",
-            "confirmationRequired": false,
-            "elicitationRequired": false,
-            "prompts": {}
-          }
-        ]
-      },
-      {
-        "name": "UseItemIntent",
-        "confirmationRequired": false,
-        "prompts": {},
-        "slots": [
-          {
-            "name": "ItemName",
-            "type": "Item",
-            "confirmationRequired": false,
-            "elicitationRequired": true,
-            "prompts": {
-              "elicitation": "Elicit.Slot.1490210877048.235252155763"
-            }
-          },
-          {
-            "name": "MonsterName",
-            "type": "Monster",
-            "confirmationRequired": false,
-            "elicitationRequired": false,
-            "prompts": {}
-          },
-          {
-            "name": "HeroName",
-            "type": "AMAZON.Person",
-            "confirmationRequired": false,
-            "elicitationRequired": false,
-            "prompts": {}
-          }
-        ]
-      }
-    ]
-  },
-  "prompts": [
-    {
-      "id": "Elicit.Slot.314296811584.137672916567",
-      "variations": [
-        {
-          "type": "PlainText",
-          "value": "What is your name, hero"
-        }
-      ]
-    },
-    {
-      "id": "Confirm.Slot.314296811584.137672916567",
-      "variations": [
-        {
-          "type": "PlainText",
-          "value": "Ok, {HeroName}, is that correct?"
-        }
-      ]
-    },
-    {
-      "id": "Confirm.Intent.487800432551",
-      "variations": [
-        {
-          "type": "PlainText",
-          "value": "The {ItemName} costs {Price}. Would you like to buy this?"
-        }
-      ]
-    },
-    {
-      "id": "Confirm.Intent.547313444529",
-      "variations": [
-        {
-          "type": "PlainText",
-          "value": "I'll give you {Price} for your {ItemName}. Sell this item?"
-        }
-      ]
-    },
-    {
-      "id": "Elicit.Slot.1490210877048.235252155763",
-      "variations": [
-        {
-          "type": "PlainText",
-          "value": "What item are you trying to use?"
-        }
-      ]
-    },
-    {
-      "id": "Elicit.Slot.857641546237.1096735508237",
-      "variations": [
-        {
-          "type": "PlainText",
-          "value": "What spell are you trying to cast?"
-        }
-      ]
-    }
-  ]
+  }
 }

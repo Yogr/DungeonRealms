@@ -4,7 +4,12 @@ import com.amazonaws.util.StringUtils;
 import com.dungeonrealms.app.model.*;
 import com.dungeonrealms.app.game.GameResources;
 import com.dungeonrealms.app.game.Navigation;
+import com.dungeonrealms.app.resolver.DungeonAction;
 import com.dungeonrealms.app.speech.Responses;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DungeonUtils {
 
@@ -26,8 +31,12 @@ public class DungeonUtils {
             messageBuilder.append(" There's also ");
             int count = gameSession.getMonsters().size();
             for (int i = 0; i < count; ++i) {
-                if (i != 0 && i + 1 == count) {
-                    messageBuilder.append(" and ");
+                if (i != 0) {
+                    if (i + 1 == count) {
+                        messageBuilder.append(" and ");
+                    } else {
+                        messageBuilder.append(", ");
+                    }
                 }
                 Monster monster = GameResources.getInstance().getMonsters().get(gameSession.getMonsters().get(i).getMonsterId());
                 messageBuilder.append("a ").append(monster.getName());
@@ -36,5 +45,19 @@ public class DungeonUtils {
         }
 
         return messageBuilder.toString();
+    }
+
+    public static Area findAreaByName(String areaName) {
+        for (Area area : GameResources.getInstance().getAreas().values()) {
+            String normalizedName = area.getName().toLowerCase();
+            if (areaName.equals(normalizedName)) {
+                return area;
+            }
+        }
+        return null;
+    }
+
+    public static List<DungeonAction> filterHiddenActions(Collection<DungeonAction> actions) {
+        return actions.stream().filter(x -> !x.isHidden()).collect(Collectors.toList());
     }
 }

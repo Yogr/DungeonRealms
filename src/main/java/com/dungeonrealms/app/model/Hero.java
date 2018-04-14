@@ -84,4 +84,8 @@ public class Hero {
         }
         return currentLevel;
     }
+
+    public void gainExperience(int amount) {
+        mExperience += amount;
+    }
 }

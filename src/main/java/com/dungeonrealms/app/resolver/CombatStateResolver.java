@@ -17,11 +17,11 @@ import java.util.Map;
 public class CombatStateResolver extends DungeonRealmsResolver {
 
     @Override
-    protected Map<String, ActionHandler> getActions() {
-        Map<String, ActionHandler> actions = super.getActions();
+    protected Map<String, DungeonAction> getActions() {
+        Map<String, DungeonAction> actions = super.getActions();
 
-        actions.put(IntentNames.ATTACK, mAttackHandler);
-        actions.put(IntentNames.STATUS, mStatusHandler);
+        actions.put(IntentNames.ATTACK, new DungeonAction("attack", mAttackHandler, false));
+        actions.put(IntentNames.STATUS, new DungeonAction("check status", mStatusHandler, false));
 
         return actions;
     }
@@ -38,7 +38,7 @@ public class CombatStateResolver extends DungeonRealmsResolver {
                 Combat.CombatAction action = Combat.getAttack();
                 GameSession gameSession = user.getGameSession();
                 HeroInstance attackingHero = gameSession.getHeroInstances().get(0);
-                String speechText = Combat.doCombatTurn(action, gameSession, attackingHero, monsterInstance);
+                String speechText = Combat.doCombatTurn(action, user, attackingHero, monsterInstance);
 
                 return getAskResponse(CardTitle.DUNGEON_REALMS, speechText);
             }

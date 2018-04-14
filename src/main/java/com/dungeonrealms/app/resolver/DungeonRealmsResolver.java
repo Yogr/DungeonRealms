@@ -15,9 +15,7 @@ import com.dungeonrealms.app.util.SaveLoad;
 
 import com.dungeonrealms.app.game.Navigation;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class DungeonRealmsResolver extends GameStateResolver {
 
@@ -25,52 +23,67 @@ public class DungeonRealmsResolver extends GameStateResolver {
     public SpeechletResponse resolveIntent(Session session, DungeonUser user, Intent intent) {
         String intentName = (intent != null) ? intent.getName() : null;
 
-        Map<String, ActionHandler> actions = getAllActions();
+        Map<String, DungeonAction> actions = getAllActions();
         if (actions.containsKey(intentName)) {
-            return actions.get(intentName).handleIntent(session, user, intent);
+            return actions.get(intentName).getHandler().handleIntent(session, user, intent);
         }
 
         return getInvalidActionResponse();
     }
 
-    private Map<String, ActionHandler> getAllActions() {
-        Map<String, ActionHandler> actions = new HashMap<>();
-        actions.put(IntentNames.LOOK, mLookHandler);
-        actions.put(IntentNames.GOLD_COUNT, mGoldCountHandler);
-        actions.put(IntentNames.HERO_DESCRIPTION, mDescribeHeroHandler);
-        actions.put(IntentNames.ITEM_DESCRIPTION, mDescribeItemHandler);
-        actions.put(IntentNames.AMAZON_HELP, mHelpActionHandler);
-        actions.put(IntentNames.AMAZON_CANCEL, mStopActionHandler);
-        actions.put(IntentNames.AMAZON_STOP, mStopActionHandler);
-        actions.put(IntentNames.MOVE_ROOM, mMoveRoomHandler);
+    private Map<String, DungeonAction> getAllActions() {
+        Map<String, DungeonAction> actions = new HashMap<>();
+        actions.put(IntentNames.MOVE_ROOM, new DungeonAction("go", mMoveRoomHandler, false));
+        actions.put(IntentNames.LOOK, new DungeonAction("look", mLookHandler, false));
+        actions.put(IntentNames.GOLD_COUNT, new DungeonAction("wealth", mGoldCountHandler, false));
+        actions.put(IntentNames.HERO_DESCRIPTION, new DungeonAction("who am i", mDescribeHeroHandler, false));
+        actions.put(IntentNames.ITEM_DESCRIPTION, new DungeonAction("look at item", mDescribeItemHandler, false));
+        actions.put(IntentNames.AMAZON_HELP, new DungeonAction("help", mHelpActionHandler, true));
+        actions.put(IntentNames.AMAZON_CANCEL, new DungeonAction("cancel", mStopActionHandler, true));
+        actions.put(IntentNames.AMAZON_STOP, new DungeonAction("quit game", mStopActionHandler, false));
 
         actions.putAll(getActions());
 
         return actions;
     }
 
-    protected Map<String, ActionHandler> getActions() {
+    protected Map<String, DungeonAction> getActions() {
         return new HashMap<>();
     }
 
     private ActionHandler mHelpActionHandler = (Session session, DungeonUser user, Intent intent) -> {
         StringBuilder actionsText = new StringBuilder();
 
-        for (String name : getAllActions().keySet()) {
-            if (IntentNames.AMAZON_CANCEL.equals(name) ||
-                IntentNames.AMAZON_HELP.equals(name) ||
-                IntentNames.AMAZON_STOP.equals(name)) {
-                continue;
+        List<DungeonAction> visibleActions = DungeonUtils.filterHiddenActions(getAllActions().values());
+        int count = visibleActions.size();
+        for (int i = 0; i < count; ++i) {
+            if (i != 0) {
+                if (i + 1 == count) {
+                    actionsText.append(" or ");
+                } else {
+                    actionsText.append(", ");
+                }
             }
-            if (IntentNames.MOVE_ROOM.equals(name)) {
+            if ("go".equals(visibleActions.get(i).getFriendlyName())) {
                 Set<String> roomExits = Navigation.getRoomExits(user);
                 if (roomExits != null) {
-                    for (String exit : roomExits) {
-                        actionsText.append(", go ").append(exit);
+                    int numExits = roomExits.size();
+                    Iterator<String> currentExit = roomExits.iterator();
+                    for (int j = 0; j < numExits; ++j) {
+                        String exitString = currentExit.next();
+                        if (j != 0) {
+                            if (j + 1 == numExits &&
+                                    i + 1 == count) {
+                                actionsText.append(" or ");
+                            } else {
+                                actionsText.append(", ");
+                            }
+                        }
+                        actionsText.append("go ").append(exitString);
                     }
                 }
             } else {
-                actionsText.append(", ").append(HelpActionMap.getIntentFriendlyName().get(name));
+                actionsText.append(visibleActions.get(i).getFriendlyName());
             }
         }
 
@@ -94,7 +107,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
         return getAskResponse(room != null ? room.getTitle() : CardTitle.DUNGEON_REALMS, speechText);
     };
 
-    private ActionHandler mMoveRoomHandler = (session, user, intent) -> {
+    protected ActionHandler mMoveRoomHandler = (session, user, intent) -> {
         Area area = Navigation.getArea(user.getGameSession().getAreaId());
         Room room = Navigation.getAreaRoom(area, user.getGameSession().getRoomId());
 

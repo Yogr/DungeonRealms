@@ -6,8 +6,8 @@ import java.util.Map;
 public class AcademyStateResolver extends DungeonRealmsResolver {
 
     @Override
-    protected Map<String, ActionHandler> getActions() {
-        Map<String, ActionHandler> actions = new HashMap<>();
+    protected Map<String, DungeonAction> getActions() {
+        Map<String, DungeonAction> actions = new HashMap<>();
 
         return actions;
     }

@@ -15,7 +15,7 @@ public class Monster {
     private final Integer mAttack;
     private final Integer mDefense;
     private final Integer mSpellpower;
-    private final Integer mLootTableId;
+    private final String mLootTableId;
     private final boolean mIsHostile;
     private final boolean mIsNPC;
 
@@ -28,7 +28,7 @@ public class Monster {
                    @JsonProperty("Attack") Integer attack,
                    @JsonProperty("Defense") Integer defense,
                    @JsonProperty("Spellpower") Integer spellpower,
-                   @JsonProperty("LootTableId") Integer lootTableId,
+                   @JsonProperty("LootTableId") String lootTableId,
                    @JsonProperty("IsHostile") boolean isHostile,
                    @JsonProperty("IsNPC") boolean isNPC) {
         mId = id;

@@ -9,7 +9,7 @@
     "Spellpower": 0,
     "IsHostile": true,
     "IsNPC": false,
-    "LootTableId": 0,
+    "LootTableId": "0",
     "ID": "0",
     "Name": "goblin"
   },
@@ -23,7 +23,7 @@
     "Spellpower": 0,
     "IsHostile": true,
     "IsNPC": false,
-    "LootTableId": 1,
+    "LootTableId": "1",
     "ID": "1",
     "Name": "goblin king"
   },
@@ -37,7 +37,7 @@
     "Spellpower": 0,
     "IsHostile": true,
     "IsNPC": false,
-    "LootTableId": 0,
+    "LootTableId": "0",
     "ID": "2",
     "Name": "freckled goblin"
   },
@@ -51,7 +51,7 @@
     "Spellpower": 0,
     "IsHostile": true,
     "IsNPC": false,
-    "LootTableId": 0,
+    "LootTableId": "0",
     "ID": "3",
     "Name": "fat goblin"
   },
@@ -65,7 +65,7 @@
     "Spellpower": 0,
     "IsHostile": true,
     "IsNPC": false,
-    "LootTableId": 2,
+    "LootTableId": "2",
     "ID": "4",
     "Name": "skeleton"
   },
@@ -79,7 +79,7 @@
     "Spellpower": 0,
     "IsHostile": true,
     "IsNPC": false,
-    "LootTableId": 2,
+    "LootTableId": "2",
     "ID": "5",
     "Name": "zombie"
   },
@@ -93,7 +93,7 @@
     "Spellpower": 0,
     "IsHostile": true,
     "IsNPC": false,
-    "LootTableId": 2,
+    "LootTableId": "2",
     "ID": "6",
     "Name": "skeleton knight"
   },
@@ -107,7 +107,7 @@
     "Spellpower": 0,
     "IsHostile": true,
     "IsNPC": false,
-    "LootTableId": 2,
+    "LootTableId": "2",
     "ID": "7",
     "Name": "ghost"
   },
@@ -121,7 +121,7 @@
     "Spellpower": 0,
     "IsHostile": true,
     "IsNPC": false,
-    "LootTableId": -1,
+    "LootTableId": "-1",
     "ID": "8",
     "Name": "mummy"
   }
