@@ -19,7 +19,7 @@ public class Responses {
     public static final String DESCRIBE_HERO_EQUIP = "%1$s is wearing %2$s";
     public static final String DESCRIBE_ITEM = "You see %1$s. ";
     public static final String GAIN_EXPERIENCE = "%1$s gains %2$s experience. ";
-    public static final String LEVEL_UP = "%1$s has leveled up! %1$s is now level %2$s";
+    public static final String LEVEL_UP = "%1$s has leveled up! %1$s is now level %2$s. ";
 
     // Combat Responses
     public static final String DEALT_DAMAGE = "You strike a %1$s for %2$s damage. ";
