@@ -64,4 +64,8 @@ public class DungeonUser extends BaseModel {
         }
         return null;
     }
+
+    public void modifyGold(int amount) {
+        mGold += amount;
+    }
 }

@@ -17,7 +17,7 @@ public class Shop {
 
     public static Item buyItem(Item item, DungeonUser user) {
         if (user.getGold() >= item.getCost()) {
-            user.setGold(user.getGold() - item.getCost());
+            user.modifyGold(-item.getCost());
             Inventory.addItemToBackpack(item.getId(), user);
             return item;
         } else {
@@ -35,7 +35,7 @@ public class Shop {
 
     public static Item sellItem(Item item, DungeonUser user) {
         if (Inventory.removeItemFromBackpack(item.getId(), user)) {
-            user.setGold(user.getGold() + (item.getCost()/2));
+            user.modifyGold((item.getCost()/2));
             return item;
         }
         return null;

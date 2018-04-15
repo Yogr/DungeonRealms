@@ -45,7 +45,10 @@ public class Combat {
             if (lootTable != null) {
                 List<Item> loot = lootTable.draw();
                 int numItemsFound = loot.size();
-                if (numItemsFound > 0) {
+                int goldMax = 3 + (monster.getLevel() * monster.getLevel());
+                int goldFound = new Random().nextInt(goldMax);
+                user.modifyGold(goldFound);
+                if (numItemsFound > 0 || goldFound > 0) {
                     combatResult.append("You found ");
                 }
                 for (int i = 0; i < numItemsFound; ++i) {
@@ -53,8 +56,8 @@ public class Combat {
                     Inventory.addItemToBackpack(item.getId(), user);
 
                     if (i != 0) {
-                        if (i + 1 == loot.size()) {
-                            combatResult.append("and ");
+                        if (i + 1 == loot.size() && goldFound == 0) {
+                            combatResult.append(" and ");
                         } else {
                             combatResult.append(", ");
                         }
@@ -62,7 +65,12 @@ public class Combat {
                     String article = DungeonUtils.startsWithVowel(item.getName()) ? "an " : "a ";
                     combatResult.append(article).append(item.getName());
                 }
-                if (numItemsFound > 0) {
+                if (goldFound > 0) {
+                    if (numItemsFound > 0) {
+                        combatResult.append(" and ");
+                    }
+                    combatResult.append(goldFound).append(" gold coins. ");
+                } else if (numItemsFound > 0) {
                     combatResult.append(". ");
                 }
             }
