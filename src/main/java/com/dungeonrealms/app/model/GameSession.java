@@ -81,6 +81,7 @@ public class GameSession {
         mCurrentHeroTurn = 0;
         mMonsters.clear();
         mClearedRoomIds.clear();
+        mHeroInstances.clear();
     }
 
     public void startDungeonSession(List<Hero> heroes) {
