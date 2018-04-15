@@ -3,6 +3,7 @@ package com.dungeonrealms.app.game;
 import com.dungeonrealms.app.model.*;
 import com.dungeonrealms.app.speech.Responses;
 
+import com.dungeonrealms.app.util.DungeonUtils;
 import lombok.Getter;
 
 import java.util.List;
@@ -58,7 +59,8 @@ public class Combat {
                             combatResult.append(", ");
                         }
                     }
-                    combatResult.append("a ").append(item.getName());
+                    String article = DungeonUtils.startsWithVowel(item.getName()) ? "an " : "a ";
+                    combatResult.append(article).append(item.getName());
                 }
                 if (numItemsFound > 0) {
                     combatResult.append(". ");

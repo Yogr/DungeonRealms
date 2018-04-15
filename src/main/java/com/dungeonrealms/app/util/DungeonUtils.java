@@ -39,7 +39,8 @@ public class DungeonUtils {
                     }
                 }
                 Monster monster = GameResources.getInstance().getMonsters().get(gameSession.getMonsters().get(i).getMonsterId());
-                messageBuilder.append("a ").append(monster.getName());
+                String article = startsWithVowel(monster.getName()) ? "an " : "a ";
+                messageBuilder.append(article).append(monster.getName());
             }
             messageBuilder.append(" here");
         }
@@ -59,5 +60,10 @@ public class DungeonUtils {
 
     public static List<DungeonAction> filterHiddenActions(Collection<DungeonAction> actions) {
         return actions.stream().filter(x -> !x.isHidden()).collect(Collectors.toList());
+    }
+
+    public static boolean startsWithVowel(String word) {
+        char c = word.toLowerCase().charAt(0);
+        return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u');
     }
 }

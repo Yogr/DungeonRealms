@@ -15,6 +15,7 @@ import com.dungeonrealms.app.speech.CardTitle;
 import com.dungeonrealms.app.speech.IntentNames;
 import com.dungeonrealms.app.speech.Responses;
 import com.dungeonrealms.app.speech.SlotNames;
+import com.dungeonrealms.app.util.DungeonUtils;
 import com.dungeonrealms.app.util.ItemUtils;
 
 import java.util.HashMap;
@@ -26,7 +27,6 @@ public class ShopStateResolver extends DungeonRealmsResolver {
     protected Map<String, DungeonAction> getActions() {
         Map<String, DungeonAction> actions = new HashMap<>();
 
-        actions.put(IntentNames.GOTO_TOWN, new DungeonAction("leave", mGotoTownHandler, false));
         actions.put(IntentNames.BROWSE_ITEMS, new DungeonAction("browse items", mBrowseItemsHandler, false));
         actions.put(IntentNames.BUY_ITEM, new DungeonAction("buy item", mBuyItemHandler, false));
         actions.put(IntentNames.SELL_ITEM, new DungeonAction("sell item", mSellItemHandler, false));
@@ -57,17 +57,6 @@ public class ShopStateResolver extends DungeonRealmsResolver {
         return super.resolveIncompleteIntent(session, user, intent);
     }
 
-    /*
-    private ActionHandler mLookHandler = (Session session, DungeonUser user, Intent intent) ->
-            getAskResponse(CardTitle.DUNGEON_REALMS, Responses.SHOP_DESCRIPTION); */
-
-    private ActionHandler mGotoTownHandler = (Session session, DungeonUser user, Intent intent) -> {
-        StringBuilder response = new StringBuilder();
-        Navigation.moveToTown(user.getGameSession());
-        response.append(Responses.GOTO_TOWN).append(Responses.TOWN_DESCRIPTION);
-        return getAskResponse(CardTitle.DUNGEON_REALMS, response.toString());
-    };
-
     private ActionHandler mBrowseItemsHandler = (Session session, DungeonUser user, Intent intent) -> {
         StringBuilder response = new StringBuilder();
         // TODO: Add additional param to browse by ItemType if provided
@@ -76,7 +65,8 @@ public class ShopStateResolver extends DungeonRealmsResolver {
         response.append("You can buy ");
         for (Item item : GameResources.getInstance().getItems().values()) {
             //if (itemTypeFilter != null && item.getType() == itemTypeFilter)
-            response.append("a ").append(item.getName()).append(" for ").append(item.getCost()).append( " coins; ");
+            String article = DungeonUtils.startsWithVowel(item.getName()) ? "an " : "a ";
+            response.append(article).append(item.getName()).append(" for ").append(item.getCost()).append( " coins; ");
         }
         response.append(" Ask to look at an item for more details");
 

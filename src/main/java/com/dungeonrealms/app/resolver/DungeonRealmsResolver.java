@@ -197,7 +197,9 @@ public class DungeonRealmsResolver extends GameStateResolver {
 
                 if (foundItem != null) {
                     StringBuilder itemSb = new StringBuilder();
-                    itemSb.append(String.format(Responses.DESCRIBE_ITEM, foundItem.getDescription()));
+                    String article = DungeonUtils.startsWithVowel(foundItem.getName()) ? "an " : "a ";
+                    String foundItemString = article + foundItem.getName();
+                    itemSb.append(String.format(Responses.DESCRIBE_ITEM, foundItemString));
                     if (foundItem.getAttack() > 0 ||
                             foundItem.getDefense() > 0 ||
                             foundItem.getSpellpower() > 0) {

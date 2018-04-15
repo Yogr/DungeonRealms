@@ -5,6 +5,7 @@ import com.dungeonrealms.app.model.Hero;
 import com.dungeonrealms.app.model.HeroInstance;
 import com.dungeonrealms.app.model.Item;
 import com.dungeonrealms.app.model.Item.ItemType;
+import com.dungeonrealms.app.util.DungeonUtils;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -127,7 +128,8 @@ public class Inventory {
     public static void buildEquipmentString(StringBuilder sb, Hero hero) {
         for (String itemId : hero.getEquipment()) {
             Item item = GameResources.getInstance().getItems().get(itemId);
-            sb.append("a ").append(item.getName()).append("; ");
+            String article = DungeonUtils.startsWithVowel(item.getName()) ? "an " : "a ";
+            sb.append(article).append(item.getName()).append("; ");
         }
     }
 
@@ -137,7 +139,8 @@ public class Inventory {
             isEmpty = false;
             Item item = GameResources.getInstance().getItems().get(itemEntry.getKey());
             if (itemEntry.getValue() == 1) {
-                sb.append("a ");
+                String article = DungeonUtils.startsWithVowel(item.getName()) ? "an " : "a ";
+                sb.append(article);
             } else {
                 sb.append(String.format("%1$s ", itemEntry.getValue()));
             }

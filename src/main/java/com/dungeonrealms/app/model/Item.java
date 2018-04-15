@@ -10,7 +10,6 @@ public class Item {
     private final String mId;
     private final String mName;
     private final String mAlias;
-    private final String mDescription;
     private final ItemType mType;
     private final WearSlot mSlot;
     private final Integer mCost;
@@ -23,7 +22,6 @@ public class Item {
     public Item(@JsonProperty("ID") String id,
                 @JsonProperty("Name") String name,
                 @JsonProperty("Alias") String alias,
-                @JsonProperty("Description") String description,
                 @JsonProperty("ItemType") ItemType type,
                 @JsonProperty("WearSlot") WearSlot wearSlot,
                 @JsonProperty("Worth") Integer cost,
@@ -35,7 +33,6 @@ public class Item {
         mId = id;
         mName = name;
         mAlias = alias;
-        mDescription = description;
         mType = type;
         mSlot = wearSlot;
         mCost = cost;
