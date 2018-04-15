@@ -11,19 +11,19 @@ import com.dungeonrealms.app.speech.SlotNames;
 import com.dungeonrealms.app.util.DungeonUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class TownStateResolver extends DungeonRealmsResolver {
 
     @Override
     protected Map<String, DungeonAction> getActions() {
-        Map<String, DungeonAction> actions = new HashMap<>();
+        Map<String, DungeonAction> actions = new LinkedHashMap<>();
 
         actions.put(IntentNames.MOVE_ROOM, new DungeonAction("go", mStartDungeonHandler));
         actions.put(IntentNames.LOOK, new DungeonAction("look", mLookHandler));
         actions.put(IntentNames.GOLD_COUNT, new DungeonAction("wealth", mGoldCountHandler));
-        actions.put(IntentNames.HERO_DESCRIPTION, new DungeonAction("who am I", mDescribeHeroHandler));
+        actions.put(IntentNames.HERO_DESCRIPTION, new DungeonAction("character", mDescribeHeroHandler));
         actions.put(IntentNames.ITEM_DESCRIPTION, new DungeonAction("look at item", mDescribeItemHandler));
         actions.put(IntentNames.CHECK_INVENTORY, new DungeonAction("inventory", mBackpackHandler));
 

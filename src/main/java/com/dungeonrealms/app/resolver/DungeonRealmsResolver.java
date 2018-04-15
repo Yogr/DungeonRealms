@@ -33,7 +33,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
     }
 
     private Map<String, DungeonAction> getAllActions() {
-        Map<String, DungeonAction> actions = new HashMap<>();
+        Map<String, DungeonAction> actions = new LinkedHashMap<>();
         actions.put(IntentNames.AMAZON_HELP, new DungeonAction("help", mHelpActionHandler, true));
         actions.put(IntentNames.AMAZON_CANCEL, new DungeonAction("cancel", mStopActionHandler, true));
         actions.put(IntentNames.AMAZON_STOP, new DungeonAction("quit game", mStopActionHandler));
@@ -44,7 +44,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
     }
 
     protected Map<String, DungeonAction> getActions() {
-        return new HashMap<>();
+        return new LinkedHashMap<>();
     }
 
     private ActionHandler mHelpActionHandler = (Session session, DungeonUser user, Intent intent) -> {

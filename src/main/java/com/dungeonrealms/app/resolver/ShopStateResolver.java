@@ -8,7 +8,6 @@ import com.amazon.speech.speechlet.dialog.directives.DialogIntent;
 import com.amazon.speech.speechlet.dialog.directives.DialogSlot;
 import com.amazonaws.util.StringUtils;
 import com.dungeonrealms.app.game.GameResources;
-import com.dungeonrealms.app.game.Navigation;
 import com.dungeonrealms.app.game.Shop;
 import com.dungeonrealms.app.model.*;
 import com.dungeonrealms.app.speech.CardTitle;
@@ -18,14 +17,14 @@ import com.dungeonrealms.app.speech.SlotNames;
 import com.dungeonrealms.app.util.DungeonUtils;
 import com.dungeonrealms.app.util.ItemUtils;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ShopStateResolver extends DungeonRealmsResolver {
 
     @Override
     protected Map<String, DungeonAction> getActions() {
-        Map<String, DungeonAction> actions = new HashMap<>();
+        Map<String, DungeonAction> actions = new LinkedHashMap<>();
 
         actions.put(IntentNames.BROWSE_ITEMS, new DungeonAction("browse items", mBrowseItemsHandler));
         actions.put(IntentNames.BUY_ITEM, new DungeonAction("buy item", mBuyItemHandler));
@@ -33,7 +32,7 @@ public class ShopStateResolver extends DungeonRealmsResolver {
         actions.put(IntentNames.MOVE_ROOM, new DungeonAction("go", mMoveRoomHandler));
         actions.put(IntentNames.LOOK, new DungeonAction("look", mLookHandler));
         actions.put(IntentNames.GOLD_COUNT, new DungeonAction("wealth", mGoldCountHandler));
-        actions.put(IntentNames.HERO_DESCRIPTION, new DungeonAction("who am I", mDescribeHeroHandler));
+        actions.put(IntentNames.HERO_DESCRIPTION, new DungeonAction("character", mDescribeHeroHandler));
         actions.put(IntentNames.ITEM_DESCRIPTION, new DungeonAction("look at item", mDescribeItemHandler));
         actions.put(IntentNames.CHECK_INVENTORY, new DungeonAction("inventory", mBackpackHandler));
 

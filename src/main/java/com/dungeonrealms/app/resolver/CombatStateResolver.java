@@ -12,21 +12,21 @@ import com.dungeonrealms.app.speech.CardTitle;
 import com.dungeonrealms.app.speech.IntentNames;
 import com.dungeonrealms.app.game.GameResources;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class CombatStateResolver extends DungeonRealmsResolver {
 
     @Override
     protected Map<String, DungeonAction> getActions() {
-        Map<String, DungeonAction> actions = new HashMap<>();
+        Map<String, DungeonAction> actions = new LinkedHashMap<>();
 
         actions.put(IntentNames.ATTACK, new DungeonAction("attack", mAttackHandler));
         actions.put(IntentNames.STATUS, new DungeonAction("check status", mStatusHandler));
         actions.put(IntentNames.USE_ITEM, new DungeonAction("use item", mUseItemHandler));
         actions.put(IntentNames.LOOK, new DungeonAction("look", mLookHandler));
         actions.put(IntentNames.GOLD_COUNT, new DungeonAction("wealth", mGoldCountHandler));
-        actions.put(IntentNames.HERO_DESCRIPTION, new DungeonAction("who am I", mDescribeHeroHandler));
+        actions.put(IntentNames.HERO_DESCRIPTION, new DungeonAction("character", mDescribeHeroHandler));
         actions.put(IntentNames.ITEM_DESCRIPTION, new DungeonAction("look at item", mDescribeItemHandler));
         actions.put(IntentNames.CHECK_INVENTORY, new DungeonAction("inventory", mBackpackHandler));
 

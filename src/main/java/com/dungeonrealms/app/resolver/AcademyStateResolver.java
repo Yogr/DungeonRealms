@@ -13,7 +13,7 @@ public class AcademyStateResolver extends DungeonRealmsResolver {
         actions.put(IntentNames.MOVE_ROOM, new DungeonAction("go", mMoveRoomHandler));
         actions.put(IntentNames.LOOK, new DungeonAction("look", mLookHandler));
         actions.put(IntentNames.GOLD_COUNT, new DungeonAction("wealth", mGoldCountHandler));
-        actions.put(IntentNames.HERO_DESCRIPTION, new DungeonAction("who am I", mDescribeHeroHandler));
+        actions.put(IntentNames.HERO_DESCRIPTION, new DungeonAction("character", mDescribeHeroHandler));
         actions.put(IntentNames.ITEM_DESCRIPTION, new DungeonAction("look at item", mDescribeItemHandler));
         actions.put(IntentNames.CHECK_INVENTORY, new DungeonAction("inventory", mBackpackHandler));
         return actions;
