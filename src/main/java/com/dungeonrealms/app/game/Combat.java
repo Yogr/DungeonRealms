@@ -43,12 +43,13 @@ public class Combat {
             RandomTable.LootTable lootTable = GameResources.getInstance().getLootTables().get(monster.getLootTableId());
             if (lootTable != null) {
                 List<Item> loot = lootTable.draw();
-                if (loot.size() > 0) {
+                int numItemsFound = loot.size();
+                if (numItemsFound > 0) {
                     combatResult.append("You found ");
                 }
-                for (int i = 0; i < loot.size(); ++i) {
+                for (int i = 0; i < numItemsFound; ++i) {
                     Item item = loot.get(i);
-                    Inventory.addItemToBackpack(item.getId(), hero);
+                    Inventory.addItemToBackpack(item.getId(), user);
 
                     if (i != 0) {
                         if (i + 1 == loot.size()) {
@@ -58,6 +59,9 @@ public class Combat {
                         }
                     }
                     combatResult.append("a ").append(item.getName());
+                }
+                if (numItemsFound > 0) {
+                    combatResult.append(". ");
                 }
             }
         }

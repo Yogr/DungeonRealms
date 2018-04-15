@@ -36,7 +36,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
         actions.put(IntentNames.MOVE_ROOM, new DungeonAction("go", mMoveRoomHandler, false));
         actions.put(IntentNames.LOOK, new DungeonAction("look", mLookHandler, false));
         actions.put(IntentNames.GOLD_COUNT, new DungeonAction("wealth", mGoldCountHandler, false));
-        actions.put(IntentNames.HERO_DESCRIPTION, new DungeonAction("who am i", mDescribeHeroHandler, false));
+        actions.put(IntentNames.HERO_DESCRIPTION, new DungeonAction("who am I", mDescribeHeroHandler, false));
         actions.put(IntentNames.ITEM_DESCRIPTION, new DungeonAction("look at item", mDescribeItemHandler, false));
         actions.put(IntentNames.AMAZON_HELP, new DungeonAction("help", mHelpActionHandler, true));
         actions.put(IntentNames.AMAZON_CANCEL, new DungeonAction("cancel", mStopActionHandler, true));
@@ -224,7 +224,16 @@ public class DungeonRealmsResolver extends GameStateResolver {
         return getAskResponse(CardTitle.DUNGEON_REALMS, Responses.NOT_FOUND);
     };
 
-    private ActionHandler mGoldCountHandler = (Session session, DungeonUser user, Intent intent) -> {
+    private ActionHandler mBackpackHandler = (session, user, intent) -> {
+        StringBuilder response = new StringBuilder();
+        response.append("In your backpack, you see ");
+
+        Inventory.buildBackpackString(response, user);
+
+        return getAskResponse(CardTitle.DUNGEON_REALMS, response.toString());
+    };
+
+    private ActionHandler mGoldCountHandler = (session, user, intent) -> {
         int gold = user.getGold();
         String speechText = String.format(Responses.GOLD_COUNT, gold);
         return getAskResponse(CardTitle.DUNGEON_REALMS, speechText);

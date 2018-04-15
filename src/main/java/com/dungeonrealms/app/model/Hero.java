@@ -31,9 +31,6 @@ public class Hero {
     @DynamoDBAttribute(attributeName = "spells")
     private List<Integer> mSpells;
 
-    @DynamoDBAttribute(attributeName = "backpack")
-    private Map<String, Integer> mBackpack;
-
     @DynamoDBAttribute(attributeName = "equipment")
     private List<String> mEquipment;
 
@@ -47,7 +44,6 @@ public class Hero {
         mHitpointBase = 10;
         mManaBase = 10;
         mSpells = new ArrayList<>();
-        mBackpack = new LinkedHashMap<>();
         mEquipment = new ArrayList<>();
     }
 
@@ -58,7 +54,6 @@ public class Hero {
         mHitpointBase = (Integer) dataMap.get("hitpointBase");
         mManaBase = (Integer) dataMap.get("manaBase");
         mSpells = (List<Integer>) dataMap.get("spells");
-        mBackpack = (LinkedHashMap<String, Integer>) dataMap.get("backpack");
         mEquipment = (List<String>) dataMap.get("equipment");
     }
 
@@ -66,8 +61,8 @@ public class Hero {
         Hero hero = new Hero(name);
 
         hero.getEquipment().add("1"); // SHORT SWORD
-        hero.getEquipment().add("2"); // LEATHER TUNIC
-        hero.getBackpack().put("3", 2); // HEALING POTION
+        hero.getEquipment().add("4"); // LEATHER TUNIC
+        //hero.getBackpack().put("3", 2); // HEALING POTION
 
         hero.getSpells().add(Spellbook.MAGIC_MISSILE.ordinal());
 

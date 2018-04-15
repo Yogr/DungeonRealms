@@ -84,15 +84,10 @@ public class ShopStateResolver extends DungeonRealmsResolver {
     };
 
     private ActionHandler mBuyItemHandler = (Session session, DungeonUser user, Intent intent) -> {
-        // TODO: Implement multi-hero suppoort for buying and items
-        // TODO: Slot heroNameSlot = intent.getSlot(SlotNames.HERO);
-        // TODO: String heroName = heroNameSlot != null ? heroNameSlot.getValue() : null;
-        // TODO: Hero hero = user.findHeroByName(heroName);
-        Hero hero = user.getHeroes().get(0);
         Slot itemNameSlot = intent.getSlot(SlotNames.ITEM);
         String itemName = itemNameSlot != null ? itemNameSlot.getValue() : null;
         if (!StringUtils.isNullOrEmpty(itemName)) {
-            Item boughtItem = Shop.buyItem(itemName, user, hero);
+            Item boughtItem = Shop.buyItem(itemName, user);
             if (boughtItem != null) {
                 return getAskResponse(CardTitle.SHOP, String.format(Responses.BOUGHT_ITEM, boughtItem.getName(), boughtItem.getCost()));
             }
@@ -101,15 +96,10 @@ public class ShopStateResolver extends DungeonRealmsResolver {
     };
 
     private ActionHandler mSellItemHandler = (Session session, DungeonUser user, Intent intent) -> {
-        // TODO: Implement multi-hero suppoort for buying and items
-        // TODO: Slot heroNameSlot = intent.getSlot(SlotNames.HERO);
-        // TODO: String heroName = heroNameSlot != null ? heroNameSlot.getValue() : null;
-        // TODO: Hero hero = user.findHeroByName(heroName);
-        Hero hero = user.getHeroes().get(0);
         Slot itemNameSlot = intent.getSlot(SlotNames.ITEM);
         String itemName = itemNameSlot != null ? itemNameSlot.getValue() : null;
         if (!StringUtils.isNullOrEmpty(itemName)) {
-            Item soldItem = Shop.sellItem(itemName, user, hero);
+            Item soldItem = Shop.sellItem(itemName, user);
             if (soldItem != null) {
                 return getAskResponse(CardTitle.SHOP, String.format(Responses.SOLD_ITEM, soldItem.getName(), soldItem.getCost()));
             }

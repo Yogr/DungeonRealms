@@ -22,6 +22,8 @@ public class CombatStateResolver extends DungeonRealmsResolver {
 
         actions.put(IntentNames.ATTACK, new DungeonAction("attack", mAttackHandler, false));
         actions.put(IntentNames.STATUS, new DungeonAction("check status", mStatusHandler, false));
+        actions.put(IntentNames.USE_ITEM, new DungeonAction("use item", mUseItemHandler, false));
+        actions.put(IntentNames.MOVE_ROOM, new DungeonAction("go", mMoveHandler, true));
 
         return actions;
     }
@@ -46,6 +48,9 @@ public class CombatStateResolver extends DungeonRealmsResolver {
         return getInvalidActionResponse();
     };
 
+    private ActionHandler mMoveHandler = (session, user, intent) ->
+        getInvalidActionResponse();
+
     private ActionHandler mStatusHandler = (session, user, intent) -> {
         StringBuilder speechText = new StringBuilder();
         for (HeroInstance hero : user.getGameSession().getHeroInstances()) {
@@ -60,7 +65,7 @@ public class CombatStateResolver extends DungeonRealmsResolver {
         if (!StringUtils.isNullOrEmpty(itemName)) {
             int currentHeroIndex = user.getGameSession().getCurrentHeroTurn();
             Hero hero = user.getHeroes().get(currentHeroIndex);
-            int remaining = Inventory.useItemByName(itemName, hero, user.getGameSession().getHeroInstances().get(currentHeroIndex));
+            int remaining = Inventory.useItemByName(itemName, user, hero, user.getGameSession().getHeroInstances().get(currentHeroIndex));
 
             if (remaining >= 0) {
                 return getAskResponse(CardTitle.DUNGEON_REALMS, String.format(Responses.ITEM_USED_REMAINING, hero.getName(), itemName, remaining));

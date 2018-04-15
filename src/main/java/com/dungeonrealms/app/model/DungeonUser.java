@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -28,11 +29,15 @@ public class DungeonUser extends BaseModel {
     @DynamoDBAttribute
     private Integer mGold;
 
+    @DynamoDBAttribute(attributeName = "backpack")
+    private Map<String, Integer> mBackpack;
+
     public DungeonUser() {
         mId = "";
         mGameSession = new GameSession();
         mHeroes = new ArrayList<>();
         mGold = 100;
+        mBackpack = new LinkedHashMap<>();
     }
 
     @SuppressWarnings("unchecked")
@@ -47,6 +52,8 @@ public class DungeonUser extends BaseModel {
             Hero hero = new Hero((LinkedHashMap<String, Object>) o);
             mHeroes.add(hero);
         }
+
+        mBackpack = (LinkedHashMap<String, Integer>) dataMap.get("backpack");
     }
 
     public Hero findHeroByName(String heroName) {

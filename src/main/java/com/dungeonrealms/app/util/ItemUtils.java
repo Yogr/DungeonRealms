@@ -2,6 +2,7 @@ package com.dungeonrealms.app.util;
 
 import com.dungeonrealms.app.game.GameResources;
 import com.dungeonrealms.app.model.Item;
+import org.apache.commons.lang3.StringUtils;
 
 public class ItemUtils {
 
@@ -14,7 +15,7 @@ public class ItemUtils {
     public static Item getItemByName(String itemName) {
         Item foundItem = null;
         for(Item item : GameResources.getInstance().getItems().values()) {
-            if (item.getName().equals(itemName)) {
+            if (itemName.equals(item.getName())) {
                 foundItem = item;
                 break;
             }
@@ -22,7 +23,7 @@ public class ItemUtils {
 
         if (foundItem == null) {
             for(Item item : GameResources.getInstance().getItems().values()) {
-                if (item.getAlias().equals(itemName)) {
+                if (itemName.equals(item.getAlias())) {
                     foundItem = item;
                     break;
                 }
