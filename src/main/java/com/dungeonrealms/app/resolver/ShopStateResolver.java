@@ -27,9 +27,15 @@ public class ShopStateResolver extends DungeonRealmsResolver {
     protected Map<String, DungeonAction> getActions() {
         Map<String, DungeonAction> actions = new HashMap<>();
 
-        actions.put(IntentNames.BROWSE_ITEMS, new DungeonAction("browse items", mBrowseItemsHandler, false));
-        actions.put(IntentNames.BUY_ITEM, new DungeonAction("buy item", mBuyItemHandler, false));
-        actions.put(IntentNames.SELL_ITEM, new DungeonAction("sell item", mSellItemHandler, false));
+        actions.put(IntentNames.BROWSE_ITEMS, new DungeonAction("browse items", mBrowseItemsHandler));
+        actions.put(IntentNames.BUY_ITEM, new DungeonAction("buy item", mBuyItemHandler));
+        actions.put(IntentNames.SELL_ITEM, new DungeonAction("sell item", mSellItemHandler));
+        actions.put(IntentNames.MOVE_ROOM, new DungeonAction("go", mMoveRoomHandler));
+        actions.put(IntentNames.LOOK, new DungeonAction("look", mLookHandler));
+        actions.put(IntentNames.GOLD_COUNT, new DungeonAction("wealth", mGoldCountHandler));
+        actions.put(IntentNames.HERO_DESCRIPTION, new DungeonAction("who am I", mDescribeHeroHandler));
+        actions.put(IntentNames.ITEM_DESCRIPTION, new DungeonAction("look at item", mDescribeItemHandler));
+        actions.put(IntentNames.CHECK_INVENTORY, new DungeonAction("inventory", mBackpackHandler));
 
         return actions;
     }

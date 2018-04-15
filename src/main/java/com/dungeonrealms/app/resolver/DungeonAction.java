@@ -9,4 +9,8 @@ public class DungeonAction {
     private final String mFriendlyName;
     private final ActionHandler mHandler;
     private final boolean mIsHidden;
+
+    public DungeonAction(String friendlyName, ActionHandler handler) {
+        this(friendlyName, handler, false);
+    }
 }

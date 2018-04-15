@@ -12,14 +12,15 @@ import com.dungeonrealms.app.speech.IntentNames;
 import com.dungeonrealms.app.speech.SlotNames;
 import com.dungeonrealms.app.util.DungeonUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class CreateStateResolver extends DungeonRealmsResolver {
 
     @Override
     protected Map<String, DungeonAction> getActions() {
-        Map<String, DungeonAction> actions = super.getActions();
-        actions.put(IntentNames.CREATE_HERO, new DungeonAction("create hero", mCreateHeroHandler, false));
+        Map<String, DungeonAction> actions = new HashMap<>();
+        actions.put(IntentNames.CREATE_HERO, new DungeonAction("create hero", mCreateHeroHandler));
         return actions;
     }
 

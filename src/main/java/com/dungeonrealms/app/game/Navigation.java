@@ -1,8 +1,10 @@
 package com.dungeonrealms.app.game;
 
 import com.dungeonrealms.app.model.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Navigation {
 
@@ -95,7 +97,7 @@ public class Navigation {
         if (area != null) {
             Room room = getAreaRoom(area, user.getGameSession().getRoomId());
             if (room != null) {
-                return room.getExits().keySet();
+                return room.getExits().keySet().stream().filter(StringUtils::isNotEmpty).collect(Collectors.toSet());
             }
         }
         return null;

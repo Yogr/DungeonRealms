@@ -24,6 +24,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
         String intentName = (intent != null) ? intent.getName() : null;
 
         Map<String, DungeonAction> actions = getAllActions();
+
         if (actions.containsKey(intentName)) {
             return actions.get(intentName).getHandler().handleIntent(session, user, intent);
         }
@@ -33,14 +34,9 @@ public class DungeonRealmsResolver extends GameStateResolver {
 
     private Map<String, DungeonAction> getAllActions() {
         Map<String, DungeonAction> actions = new HashMap<>();
-        actions.put(IntentNames.MOVE_ROOM, new DungeonAction("go", mMoveRoomHandler, false));
-        actions.put(IntentNames.LOOK, new DungeonAction("look", mLookHandler, false));
-        actions.put(IntentNames.GOLD_COUNT, new DungeonAction("wealth", mGoldCountHandler, false));
-        actions.put(IntentNames.HERO_DESCRIPTION, new DungeonAction("who am I", mDescribeHeroHandler, false));
-        actions.put(IntentNames.ITEM_DESCRIPTION, new DungeonAction("look at item", mDescribeItemHandler, false));
         actions.put(IntentNames.AMAZON_HELP, new DungeonAction("help", mHelpActionHandler, true));
         actions.put(IntentNames.AMAZON_CANCEL, new DungeonAction("cancel", mStopActionHandler, true));
-        actions.put(IntentNames.AMAZON_STOP, new DungeonAction("quit game", mStopActionHandler, false));
+        actions.put(IntentNames.AMAZON_STOP, new DungeonAction("quit game", mStopActionHandler));
 
         actions.putAll(getActions());
 
@@ -55,6 +51,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
         StringBuilder actionsText = new StringBuilder();
 
         List<DungeonAction> visibleActions = DungeonUtils.filterHiddenActions(getAllActions().values());
+
         int count = visibleActions.size();
         for (int i = 0; i < count; ++i) {
             if (i != 0) {
@@ -97,7 +94,15 @@ public class DungeonRealmsResolver extends GameStateResolver {
         return getAskResponse(CardTitle.DUNGEON_REALMS, speechText);
     };
 
-    private ActionHandler mLookHandler = (Session session, DungeonUser user, Intent intent) -> {
+    private ActionHandler mStopActionHandler = (Session session, DungeonUser user, Intent intent) -> {
+        SaveLoad.saveUser(user);
+        PlainTextOutputSpeech speech = getPlainTextOutputSpeech(Responses.GOODBYE);
+        SpeechletResponse response = SpeechletResponse.newTellResponse(speech);
+        response.setNullableShouldEndSession(true);
+        return response;
+    };
+
+    ActionHandler mLookHandler = (Session session, DungeonUser user, Intent intent) -> {
         String speechText = DungeonUtils.constructFullRoomMessage(user.getGameSession());
         Area area = Navigation.getArea(user.getGameSession().getAreaId());
         Room room = null;
@@ -107,7 +112,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
         return getAskResponse(room != null ? room.getTitle() : CardTitle.DUNGEON_REALMS, speechText);
     };
 
-    protected ActionHandler mMoveRoomHandler = (session, user, intent) -> {
+    ActionHandler mMoveRoomHandler = (session, user, intent) -> {
         Area area = Navigation.getArea(user.getGameSession().getAreaId());
         Room room = Navigation.getAreaRoom(area, user.getGameSession().getRoomId());
 
@@ -140,15 +145,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
         return getAskResponse(currentRoom != null ? currentRoom.getTitle() : CardTitle.DUNGEON_REALMS, speechText);
     };
 
-    private ActionHandler mStopActionHandler = (Session session, DungeonUser user, Intent intent) -> {
-        SaveLoad.saveUser(user);
-        PlainTextOutputSpeech speech = getPlainTextOutputSpeech(Responses.GOODBYE);
-        SpeechletResponse response = SpeechletResponse.newTellResponse(speech);
-        response.setNullableShouldEndSession(true);
-        return response;
-    };
-
-    private ActionHandler mDescribeHeroHandler = (Session session, DungeonUser user, Intent intent) -> {
+    ActionHandler mDescribeHeroHandler = (Session session, DungeonUser user, Intent intent) -> {
         Slot heroNameSlot = intent.getSlot(SlotNames.HERO);
         String heroName = heroNameSlot != null ? heroNameSlot.getValue() : null;
         if (!StringUtils.isNullOrEmpty(heroName)) {
@@ -167,7 +164,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
         return getAskResponse(CardTitle.DUNGEON_REALMS, Responses.NOT_FOUND);
     };
 
-    private ActionHandler mDescribeItemHandler = (Session session, DungeonUser user, Intent intent) -> {
+    ActionHandler mDescribeItemHandler = (Session session, DungeonUser user, Intent intent) -> {
         Slot itemNameSlot = intent.getSlot(SlotNames.ITEM);
         String itemName = itemNameSlot != null ? itemNameSlot.getValue() : null;
         if (!StringUtils.isNullOrEmpty(itemName)) {
@@ -226,7 +223,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
         return getAskResponse(CardTitle.DUNGEON_REALMS, Responses.NOT_FOUND);
     };
 
-    private ActionHandler mBackpackHandler = (session, user, intent) -> {
+    ActionHandler mBackpackHandler = (session, user, intent) -> {
         StringBuilder response = new StringBuilder();
         response.append("In your backpack, you see ");
 
@@ -235,13 +232,13 @@ public class DungeonRealmsResolver extends GameStateResolver {
         return getAskResponse(CardTitle.DUNGEON_REALMS, response.toString());
     };
 
-    private ActionHandler mGoldCountHandler = (session, user, intent) -> {
+    ActionHandler mGoldCountHandler = (session, user, intent) -> {
         int gold = user.getGold();
         String speechText = String.format(Responses.GOLD_COUNT, gold);
         return getAskResponse(CardTitle.DUNGEON_REALMS, speechText);
     };
 
-    protected SpeechletResponse getInvalidActionResponse() {
+    SpeechletResponse getInvalidActionResponse() {
         return getAskResponse(CardTitle.DUNGEON_REALMS, Responses.INVALID_ACTION_RESPONSE);
     }
 
@@ -250,7 +247,7 @@ public class DungeonRealmsResolver extends GameStateResolver {
      * @param speechText Your message to user
      * @return Speechlet with Dungeon Realms card and custom text
      */
-    protected SpeechletResponse getPromptedAskResponse(String cardTitle, String speechText) {
+    SpeechletResponse getPromptedAskResponse(String cardTitle, String speechText) {
         String doNextAppendedString = speechText + Responses.PROMPT_ACTION;
         return getAskResponse(cardTitle, doNextAppendedString);
     }
