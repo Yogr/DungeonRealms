@@ -36,11 +36,6 @@ public class Combat {
 
             combatResult.append(String.format(Responses.ENEMY_DEFEATED, monster.getName()));
 
-            Hero hero = user.findHeroByName(heroInstance.getName());
-            int experienceGain = Level.values()[monster.getLevel()-1].getExpRewardForMonster();
-            hero.gainExperience(experienceGain);
-            combatResult.append("You gain ").append(experienceGain).append(" experience. ");
-
             RandomTable.LootTable lootTable = GameResources.getInstance().getLootTables().get(monster.getLootTableId());
             if (lootTable != null) {
                 List<Item> loot = lootTable.draw();
@@ -74,6 +69,15 @@ public class Combat {
                     combatResult.append(". ");
                 }
             }
+        }
+
+        Hero hero = user.findHeroByName(heroInstance.getName());
+        int experienceGain = Level.values()[monster.getLevel()-1].getExpRewardForMonster();
+        String gainExpString = String.format(Responses.GAIN_EXPERIENCE, hero.getName(), experienceGain);
+        combatResult.append(gainExpString);
+        if (hero.gainExperience(experienceGain)) {
+            String levelUpString = String.format(Responses.LEVEL_UP, hero.getName(), hero.getLevel());
+            combatResult.append(levelUpString);
         }
 
         List<HeroInstance> heroes = gameSession.getHeroInstances();

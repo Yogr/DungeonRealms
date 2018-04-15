@@ -80,7 +80,10 @@ public class Hero {
         return currentLevel;
     }
 
-    public void gainExperience(int amount) {
+    public boolean gainExperience(int amount) {
+        int currentLevel = getLevel();
         mExperience += amount;
+        int newLevel = getLevel();
+        return newLevel > currentLevel;
     }
 }
